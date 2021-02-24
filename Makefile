@@ -1,6 +1,6 @@
-OBJS 	= main.o citizen.o 
-SOURCE	= main.c citizen.c 
-HEADER	= citizen.h
+OBJS 	= main.o citizen.o utils.o 
+SOURCE	= main.c citizen.c utils.c
+HEADER	= citizen.h utils.h
 OUT		= vaccineMonitor
 CC		= gcc
 FLAGS	= -c -g
@@ -13,6 +13,9 @@ main.o: main.c
 
 citizen.o: citizen.c
 	$(CC) $(FLAGS) citizen.c
+
+utils.o: utils.c
+	$(CC) $(FLAGS) utils.c
 
 clean:
 	rm -f $(OBJS) $(OUT)

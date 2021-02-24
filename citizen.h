@@ -1,6 +1,8 @@
 #ifndef CITIZEN_H_
 #define CITIZEN_H_
 
+#include "utils.h"
+
 typedef struct citizenRecord{
 	char *id;
 	char *firstName;
@@ -9,15 +11,15 @@ typedef struct citizenRecord{
 	char  age;
 	char *virusName;
 	char *vaccinated;
-	char *dateVaccinated;
+	Date *dateVaccinated;
 }citizenRecord;
 
 
 citizenRecord *createCitizenRecord(char *citizenStr);
 
-void printCitizenRecord(citizenRecord *);
+void printCitizenRecord(citizenRecord *citizenRec);
 
-void deleteCitizenRecord(citizenRecord *);
+void deleteCitizenRecord(citizenRecord *citizenRec);
 
 
 #endif

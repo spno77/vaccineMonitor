@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "citizen.h"
-
+#include "utils.h"
 
 //Creates a citizenRecord from string
 citizenRecord *createCitizenRecord(char *citizenStr)
@@ -45,8 +45,7 @@ citizenRecord *createCitizenRecord(char *citizenStr)
 	strcpy(citizenRec->vaccinated,token);
 
 	token = strtok(NULL," ");
-	citizenRec->dateVaccinated = malloc(sizeof(char)*strlen(token)+1);
-	strcpy(citizenRec->dateVaccinated,token);
+	citizenRec->dateVaccinated = stringToDate(token);
 
 	return citizenRec;
 }
@@ -61,7 +60,7 @@ void printCitizenRecord(citizenRecord *citizenRec)
 	printf("%d\n",citizenRec->age);
 	printf("%s\n",citizenRec->virusName);
 	printf("%s\n",citizenRec->vaccinated);
-	printf("%s\n",citizenRec->dateVaccinated);
+	printDate(citizenRec->dateVaccinated);
 }
 
 void deleteCitizenRecord(citizenRecord *citizenRec)
