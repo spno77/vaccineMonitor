@@ -12,10 +12,10 @@
 65 Joseph Larsen Germany 65 H1N1 YES 03-10-2006
 29 Brett Fuller Australia 76 EVD YES 20-12-2010
 23 Jennifer Huffman Germany 76 EVD YES 27-01-2007
-77 Daniel Wilson France 65 YES EVD 16-10-2013
+77 Daniel Wilson France 65 EVD YES 16-10-2013
 53 James Collins Denmark 65 EVD NO
 15 Michael Anderson USA 65 EVD NO
 38 Crystal Mcfarland Greece 65 EVD NO
-8 Ray Shaw Greece 65 EVD YES 15-08-2007 
+8 Ray Shaw Greece 65 EVD YES 15-08-2007
 57 Eric Foster France 87 COVID-2019 NO
 72 Jonathan Petersen Australia 56 COVID-2019 NO

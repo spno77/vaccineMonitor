@@ -61,6 +61,7 @@ void printCitizenRecord(citizenRecord *citizenRec)
 	printf("%s\n",citizenRec->virusName);
 	printf("%s\n",citizenRec->vaccinated);
 	printDate(citizenRec->dateVaccinated);
+	printf("---------------------------\n");
 }
 
 void deleteCitizenRecord(citizenRecord *citizenRec)
