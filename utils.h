@@ -17,4 +17,10 @@ void compareDates(Date *d1,Date *d2);
 
 void readFile(char *filename);
 
+//Read command line arguments
+void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize);
+
+void freeArguments(char **citizenRecordsFile);
+
+
 #endif

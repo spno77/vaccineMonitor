@@ -43,6 +43,7 @@ void printDate(Date *date)
 	printf("%d\n",date->year);
 }
 
+
 void readFile(char *filename)
 {
 	citizenRecord *citizenRec;
@@ -58,10 +59,7 @@ void readFile(char *filename)
    	char *line = NULL;
 
    	int count = 0 ;
-   while ((getline(&line, &len, fp)) != -1){
-	      
-	      //printCitizenRecord(citizenRec);
-
+    while ((getline(&line, &len, fp)) != -1){
    			
    			citizenRec  = createCitizenRecord(line);
 
@@ -73,6 +71,23 @@ void readFile(char *filename)
 
     free(line);
     fclose(fp);
+}
 
 
+void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize)
+{
+    for (int i = 1; i < argc; i+=2){
+
+        if(strcmp(argv[i],"-c") == 0){
+            *citizenRecordsFile  = malloc(strlen(argv[i+1]) + 1);
+            strcpy(*citizenRecordsFile,argv[i+1]);
+        }else if(strcmp(argv[i],"-b") == 0){
+            *bloomSize = atoi(argv[i+1]);
+        }
+    }
+}
+
+void freeArguments(char **citizenRecordsFile)
+{
+	free(*citizenRecordsFile);
 }

@@ -8,7 +8,15 @@
 int main(int argc, char const *argv[])
 {
 
-	readFile("citizenRecordsFile.txt");
+	char *citizenRecordsFile;
+	int bloomSize;
+
+	readArguments(argc,argv,&citizenRecordsFile,&bloomSize);
+
+	readFile(citizenRecordsFile);
+
+	freeArguments(&citizenRecordsFile);
 
 	return 0;
 }
+

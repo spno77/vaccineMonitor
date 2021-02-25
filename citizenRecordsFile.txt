@@ -19,3 +19,4 @@
 8 Ray Shaw Greece 65 EVD YES 15-08-2007
 57 Eric Foster France 87 COVID-2019 NO
 72 Jonathan Petersen Australia 56 COVID-2019 NO
+72 Jonathan Petersen Australia 56 COVID-2019 NO
