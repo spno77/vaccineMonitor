@@ -1,6 +1,6 @@
-OBJS 	= main.o citizen.o utils.o 
-SOURCE	= main.c citizen.c utils.c
-HEADER	= citizen.h utils.h
+OBJS 	= main.o citizen.o utils.o linkedList.o
+SOURCE	= main.c citizen.c utils.c linkedList.c
+HEADER	= citizen.h utils.h linkedList.h
 OUT		= vaccineMonitor
 CC		= gcc
 FLAGS	= -c -g
@@ -16,6 +16,9 @@ citizen.o: citizen.c
 
 utils.o: utils.c
 	$(CC) $(FLAGS) utils.c
+
+linkedList.o: linkedList.c
+	$(CC) $(FLAGS) linkedList.c
 
 clean:
 	rm -f $(OBJS) $(OUT)

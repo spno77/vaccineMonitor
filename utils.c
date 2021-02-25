@@ -4,6 +4,7 @@
 
 #include "utils.h"
 #include "citizen.h"
+#include "linkedList.h"
 
 Date *stringToDate(char *dateStr)
 {
@@ -44,7 +45,7 @@ void printDate(Date *date)
 }
 
 
-void readFile(char *filename)
+void readFile(char *filename,linkedList *list)
 {
 	citizenRecord *citizenRec;
 	FILE *fp;
@@ -63,17 +64,14 @@ void readFile(char *filename)
    			
    			citizenRec  = createCitizenRecord(line);
 
-   			printCitizenRecord(citizenRec);
-
-   			deleteCitizenRecord(citizenRec);
-   			
+   			linkedListInsertAtFront(list,citizenRec);
         }
 
     free(line);
     fclose(fp);
 }
 
-
+//
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize)
 {
     for (int i = 1; i < argc; i+=2){

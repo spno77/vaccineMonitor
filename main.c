@@ -4,8 +4,9 @@
 
 #include "citizen.h"
 #include "utils.h"
+#include "linkedList.h"
 
-int main(int argc, char const *argv[])
+int main2(int argc, char const *argv[])
 {
 
 	char *citizenRecordsFile;
@@ -13,10 +14,31 @@ int main(int argc, char const *argv[])
 
 	readArguments(argc,argv,&citizenRecordsFile,&bloomSize);
 
-	readFile(citizenRecordsFile);
+	//readFile(citizenRecordsFile);
 
 	freeArguments(&citizenRecordsFile);
 
 	return 0;
 }
 
+int main(int argc, char const *argv[])
+{
+	
+	linkedList *list = NULL;
+	listNode *node = NULL;
+
+	list = createLinkedList();
+
+	readFile("citizenRecordsFile.txt",list);
+
+
+	linkedListPrint(list);
+
+
+
+
+
+
+
+	return 0;
+}
