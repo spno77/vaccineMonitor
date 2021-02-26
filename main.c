@@ -27,15 +27,24 @@ int main(int argc, char const *argv[])
 	linkedList *list = NULL;
 	listNode *node = NULL;
 
-	list = createLinkedList();
+	list = linkedListCreate();
 
 	readFile("citizenRecordsFile.txt",list);
 
 
 	linkedListPrint(list);
 
+	
+
+	node = getNodeById(list,"2");
+	
+	printf("-----------------------\n");
+	listNodePrint(node);
 
 
+
+	linkedListDelete(list);
+	linkedListFree(&list);
 
 
 

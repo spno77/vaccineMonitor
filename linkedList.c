@@ -4,7 +4,7 @@
 
 #include "linkedList.h"
 
-linkedList *createLinkedList(void)
+linkedList *linkedListCreate(void)
 {
 	linkedList *newList = malloc(sizeof(linkedList));
 
@@ -20,7 +20,7 @@ linkedList *createLinkedList(void)
 }
 
 
-listNode *createListNode(citizenRecord *citizenRec)
+listNode *listNodeCreate(citizenRecord *citizenRec)
 {
 	listNode *newNode = malloc(sizeof(listNode));
 
@@ -46,7 +46,7 @@ int isLinkedListEmpty(linkedList *list)
 
 void linkedListInsertAtFront(linkedList *list,citizenRecord *citizenRec)
 {    
-    listNode *newNode = createListNode(citizenRec);
+    listNode *newNode = listNodeCreate(citizenRec);
 
     if(newNode != NULL) {
 
@@ -67,6 +67,7 @@ void listNodePrint(listNode *node)
 	 printCitizenRecord(node->citizenRec);
 }
 
+
 void linkedListPrint(linkedList *list)
 {
 	listNode *node = list->head;
@@ -77,5 +78,64 @@ void linkedListPrint(linkedList *list)
 	}
 
 	printf("NULL\n");
+
+}
+
+void listNodeDelete(linkedList *list, listNode *node)
+{
+    if(node->next != NULL) {
+        node->next->prev = node->prev;
+    }else{
+        list->tail = node->prev;
+    }
+
+    if(node->prev != NULL) {
+        node->prev->next = node->next;
+    }else{
+        list->head = node->next;
+    }
+
+    list->size -= 1;
+
+    deleteCitizenRecord(node->citizenRec);
+    free(node);
+    node = NULL;
+}
+
+void linkedListDelete(linkedList *list)
+{
+    listNode *current = list->head;
+    listNode *next;
+
+    while(current != NULL) {
+        next = current->next;
+        listNodeDelete(list, current);
+        current = next;
+    }
+    
+}
+
+
+void linkedListFree(linkedList **list){
+    linkedListDelete(*list);
+    free(*list);
+    *list = NULL;
+}
+
+
+
+listNode *getNodeById(linkedList *list, char *id)
+{
+	listNode *current = list->head;
+
+    while(current != NULL) {
+        if(strcmp(current->citizenRec->id,id) == 0) {
+            return current;
+        }
+
+        current = current->next;
+    }
+
+    return NULL;
 
 }

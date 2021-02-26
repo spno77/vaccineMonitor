@@ -16,9 +16,9 @@ typedef struct linkedList{
 }linkedList;
 
 
-linkedList *createLinkedList(void);
+linkedList *linkedListCreate(void);
 
-listNode *createListNode(citizenRecord *citizenRec);
+listNode *listNodeCreate(citizenRecord *citizenRec);
 
 int isLinkedListEmpty(linkedList *list);
 
@@ -27,6 +27,15 @@ void linkedListInsertAtFront(linkedList *list,citizenRecord *citizenRec);
 void listNodePrint(listNode *node);
 
 void linkedListPrint(linkedList *list);
+
+void listNodeDelete(linkedList *list, listNode *node);
+
+void linkedListDelete(linkedList *list);
+
+void linkedListFree(linkedList **list);
+
+listNode *getNodeById(linkedList *list, char *id);
+
 
 
 #endif

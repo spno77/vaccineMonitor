@@ -25,5 +25,7 @@ void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bl
 
 void freeArguments(char **citizenRecordsFile);
 
+void isRecordValid();
+
 
 #endif
