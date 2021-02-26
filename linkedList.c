@@ -63,8 +63,9 @@ void linkedListInsertAtFront(linkedList *list,citizenRecord *citizenRec)
 }
 
 void listNodePrint(listNode *node)
-{
-	 printCitizenRecord(node->citizenRec);
+{ 
+	if(node == NULL) return;
+	printCitizenRecord(node->citizenRec);
 }
 
 
@@ -123,7 +124,7 @@ void linkedListFree(linkedList **list){
 }
 
 
-
+//get the node by the given id
 listNode *getNodeById(linkedList *list, char *id)
 {
 	listNode *current = list->head;

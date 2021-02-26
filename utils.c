@@ -64,7 +64,10 @@ void readFile(char *filename,linkedList *list)
    			
    			citizenRec  = createCitizenRecord(line);
 
-   			linkedListInsertAtFront(list,citizenRec);
+   			if(isRecordValid(list,citizenRec) == 1){
+
+   				linkedListInsertAtFront(list,citizenRec);
+   			}
         }
 
     free(line);
@@ -88,4 +91,25 @@ void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bl
 void freeArguments(char **citizenRecordsFile)
 {
 	free(*citizenRecordsFile);
+}
+
+
+int isRecordValid(linkedList *list,citizenRecord *citizenRec)
+{
+
+	listNode *node = getNodeById(list,citizenRec->id);
+	if((node != NULL)){
+		printf("ERROR IN RECORD %s\n",citizenRec->id);
+		deleteCitizenRecord(citizenRec);
+		return 0;
+	}
+
+	if( (strcmp(citizenRec->vaccinated,"NO")==0) && (citizenRec->dateVaccinated->year != 0) ){
+		printf("ERROR IN RECORD %s\n",citizenRec->id);
+		deleteCitizenRecord(citizenRec);
+		return 0;
+	}
+
+	return 1;
+
 }
