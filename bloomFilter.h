@@ -2,9 +2,10 @@
 #define BLOOM_FILTER_H_
 
 typedef struct bloomFilter{
-	int bloomSize;
+	int bloomSize; //in bytes
+	int bitsNum ; // number of bits
 	char *name;
-	char *bitmap;
+	char *bitMap;
 } bloomFilter;
 
 
@@ -23,5 +24,14 @@ bloomFilter *bloomFilterCreate(int bloomSize,char *name);
 void bloomFilterPrint(bloomFilter *bloomFil);
 
 void bloomFilterFree(bloomFilter *bloomFil);
+
+void bloomFilterAdd(bloomFilter *bf, char *id);
+
+int bloomFilterCheck(bloomFilter *bf,char *id);
+
+void setBit(char *bitMap,int byteSize,int bitToSet);
+
+int checkBit(char *bitMap,int bitToCheck);
+
 
 #endif

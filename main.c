@@ -58,13 +58,23 @@ int main(int argc, char const *argv[])
 
 int main(int argc, char const *argv[])
 {
-	bloomFilter *bf = bloomFilterCreate(100,"H1N1");
+
+	bloomFilter *bf = bloomFilterCreate(13,"H1N1");
 
 	bloomFilterPrint(bf);
 
+	bloomFilterAdd(bf,"123123");
+	bloomFilterAdd(bf,"22222");
+
+	if(bloomFilterCheck(bf,"1333") == 1){
+		printf("patient : is in the bloom filter");
+	}else{
+		printf("not in the bloom filter");
+	}
+
+	
+
 	bloomFilterFree(bf);
-
-
 
 	return 0;
 }

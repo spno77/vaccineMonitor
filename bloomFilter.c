@@ -61,25 +61,81 @@ bloomFilter *bloomFilterCreate(int bloomSize,char *name)
 	bloomFilter *bloomFil = malloc(sizeof(bloomFilter));
 
 	bloomFil->bloomSize = bloomSize;
+	bloomFil->bitsNum = bloomSize * 8;
 	bloomFil->name = malloc(strlen(name)+ 1);
 	strcpy(bloomFil->name,name);
 
-	bloomFil->bitmap = malloc(bloomSize);
+	bloomFil->bitMap = calloc(bloomSize,sizeof(char));
 
 	return bloomFil;
 }
 
 void bloomFilterPrint(bloomFilter *bloomFil)
 {
-	printf("BloomFilter for virus: %s\n",bloomFil->name );
-	printf("BloomFiter size: %d\n",bloomFil->bloomSize );
+	printf("BloomFilter for virus:  %s\n",bloomFil->name );
+	printf("BloomFiter size(bytes): %d\n",bloomFil->bloomSize );
+	printf("BloomFiter num of bits: %d\n",bloomFil->bitsNum );
+
 }
 
 
 void bloomFilterFree(bloomFilter *bloomFil)
 {
 	free(bloomFil->name);
-	free(bloomFil->bitmap);
+	free(bloomFil->bitMap);
 	free(bloomFil);
 
+}
+
+
+void setBit(char *bitMap,int byteSize,int bitToSet)
+{
+	if(bitToSet < sizeof(char)*8*byteSize){
+
+        int byteOffset = bitToSet/8;
+        int bitOffset  = bitToSet - byteOffset*8;
+
+        bitMap[byteOffset] |=  (1 << bitOffset);     
+    }
+}
+
+
+int checkBit(char *bitMap,int bitToCheck) {
+    unsigned int byte = bitToCheck >> 3;
+    unsigned char c = bitMap[byte];
+    unsigned int mask = 1 << (bitToCheck % 8);
+
+    if (c & mask) {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+void bloomFilterAdd(bloomFilter *bf, char *id)
+{
+	long int result;
+
+	for (int i = 0; i < 16; ++i)
+	{
+		result = hash_i(id, i) % bf->bitsNum;
+		setBit(bf->bitMap,bf->bloomSize,result);
+	}
+
+}
+
+int bloomFilterCheck(bloomFilter *bf,char *id)
+{
+	long int result;
+
+	for (int i = 0; i < 16; ++i)
+	{
+		result = hash_i(id, i) % bf->bitsNum;
+		if(!checkBit(bf->bitMap,result)){
+			return 0;
+		}
+	}
+
+	return 1;
 }
