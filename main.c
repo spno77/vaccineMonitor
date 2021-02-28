@@ -5,6 +5,7 @@
 #include "citizen.h"
 #include "utils.h"
 #include "linkedList.h"
+#include "bloomFilter.h"
 
 int main2(int argc, char const *argv[])
 {
@@ -21,6 +22,7 @@ int main2(int argc, char const *argv[])
 	return 0;
 }
 
+/*
 int main(int argc, char const *argv[])
 {
 	
@@ -51,3 +53,23 @@ int main(int argc, char const *argv[])
 
 	return 0;
 }
+
+*/
+
+int main(int argc, char const *argv[])
+{
+	bloomFilter *bf = bloomFilterCreate(100,"H1N1");
+
+	bloomFilterPrint(bf);
+
+	bloomFilterFree(bf);
+
+
+
+	return 0;
+}
+
+
+
+
+
