@@ -70,7 +70,10 @@ void readFile(char *filename,linkedList *list)
    			}
         }
 
-    free(line);
+    if(line != NULL){
+    	free(line);
+    }
+
     fclose(fp);
 }
 
@@ -111,5 +114,31 @@ int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 	}
 
 	return 1;
+
+}
+
+int getNumberOfRecords(FILE *fp)
+{
+
+	size_t len = 0;
+	char *line = NULL;
+	ssize_t nread;
+	unsigned int count = 0 ;
+
+	while ((nread = getline(&line, &len, fp)) != -1){
+		if(nread > 0){  
+			count++;
+		}
+	}
+
+	// It moves file pointer position to the beginning of the file.
+	fseek(fp,0,SEEK_SET);
+
+	if (line != NULL)
+	{
+		free(line);
+	}
+
+	return count;
 
 }

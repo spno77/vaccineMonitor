@@ -56,16 +56,25 @@ unsigned long hash_i(unsigned char *str, unsigned int i) {
 }
 
 
-bloomFilter *bloomFilterCreate(int bloomSize,char *name)
+bloomFilter *bloomFilterCreate(char *name,int bloomSize)
 {
 	bloomFilter *bloomFil = malloc(sizeof(bloomFilter));
+	if(bloomFil == NULL){
+		perror("malloc failure");
+	}
 
 	bloomFil->bloomSize = bloomSize;
 	bloomFil->bitsNum = bloomSize * 8;
 	bloomFil->name = malloc(strlen(name)+ 1);
+	if(bloomFil->name == NULL){
+		perror("malloc failure");
+	}
 	strcpy(bloomFil->name,name);
 
 	bloomFil->bitMap = calloc(bloomSize,sizeof(char));
+	if(bloomFil->bitMap == NULL){
+		perror("malloc failure");
+	}
 
 	return bloomFil;
 }
@@ -75,7 +84,6 @@ void bloomFilterPrint(bloomFilter *bloomFil)
 	printf("BloomFilter for virus:  %s\n",bloomFil->name );
 	printf("BloomFiter size(bytes): %d\n",bloomFil->bloomSize );
 	printf("BloomFiter num of bits: %d\n",bloomFil->bitsNum );
-
 }
 
 
@@ -84,7 +92,6 @@ void bloomFilterFree(bloomFilter *bloomFil)
 	free(bloomFil->name);
 	free(bloomFil->bitMap);
 	free(bloomFil);
-
 }
 
 

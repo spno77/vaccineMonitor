@@ -19,7 +19,7 @@ unsigned long sdbm(unsigned char *str);
 unsigned long hash_i(unsigned char *str, unsigned int i);
 
 
-bloomFilter *bloomFilterCreate(int bloomSize,char *name);
+bloomFilter *bloomFilterCreate(char *name,int bloomSize);
 
 void bloomFilterPrint(bloomFilter *bloomFil);
 
@@ -32,6 +32,5 @@ int bloomFilterCheck(bloomFilter *bf,char *id);
 void setBit(char *bitMap,int byteSize,int bitToSet);
 
 int checkBit(char *bitMap,int bitToCheck);
-
 
 #endif

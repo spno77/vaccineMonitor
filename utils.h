@@ -27,5 +27,7 @@ void freeArguments(char **citizenRecordsFile);
 
 int isRecordValid(linkedList *list,citizenRecord *citizenRec);
 
+int getNumberOfRecords(FILE *fp);
+
 
 #endif
