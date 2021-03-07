@@ -79,7 +79,6 @@ void linkedListPrint(linkedList *list)
 	}
 
 	printf("NULL\n");
-
 }
 
 void listNodeDelete(linkedList *list, listNode *node)

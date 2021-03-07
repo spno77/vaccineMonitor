@@ -22,49 +22,16 @@ int main2(int argc, char const *argv[])
 	return 0;
 }
 
-/*
+
 int main(int argc, char const *argv[])
 {
-	
-	linkedList *list = NULL;
-	listNode *node = NULL;
 
-	list = linkedListCreate();
+	linkedList *list = linkedListCreate();
 
 	readFile("citizenRecordsFile.txt",list);
 
-
 	linkedListPrint(list);
 
-	
-
-	node = getNodeById(list,"2");
-	
-	printf("-----------------------\n");
-	listNodePrint(node);
-
-
-
-	linkedListDelete(list);
-	linkedListFree(&list);
-
-
-
-
-	return 0;
-}
-
-*/
-
-int main(int argc, char const *argv[])
-{
-
-
-	bloomFilter *bloomFil = bloomFilterCreate("H1N1",12);
-
-	bloomFilterPrint(bloomFil);
-
-	bloomFilterFree(bloomFil);
 
 
 	
