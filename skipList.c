@@ -25,7 +25,7 @@ int levelNumber(int maxHeight)
 			level++;
 		}
 	}
-	
+
 	return level;
 }
 
@@ -157,7 +157,33 @@ void skipListPrint(skipList *list)
 		}
 
 		printf("\n");
+	}
+}
 
+
+listNode *getLinkedListNodePtr(skipListNode *skipListNode)
+{
+	return skipListNode->node;
+}
+
+
+skipListNode* skipListSearch(skipList *list,int key)
+{
+	skipListNode *current = list->header;
+
+	for(int i = list->level; i >= 0; --i){
+		while(current->forward[i] &&
+				current->forward[i]->id < key){
+			
+			current = current->forward[i];
+		}
 	}
 
+	current = current->forward[0];
+
+	if(current->id == key){
+		return current;
+	}else{
+		return NULL;
+	}
 }

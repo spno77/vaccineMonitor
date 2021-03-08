@@ -26,9 +26,13 @@ skipListNode *skipListNodeCreate(listNode *node,int level);
 
 void skipListPrint(skipList *list);
 
-void skipListInsert(skipList *list,int id,listNode *node);
+void skipListInsert(skipList *list,int key,listNode *node);
 
 skipListNode *createHeaderNode(int level);
+
+listNode *getLinkedListNodePtr(skipListNode *skipListNode);
+
+skipListNode* skipListSearch(skipList *list,int key);
 
 
 

@@ -57,6 +57,21 @@ int main(int argc, char const *argv[])
 
 	skipListPrint(skipList);
 
+	skipListNode *skipListNode , *skipListNode2 ; 
+
+
+	skipListNode  = skipListSearch(skipList,62);
+	skipListNode2 = skipListSearch(skipList,15);
+
+
+	listNode *nnn = getLinkedListNodePtr(skipListNode);
+	listNode *nnn2 = getLinkedListNodePtr(skipListNode2);
+
+
+	printf("------------------\n");
+	listNodePrint(nnn);
+	listNodePrint(nnn2);
+
 	
 	return 0;
 }
