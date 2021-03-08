@@ -45,9 +45,7 @@ int main(int argc, char const *argv[])
 
 	listNodePrint(n);
 
-	int theNumber = 23;
-
-	skipList *skipList = skipListCreate(theNumber);
+	skipList *skipList = skipListCreate(56);
 
 	printf("%d\n",atoi(n->citizenRec->id));
 

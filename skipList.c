@@ -25,28 +25,22 @@ int levelNumber(int maxHeight)
 			level++;
 		}
 	}
-
+	
 	return level;
 }
 
 
 skipList *skipListCreate(int elemNumber)
 {
-	printf("Elem number = %d\n",elemNumber );
 	skipList *newSkipList = malloc(sizeof(skipList));
 
 	if(newSkipList == NULL){
 		perror("Malloc Failure !");
 	}
 
-	int maxHeight = 3 ;//(int) Log2(elemNumber);
-
-	printf("maxHeight: %d\n",maxHeight );
-
+	int maxHeight = (int) Log2(elemNumber);
+	
 	newSkipList->maxHeight = maxHeight;
-
-	printf("AAAA: %d\n", newSkipList->maxHeight );
-
 	newSkipList->header = createHeaderNode(maxHeight);
 	newSkipList->level = 0;
 
@@ -108,8 +102,6 @@ skipListNode *skipListNodeCreate(listNode *node,int level)
 void skipListInsert(skipList *list,int key,listNode *node)
 {
 
-	//int key = atoi(id);
-
 	skipListNode *current = list->header;
 
 	//skipListNode *updateArray[list->maxHeight+1];
@@ -134,9 +126,6 @@ void skipListInsert(skipList *list,int key,listNode *node)
 	if(current == NULL || current->id != key){
 	
 		int randLevel = levelNumber(list->maxHeight);
-
-		printf("Rand 1: %d\n",randLevel);
-
 		if(randLevel > list->level){
 			for (int i = list->level+1; i < randLevel+1; i++){
 				updateArray[i] = list->header;
@@ -146,21 +135,12 @@ void skipListInsert(skipList *list,int key,listNode *node)
 		}
 
 		skipListNode *newNode = skipListNodeCreate(node,randLevel);
-
-		printf("Rand 2: %d\n",randLevel);
-
 		for (int i = 0; i <= randLevel; i++){
 
-
 			newNode->forward[i] = updateArray[i]->forward[i];
-
-		//assert(updateArray[i]->forward[i]);
-			updateArray[i]->forward[i] = newNode;
-	
+			updateArray[i]->forward[i] = newNode;	
 		}
-
 	}
-
 }
 
 
