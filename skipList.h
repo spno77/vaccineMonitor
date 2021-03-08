@@ -5,9 +5,9 @@ typedef struct listNode listNode;
 typedef struct linkedList linkedList;
 
 typedef struct skipListNode{
-	char* id;	
+	int id;	
 	listNode *node;
-	struct skiplistNode **forward;
+	struct skipListNode **forward;
 } skipListNode;
 
 
@@ -18,10 +18,17 @@ typedef struct skipList {
 } skipList;
 
 
+int levelNumber(int maxHeight);
 
 skipList *skipListCreate(int elemNumber);
 
-skipListNode *skipListNodeCreate(listNode *node,skipList *list);
+skipListNode *skipListNodeCreate(listNode *node,int level);
+
+void skipListPrint(skipList *list);
+
+void skipListInsert(skipList *list,int id,listNode *node);
+
+skipListNode *createHeaderNode(int level);
 
 
 
