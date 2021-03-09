@@ -34,9 +34,13 @@ listNode *getLinkedListNodePtr(skipListNode *skipListNode);
 
 skipListNode* skipListSearch(skipList *list,int key);
 
+void skipListDeleteNode(skipList *list,skipListNode *skipListNode);
 
+void skipListDelete(skipList *list);
 
+void skipListFree(skipList **list);
 
+void skipListNodeFree(skipListNode *node);
 
 
 #endif

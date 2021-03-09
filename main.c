@@ -72,7 +72,19 @@ int main(int argc, char const *argv[])
 	listNodePrint(nnn);
 	listNodePrint(nnn2);
 
-	
+	skipListDeleteNode(skipList,skipListNode);
+
+	skipListPrint(skipList);
+
+
+	linkedListDelete(list);
+	linkedListFree(&list);
+
+	skipListDelete(skipList);
+
+	skipListFree(&skipList);
+
+
 	return 0;
 }
 

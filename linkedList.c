@@ -116,7 +116,8 @@ void linkedListDelete(linkedList *list)
 }
 
 
-void linkedListFree(linkedList **list){
+void linkedListFree(linkedList **list)
+{
     linkedListDelete(*list);
     free(*list);
     *list = NULL;

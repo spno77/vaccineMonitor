@@ -106,6 +106,7 @@ void skipListInsert(skipList *list,int key,listNode *node)
 
 	//skipListNode *updateArray[list->maxHeight+1];
 
+	//dont forget to free it later
 	skipListNode **updateArray = malloc(sizeof(skipListNode *) * (list->maxHeight + 1));
 
 	for (int i = 0; i < list->maxHeight + 1; i++ ){
@@ -141,11 +142,14 @@ void skipListInsert(skipList *list,int key,listNode *node)
 			updateArray[i]->forward[i] = newNode;	
 		}
 	}
+
+	free(updateArray);
 }
 
 
 void skipListPrint(skipList *list)
 {
+	if(list == NULL) return;
 	for (int i = 0; i < list->level; i++){
 
 		skipListNode *node = list->header->forward[i];
@@ -186,4 +190,82 @@ skipListNode* skipListSearch(skipList *list,int key)
 	}else{
 		return NULL;
 	}
+}
+
+void skipListNodeFree(skipListNode *node)
+{
+	if(node != NULL){
+		if(node->forward != NULL){
+			free(node->forward);
+		}
+		free(node);
+	}
+}
+
+
+void skipListDeleteNode(skipList *list,skipListNode *node)
+{
+	skipListNode **updateArray = malloc(sizeof(skipListNode *) * (list->maxHeight + 1));
+
+	for (int i = 0; i < list->maxHeight + 1; i++ ){
+		updateArray[i] = NULL;
+	}
+
+	skipListNode *current = list->header;
+
+	for(int i = list->level; i >= 0; i--){
+
+		while(current->forward[i] != NULL &&
+			current->forward[i]->id < node->id ){ //////////////////////////////////////
+			
+			current = current->forward[i];
+		}
+
+		updateArray[i] = current;
+	}
+
+	current = current->forward[0];
+
+	if (current->id == node->id && current != NULL){ /////////////////////////////
+		
+		for (int i = 0; i <= list->level; i++){
+			if (updateArray[i]->forward[i] != current){
+				break;
+			}
+			updateArray[i]->forward[i] = current->forward[i];	
+		}
+	}	
+
+	
+	while(list->level > 0 && list->header->forward[list->level] == NULL){
+		list->level = list->level - 1 ;
+	}
+
+	free(updateArray);
+
+	//free(node->forward);
+	skipListNodeFree(node);
+
+	//node = NULL;
+}
+
+
+void skipListDelete(skipList *list)
+{
+	skipListNode *current = list->header;
+	skipListNode *next = NULL;
+
+	while(current != NULL){
+		next = current->forward[0];
+		skipListNodeFree(current);
+		current = next;
+	}
+}
+
+
+void skipListFree(skipList **list)
+{
+    //skipListDelete(*list);
+    free(*list);
+    *list = NULL;
 }
