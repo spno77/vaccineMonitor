@@ -8,6 +8,7 @@
 #include "linkedList.h"
 #include "bloomFilter.h"
 #include "skipList.h"
+#include "stringList.h"
 
 int main2(int argc, char const *argv[])
 {
@@ -25,7 +26,7 @@ int main2(int argc, char const *argv[])
 }
 
 
-int main(int argc, char const *argv[])
+int main3(int argc, char const *argv[])
 {
 
 
@@ -89,6 +90,27 @@ int main(int argc, char const *argv[])
 }
 
 
+int main(int argc, char const *argv[])
+{
+	
+	stringLinkedList *list = stringLinkedListCreate();
 
 
+	stringLinkedListInsertAtFront(list,"usa");
+	stringLinkedListInsertAtFront(list,"germany");
+	stringLinkedListInsertAtFront(list,"greece");
+	stringLinkedListInsertAtFront(list,"finland");
+	stringLinkedListInsertAtFront(list,"georgia");
+	stringLinkedListInsertAtFront(list,"moldova");
+
+	stringLinkedListPrint(list);
+
+	stringLinkedListDelete(list);
+
+	stringLinkedListFree(&list);
+
+
+
+	return 0;
+}
 

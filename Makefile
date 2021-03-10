@@ -1,6 +1,6 @@
-OBJS 	= main.o citizen.o utils.o linkedList.o bloomFilter.o skipList.o
-SOURCE	= main.c citizen.c utils.c linkedList.c bloomFilter.c skipList.c
-HEADER	= citizen.h utils.h linkedList.h bloomFilter.h skipList.h
+OBJS 	= main.o citizen.o utils.o linkedList.o bloomFilter.o skipList.o stringList.o
+SOURCE	= main.c citizen.c utils.c linkedList.c bloomFilter.c skipList.c stringList.c
+HEADER	= citizen.h utils.h linkedList.h bloomFilter.h skipList.h stringLinkedList.h
 OUT		= vaccineMonitor
 CC		= gcc
 FLAGS	= -c -g 
@@ -26,6 +26,9 @@ bloomFilter.o: bloomFilter.c
 
 skipList.o: skipList.c
 	$(CC) $(FLAGS) skipList.c
+
+stringList.o: stringList.c
+	$(CC) $(FLAGS) stringList.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
