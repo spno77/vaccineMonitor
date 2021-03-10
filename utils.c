@@ -71,7 +71,7 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *str
 
    				linkedListInsertAtFront(list,citizenRec);
    			}
-   			
+
         }
 
     if(line != NULL){
@@ -98,7 +98,7 @@ void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bl
 }
 
 /*
- *	Free comamand line argments memomry allocation
+ *	Free command line arguments memomry allocation
  */
 void freeArguments(char **citizenRecordsFile)
 {
