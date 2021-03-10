@@ -140,3 +140,10 @@ listNode *getNodeById(linkedList *list, char *id)
     return NULL;
 
 }
+
+int linkedListGetSize(linkedList *list)
+{
+    if(list != NULL){
+        return list->size;
+    }
+}

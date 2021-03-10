@@ -36,6 +36,8 @@ void linkedListFree(linkedList **list);
 
 listNode *getNodeById(linkedList *list, char *id);
 
+int linkedListGetSize(linkedList *list);
+
 
 
 #endif

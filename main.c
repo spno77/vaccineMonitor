@@ -31,14 +31,18 @@ int main(int argc, char const *argv[])
 	linkedList *list = linkedListCreate();
 	stringLinkedList *stringList = stringLinkedListCreate();
 
-	readFile("citizenRecordsFile.txt",list,stringList);
+	insertRecordsFromFile("citizenRecordsFile.txt",list,stringList);
 
 	//linkedListPrint(list);
 	stringLinkedListPrint(stringList);
 
 
-	listNode *node = getNodeById(list,"38");
+	listNode *node = getNodeById(list,"53");
 	printf("the country is: %s\n",node->citizenRec->country->string);
+
+	int size = linkedListGetSize(list);
+	printf("the size is: %d\n",size);
+
 
 	linkedListDelete(list);
 	linkedListFree(&list);

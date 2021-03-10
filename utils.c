@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 #include "utils.h"
 #include "citizen.h"
 #include "linkedList.h"
 #include "stringList.h"
 
+/*
+ *	Trasforms a char* to Date data type.
+ */
 Date *stringToDate(char *dateStr)
 {
 	Date *date = malloc(sizeof(Date));
@@ -46,9 +48,9 @@ void printDate(Date *date)
 }
 
 
-void readFile(char *filename,linkedList *list,stringLinkedList *stringList)
+void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *stringList)
 {
-	citizenRecord *citizenRec;
+	citizenRecord *citizenRec = NULL;
 	FILE *fp;
 
 	fp = fopen(filename,"r");
@@ -69,6 +71,7 @@ void readFile(char *filename,linkedList *list,stringLinkedList *stringList)
 
    				linkedListInsertAtFront(list,citizenRec);
    			}
+   			
         }
 
     if(line != NULL){
@@ -78,7 +81,9 @@ void readFile(char *filename,linkedList *list,stringLinkedList *stringList)
     fclose(fp);
 }
 
-//
+/*
+ *	Read command line arguments
+ */
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize)
 {
     for (int i = 1; i < argc; i+=2){
@@ -92,12 +97,17 @@ void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bl
     }
 }
 
+/*
+ *	Free comamand line argments memomry allocation
+ */
 void freeArguments(char **citizenRecordsFile)
 {
 	free(*citizenRecordsFile);
 }
 
-
+/*
+ * Checks for citizenRecord validity
+ */
 int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 {
 
@@ -118,6 +128,9 @@ int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 
 }
 
+/*
+ * Returns the number of records from the input file.
+ */
 int getNumberOfRecords(FILE *fp)
 {
 
@@ -141,5 +154,4 @@ int getNumberOfRecords(FILE *fp)
 	}
 
 	return count;
-
 }
