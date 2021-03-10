@@ -32,6 +32,10 @@ void stringLinkedListDelete(stringLinkedList *list);
 
 void stringLinkedListFree(stringLinkedList **list);
 
+int stringLinkedListSearch(stringLinkedList *list,char *string);
+
+stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id);
+
 
 
 #endif

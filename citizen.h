@@ -3,11 +3,14 @@
 
 #include "utils.h"
 
+typedef struct stringLinkedList stringLinkedList;
+typedef struct stringListNode stringListNode;
+
 typedef struct citizenRecord{
 	char *id;
 	char *firstName;
 	char *lastName;
-	char *country;
+	stringListNode *country;
 	char  age;
 	char *virusName;
 	char *vaccinated;
@@ -15,7 +18,7 @@ typedef struct citizenRecord{
 }citizenRecord;
 
 
-citizenRecord *createCitizenRecord(char *citizenStr);
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *list);
 
 void printCitizenRecord(citizenRecord *citizenRec);
 

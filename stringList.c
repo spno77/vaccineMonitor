@@ -124,3 +124,33 @@ void stringLinkedListFree(stringLinkedList **list)
     free(*list);
     *list = NULL;
 }
+
+int stringLinkedListSearch(stringLinkedList *list,char *string)
+{
+    stringListNode *current = list->head;
+
+    while(current != NULL) {
+        if (strcmp(current->string,string) == 0){
+            return 1;
+        }
+        
+        current = current->next;
+    }
+}
+
+
+stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id)
+{
+    stringListNode *current = list->head;
+
+    while(current != NULL) {
+        if(strcmp(current->string,id) == 0) {
+            return current;
+        }
+
+        current = current->next;
+    }
+
+    return NULL;
+
+}

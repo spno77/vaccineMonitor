@@ -216,7 +216,7 @@ void skipListDeleteNode(skipList *list,skipListNode *node)
 	for(int i = list->level; i >= 0; i--){
 
 		while(current->forward[i] != NULL &&
-			current->forward[i]->id < node->id ){ //////////////////////////////////////
+			current->forward[i]->id < node->id ){ 
 			
 			current = current->forward[i];
 		}
@@ -226,7 +226,7 @@ void skipListDeleteNode(skipList *list,skipListNode *node)
 
 	current = current->forward[0];
 
-	if (current->id == node->id && current != NULL){ /////////////////////////////
+	if (current->id == node->id && current != NULL){ 
 		
 		for (int i = 0; i <= list->level; i++){
 			if (updateArray[i]->forward[i] != current){

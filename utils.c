@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "citizen.h"
 #include "linkedList.h"
+#include "stringList.h"
 
 Date *stringToDate(char *dateStr)
 {
@@ -45,7 +46,7 @@ void printDate(Date *date)
 }
 
 
-void readFile(char *filename,linkedList *list)
+void readFile(char *filename,linkedList *list,stringLinkedList *stringList)
 {
 	citizenRecord *citizenRec;
 	FILE *fp;
@@ -62,7 +63,7 @@ void readFile(char *filename,linkedList *list)
    	int count = 0 ;
     while ((getline(&line, &len, fp)) != -1){
    			
-   			citizenRec  = createCitizenRecord(line);
+   			citizenRec  = createCitizenRecord(line,stringList);
 
    			if(isRecordValid(list,citizenRec) == 1){
 
