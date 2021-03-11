@@ -12,13 +12,13 @@ typedef struct citizenRecord{
 	char *lastName;
 	stringListNode *country;
 	char  age;
-	char *virusName;
+	stringListNode *virusName;
 	char *vaccinated;
 	Date *dateVaccinated;
 }citizenRecord;
 
 
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *list);
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,stringLinkedList *virusList);
 
 void printCitizenRecord(citizenRecord *citizenRec);
 

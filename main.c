@@ -29,12 +29,17 @@ int main2(int argc, char const *argv[])
 int main(int argc, char const *argv[])
 {
 	linkedList *list = linkedListCreate();
-	stringLinkedList *stringList = stringLinkedListCreate();
+	stringLinkedList *countryList = stringLinkedListCreate();
+	stringLinkedList *virusList   = stringLinkedListCreate();
 
-	insertRecordsFromFile("citizenRecordsFile.txt",list,stringList);
+
+
+	insertRecordsFromFile("citizenRecordsFile.txt",list,countryList,virusList);
 
 	//linkedListPrint(list);
-	stringLinkedListPrint(stringList);
+	stringLinkedListPrint(countryList);
+	printf("---------------------------\n");
+	stringLinkedListPrint(virusList);
 
 
 	listNode *node = getNodeById(list,"53");
@@ -47,8 +52,13 @@ int main(int argc, char const *argv[])
 	linkedListDelete(list);
 	linkedListFree(&list);
 
-	stringLinkedListDelete(stringList);
-	stringLinkedListFree(&stringList);
+	stringLinkedListDelete(countryList);
+	stringLinkedListFree(&countryList);
+
+	stringLinkedListDelete(virusList);
+	stringLinkedListFree(&virusList);
+
+
 
 	return 0;
 }

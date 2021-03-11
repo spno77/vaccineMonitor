@@ -7,7 +7,7 @@
 #include "stringList.h"
 
 //Creates a citizenRecord from string
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *list)
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryList,stringLinkedList *virusList)
 {
 	citizenRecord *citizenRec = malloc(sizeof(citizenRecord));
 
@@ -35,18 +35,22 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *list)
 	//strcpy(citizenRec->country,token);
 
 	token = strtok(NULL," ");
-	if(stringLinkedListSearch(list,token) != 1){
-		stringLinkedListInsertAtFront(list,token);
+	if(stringLinkedListSearch(countryList,token) != 1){
+		stringLinkedListInsertAtFront(countryList,token);
 	}
 
-	citizenRec->country = stringLinkedListNodeGet(list,token);
+	citizenRec->country = stringLinkedListNodeGet(countryList,token);
 
 	token = strtok(NULL," ");
 	citizenRec->age = (char)atoi(token);
 
 	token = strtok(NULL," ");
-	citizenRec->virusName = malloc(sizeof(char)*strlen(token)+1);
-	strcpy(citizenRec->virusName,token);
+	if(stringLinkedListSearch(virusList,token) != 1){
+		stringLinkedListInsertAtFront(virusList,token);
+	}
+
+	citizenRec->virusName = stringLinkedListNodeGet(virusList,token);
+	
 
 	token = strtok(NULL," ");
 	citizenRec->vaccinated = malloc(sizeof(char)*strlen(token)+1);
@@ -68,7 +72,7 @@ void printCitizenRecord(citizenRecord *citizenRec)
 	printf("%s\n",citizenRec->lastName);
 	//printf("%s\n",citizenRec->country);
 	printf("%d\n",citizenRec->age);
-	printf("%s\n",citizenRec->virusName);
+	//printf("%s\n",citizenRec->virusName);
 	printf("%s\n",citizenRec->vaccinated);
 	printDate(citizenRec->dateVaccinated);
 	printf("---------------------------\n");
@@ -80,7 +84,7 @@ void deleteCitizenRecord(citizenRecord *citizenRec)
 	free(citizenRec->firstName);
 	free(citizenRec->lastName);
 	//free(citizenRec->country);
-	free(citizenRec->virusName);
+	//free(citizenRec->virusName);
 	free(citizenRec->vaccinated);
 	free(citizenRec->dateVaccinated);
 	

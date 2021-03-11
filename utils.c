@@ -48,7 +48,7 @@ void printDate(Date *date)
 }
 
 
-void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *stringList)
+void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,stringLinkedList *virusList)
 {
 	citizenRecord *citizenRec = NULL;
 	FILE *fp;
@@ -65,7 +65,7 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *str
    	int count = 0 ;
     while ((getline(&line, &len, fp)) != -1){
    			
-   			citizenRec  = createCitizenRecord(line,stringList);
+   			citizenRec  = createCitizenRecord(line,countryList,virusList);
 
    			if(isRecordValid(list,citizenRec) == 1){
 

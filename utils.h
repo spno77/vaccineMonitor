@@ -18,7 +18,7 @@ void printDate(Date *date);
 //TODO
 void compareDates(Date *d1,Date *d2);
 
-void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *stringList);
+void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,stringLinkedList *virusList);
 
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize);
 
