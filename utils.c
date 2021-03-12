@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "utils.h"
 #include "citizen.h"
 #include "linkedList.h"
 #include "stringList.h"
+#include "bloomFilter.h"
 
 /*
  *	Trasforms a char* to Date data type.
@@ -48,7 +50,9 @@ void printDate(Date *date)
 }
 
 
-void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,stringLinkedList *virusList)
+
+void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,
+	stringLinkedList *virusList,bloomList *bloomList,int bloomSize)
 {
 	citizenRecord *citizenRec = NULL;
 	FILE *fp;
@@ -65,13 +69,17 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
    	int count = 0 ;
     while ((getline(&line, &len, fp)) != -1){
    			
-   			citizenRec  = createCitizenRecord(line,countryList,virusList);
+   			citizenRec  = createCitizenRecord(line,countryList,virusList,bloomList,bloomSize);
 
    			if(isRecordValid(list,citizenRec) == 1){
 
    				linkedListInsertAtFront(list,citizenRec);
-   			}
 
+   				bloomNode *bloomNode = getBloomNodeByName(bloomList,citizenRec->virusName->string);
+
+   				bloomFilterAdd(bloomNode->bf,citizenRec->id);
+   				
+   			}
         }
 
     if(line != NULL){
@@ -154,4 +162,6 @@ int getNumberOfRecords(FILE *fp)
 	}
 
 	return count;
-}
+} 
+
+

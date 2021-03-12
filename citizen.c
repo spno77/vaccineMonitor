@@ -5,10 +5,12 @@
 #include "citizen.h"
 #include "utils.h"
 #include "stringList.h"
+#include "bloomFilter.h"
 
 //Creates a citizenRecord from string
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryList,stringLinkedList *virusList)
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryList,stringLinkedList *virusList,bloomList *bloomList,int bloomSize)
 {
+	bloomFilter *bf = NULL;
 	citizenRecord *citizenRec = malloc(sizeof(citizenRecord));
 
 	if(citizenRec == NULL){
@@ -45,12 +47,19 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	citizenRec->age = (char)atoi(token);
 
 	token = strtok(NULL," ");
+
 	if(stringLinkedListSearch(virusList,token) != 1){
 		stringLinkedListInsertAtFront(virusList,token);
 	}
 
 	citizenRec->virusName = stringLinkedListNodeGet(virusList,token);
-	
+
+
+	if(bloomListSearch(bloomList,token) != 1){
+		bf = bloomFilterCreate(token,bloomSize);
+
+		bloomListInsert(bloomList,bf);
+	}
 
 	token = strtok(NULL," ");
 	citizenRec->vaccinated = malloc(sizeof(char)*strlen(token)+1);

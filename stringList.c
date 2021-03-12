@@ -154,3 +154,10 @@ stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id)
     return NULL;
 
 }
+
+int stringLinkedListGetSize(stringLinkedList *list)
+{
+    if(list != NULL){
+        return list->size;
+    }
+}

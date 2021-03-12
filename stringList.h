@@ -36,6 +36,8 @@ int stringLinkedListSearch(stringLinkedList *list,char *string);
 
 stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id);
 
+int stringLinkedListGetSize(stringLinkedList *list);
+
 
 
 #endif

@@ -3,6 +3,9 @@
 
 #include "utils.h"
 
+typedef struct bloomFilter bloomFilter;
+typedef struct bloomList bloomList;
+
 typedef struct stringLinkedList stringLinkedList;
 typedef struct stringListNode stringListNode;
 
@@ -18,7 +21,7 @@ typedef struct citizenRecord{
 }citizenRecord;
 
 
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,stringLinkedList *virusList);
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,stringLinkedList *virusList,bloomList *bloomList,int bloomSize);
 
 void printCitizenRecord(citizenRecord *citizenRec);
 

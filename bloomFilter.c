@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "bloomFilter.h"
 
@@ -81,6 +82,8 @@ bloomFilter *bloomFilterCreate(char *name,int bloomSize)
 
 void bloomFilterPrint(bloomFilter *bloomFil)
 {
+	assert(bloomFil);
+
 	printf("BloomFilter for virus:  %s\n",bloomFil->name );
 	printf("BloomFiter size(bytes): %d\n",bloomFil->bloomSize );
 	printf("BloomFiter num of bits: %d\n",bloomFil->bitsNum );
@@ -124,8 +127,8 @@ void bloomFilterAdd(bloomFilter *bf, char *id)
 {
 	long int result;
 
-	for (int i = 0; i < 16; ++i)
-	{
+	for (int i = 0; i < 16; ++i) {
+
 		result = hash_i(id, i) % bf->bitsNum;
 		setBit(bf->bitMap,bf->bloomSize,result);
 	}
@@ -136,8 +139,8 @@ int bloomFilterCheck(bloomFilter *bf,char *id)
 {
 	long int result;
 
-	for (int i = 0; i < 16; ++i)
-	{
+	for (int i = 0; i < 16; ++i) {
+
 		result = hash_i(id, i) % bf->bitsNum;
 		if(!checkBit(bf->bitMap,result)){
 			return 0;
@@ -145,4 +148,156 @@ int bloomFilterCheck(bloomFilter *bf,char *id)
 	}
 
 	return 1;
+}
+
+///////////////////////////////////////////////////////////////////////
+
+
+bloomList *bloomListCreate(void)
+{
+	bloomList *newList = malloc(sizeof(bloomList));
+
+	if(newList == NULL){
+		perror("Malloc Failure !");
+	}
+
+	newList->head = NULL;
+	newList->tail = NULL;
+	newList->size = 0;
+
+	return newList;
+}
+
+
+bloomNode *bloomNodeCreate(bloomFilter *bf)
+{
+	bloomNode *newNode = malloc(sizeof(bloomNode));
+
+	if(newNode == NULL){
+		perror("Malloc Failure !");
+	}
+
+	newNode->bf = bf;
+	newNode->prev = NULL;
+	newNode->next = NULL;
+
+	return newNode;
+}
+
+int isBloomListEmpty(bloomList *list)
+{
+    if(list->size == 0){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+void bloomListInsert(bloomList *list,bloomFilter *bf)
+{    
+    bloomNode *newNode = bloomNodeCreate(bf);
+
+    if(newNode != NULL) {
+
+        if(isBloomListEmpty(list)) {
+            list->head = list->tail = newNode;
+        }else{
+            list->head->prev = newNode;
+            newNode->next = list->head;
+            list->head = newNode;
+        }
+
+        list->size += 1;
+    }
+}
+
+void bloomNodePrint(bloomNode *node)
+{ 
+	if(node == NULL) return;
+	bloomFilterPrint(node->bf);
+}
+
+
+void bloomListPrint(bloomList *list)
+{
+	bloomNode *node = list->head;
+
+	while(node != NULL){
+		bloomNodePrint(node);
+		node = node->next;
+	}
+
+	printf("NULL\n");
+}
+
+void bloomNodeDelete(bloomList *list, bloomNode *node)
+{
+    if(node->next != NULL) {
+        node->next->prev = node->prev;
+    }else{
+        list->tail = node->prev;
+    }
+
+    if(node->prev != NULL) {
+        node->prev->next = node->next;
+    }else{
+        list->head = node->next;
+    }
+
+    list->size -= 1;
+
+   	bloomFilterFree(node->bf);
+    free(node);
+    node = NULL;
+}
+
+void bloomListDelete(bloomList *list)
+{
+    bloomNode *current = list->head;
+    bloomNode *next;
+
+    while(current != NULL) {
+        next = current->next;
+        bloomNodeDelete(list, current);
+        current = next;
+    }
+    
+}
+
+void bloomListFree(bloomList **list)
+{
+    bloomListDelete(*list);
+    free(*list);
+    *list = NULL;
+}
+
+//get the node by the given virus name
+bloomNode *getBloomNodeByName(bloomList *list, char *virusName)
+{
+	bloomNode *current = list->head;
+
+    while(current != NULL) {
+        if(strcmp(current->bf->name,virusName) == 0) {
+            return current;
+        }
+
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+
+
+int bloomListSearch(bloomList *list,char *string)
+{
+    bloomNode *current = list->head;
+
+    while(current != NULL) {
+        if (strcmp(current->bf->name,string) == 0){
+            return 1;
+        }
+        
+        current = current->next;
+    }
 }
