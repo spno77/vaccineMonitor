@@ -66,7 +66,7 @@ int main(int argc, char const *argv[])
 	
 
 
-	//linkedListPrint(list);
+	linkedListPrint(list);
 
 	//bloomListPrint(bloomList);
 

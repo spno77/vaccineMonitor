@@ -8,6 +8,18 @@
 #include "stringList.h"
 #include "bloomFilter.h"
 
+
+
+char* concat(const char *s1, const char *s2)
+{
+    char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
+    // in real code you would check for errors in malloc here
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
+}
+
+
 /*
  *	Trasforms a char* to Date data type.
  */
@@ -79,6 +91,7 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
 
    				bloomFilterAdd(bloomNode->bf,citizenRec->id);
    				
+
    			}
         }
 
@@ -114,26 +127,38 @@ void freeArguments(char **citizenRecordsFile)
 }
 
 /*
- * Checks for citizenRecord validity
+ *	Checks for citizenRecord validity
  */
 int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 {
 
 	listNode *node = getNodeById(list,citizenRec->id);
-	if((node != NULL)){
-		printf("ERROR IN RECORD %s\n",citizenRec->id);
-		deleteCitizenRecord(citizenRec);
-		return 0;
-	}
-
+	
 	if( (strcmp(citizenRec->vaccinated,"NO")==0) && (citizenRec->dateVaccinated->year != 0) ){
 		printf("ERROR IN RECORD %s\n",citizenRec->id);
 		deleteCitizenRecord(citizenRec);
 		return 0;
 	}
 
-	return 1;
+	if((node != NULL)){ // if the node with this id exists in the linked list.
+		if (strcmp(node->citizenRec->firstName,citizenRec->firstName) == 0){
+			if (strcmp(node->citizenRec->lastName,citizenRec->lastName) == 0){
+				if(strcmp(node->citizenRec->country->string,citizenRec->country->string) == 0){
+					if(node->citizenRec->age == citizenRec->age){
+						if(strcmp(node->citizenRec->virusName->string,citizenRec->virusName->string) == 0){
 
+							printf("ERROR IN RECORD %s\n",citizenRec->id);
+							deleteCitizenRecord(citizenRec);
+							return 0;
+
+						}
+					}
+				}
+			}
+		}
+	}	
+		
+	return 1;
 }
 
 /*

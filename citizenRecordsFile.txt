@@ -6,7 +6,6 @@
 89 James Henderson Greece 65 COVID-2019 YES 15-07-2005
 63 Michael Mcbride Switzerland 65 H1N1 YES 20-03-2000
 62 Gabriel Adams Egypt 65 COVID-2019 YES 12-01-2012
-96 Carolyn Miller China 65 H1N1 NO 12-01-2012
 7 Andrew Day Argentina 65 H1N1 YES 27-11-2006
 65 Joseph Larsen Germany 65 H1N1 YES 03-10-2006
 65 Joseph Larsen Germany 65 H1N1 YES 03-10-2006
@@ -22,3 +21,4 @@
 72 Jonathan Petersen Australia 56 COVID-2019 NO
 72 Jonathan Petersen Australia 56 COVID-2019 NO
 1000 Jim Jimmy Peru 23 DRM NO
+1000 Jim Jimmy Peru 23 EVD YES 1-1-2012
