@@ -4,6 +4,8 @@
 #include <assert.h>
 
 #include "bloomFilter.h"
+#include "stringList.h"
+
 
 /*
 This algorithm (k=33) was first reported by dan bernstein many years 
@@ -57,7 +59,7 @@ unsigned long hash_i(unsigned char *str, unsigned int i) {
 }
 
 
-bloomFilter *bloomFilterCreate(char *name,int bloomSize)
+bloomFilter *bloomFilterCreate(stringListNode *virusName,int bloomSize)
 {
 	bloomFilter *bloomFil = malloc(sizeof(bloomFilter));
 	if(bloomFil == NULL){
@@ -66,11 +68,8 @@ bloomFilter *bloomFilterCreate(char *name,int bloomSize)
 
 	bloomFil->bloomSize = bloomSize;
 	bloomFil->bitsNum = bloomSize * 8;
-	bloomFil->name = malloc(strlen(name)+ 1);
-	if(bloomFil->name == NULL){
-		perror("malloc failure");
-	}
-	strcpy(bloomFil->name,name);
+	
+	bloomFil->virusName = virusName;
 
 	bloomFil->bitMap = calloc(bloomSize,sizeof(char));
 	if(bloomFil->bitMap == NULL){
@@ -84,7 +83,7 @@ void bloomFilterPrint(bloomFilter *bloomFil)
 {
 	assert(bloomFil);
 
-	printf("BloomFilter for virus:  %s\n",bloomFil->name );
+	printf("BloomFilter for virus:  %s\n",bloomFil->virusName->string );
 	printf("BloomFiter size(bytes): %d\n",bloomFil->bloomSize );
 	printf("BloomFiter num of bits: %d\n",bloomFil->bitsNum );
 }
@@ -92,7 +91,7 @@ void bloomFilterPrint(bloomFilter *bloomFil)
 
 void bloomFilterFree(bloomFilter *bloomFil)
 {
-	free(bloomFil->name);
+	//free(bloomFil->name);
 	free(bloomFil->bitMap);
 	free(bloomFil);
 }
@@ -277,7 +276,7 @@ bloomNode *getBloomNodeByName(bloomList *list, char *virusName)
 	bloomNode *current = list->head;
 
     while(current != NULL) {
-        if(strcmp(current->bf->name,virusName) == 0) {
+        if(strcmp(current->bf->virusName->string,virusName) == 0) {
             return current;
         }
 
@@ -294,7 +293,7 @@ int bloomListSearch(bloomList *list,char *string)
     bloomNode *current = list->head;
 
     while(current != NULL) {
-        if (strcmp(current->bf->name,string) == 0){
+        if (strcmp(current->bf->virusName->string,string) == 0){
             return 1;
         }
         

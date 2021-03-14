@@ -56,7 +56,7 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 
 
 	if(bloomListSearch(bloomList,token) != 1){
-		bf = bloomFilterCreate(token,bloomSize);
+		bf = bloomFilterCreate(citizenRec->virusName,bloomSize);
 
 		bloomListInsert(bloomList,bf);
 	}

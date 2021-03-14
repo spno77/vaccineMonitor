@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
 
 	int res = 0;
 
-	listNode *node = getNodeById(list,"1000");
+	listNode *node = getNodeById(list,"8111");
 	if(node != NULL){
 		bloomNode *bloomNode = getBloomNodeByName(bloomList,node->citizenRec->virusName->string);
 		res = bloomFilterCheck(bloomNode->bf,node->citizenRec->id);
