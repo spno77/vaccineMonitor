@@ -80,7 +80,6 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	token = strtok(NULL," ");
 	citizenRec->dateVaccinated = stringToDate(token);
 
-	
 	return citizenRec;
 }
 
