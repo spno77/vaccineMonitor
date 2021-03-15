@@ -9,6 +9,7 @@
 #include "bloomFilter.h"
 #include "skipList.h"
 #include "stringList.h"
+#include "userCommands.h"
 
 int main2(int argc, char const *argv[])
 {
@@ -72,6 +73,10 @@ int main(int argc, char const *argv[])
 	//bloomListPrint(bloomList);
 
 	skipsListPrint(skips);
+
+
+	userCommands(bloomList,skips);
+
 
 	linkedListDelete(list);
 	linkedListFree(&list);

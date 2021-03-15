@@ -59,8 +59,8 @@ Date *stringToDate(char *dateStr)
 
 void printDate(Date *date)
 {
-	printf("%d ",date->day);
-	printf("%d ",date->month);
+	printf("%d-",date->day);
+	printf("%d-",date->month);
 	printf("%d\n",date->year);
 }
 
@@ -90,10 +90,14 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
 
    				linkedListInsertAtFront(list,citizenRec);
 
-   				bloomNode *bloomNode = getBloomNodeByName(bloomList,citizenRec->virusName->string);
+   				if(strcmp(citizenRec->vaccinated,"YES") == 0){
 
-   				bloomFilterAdd(bloomNode->bf,citizenRec->id);
+   					bloomNode *bloomNode = getBloomNodeByName(bloomList,citizenRec->virusName->string);
+
+   					bloomFilterAdd(bloomNode->bf,citizenRec->id);
    				
+   				}
+
    				skipsNode *skipsNode = getSkipsNode(skips,citizenRec->virusName->string,citizenRec->vaccinated);
 
    				listNode *node = getNodeById(list,citizenRec->id);
