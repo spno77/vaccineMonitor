@@ -15,7 +15,6 @@ typedef struct Date{
 	int year;
 }Date;
 
-char* concat(const char *s1, const char *s2);
 
 Date *stringToDate(char *dateStr);
 

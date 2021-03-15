@@ -50,7 +50,7 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	token = strtok(NULL," ");
 	citizenRec->age = (char)atoi(token);
 
-	token = strtok(NULL," ");////////////<================================
+	token = strtok(NULL," ");
 
 	if(stringLinkedListSearch(virusList,token) != 1){
 		stringLinkedListInsertAtFront(virusList,token);
@@ -90,9 +90,7 @@ void printCitizenRecord(citizenRecord *citizenRec)
 	printf("%s\n",citizenRec->id);
 	printf("%s\n",citizenRec->firstName);
 	printf("%s\n",citizenRec->lastName);
-	//printf("%s\n",citizenRec->country);
 	printf("%d\n",citizenRec->age);
-	//printf("%s\n",citizenRec->virusName);
 	printf("%s\n",citizenRec->vaccinated);
 	printDate(citizenRec->dateVaccinated);
 	printf("---------------------------\n");
