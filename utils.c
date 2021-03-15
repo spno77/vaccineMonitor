@@ -7,6 +7,7 @@
 #include "linkedList.h"
 #include "stringList.h"
 #include "bloomFilter.h"
+#include "skipList.h"
 
 
 
@@ -35,36 +36,38 @@ Date *stringToDate(char *dateStr)
 		return date;
 	}
 
-	int dateStrSize = strlen(dateStr) + 1;
-	char *token , *end;
-	char tempDate[dateStrSize];
+	//int dateStrSize = strlen(dateStr) + 1;
+	//char *token , *end;
+	//char tempDate[dateStrSize];
 	
-	strcpy(tempDate,dateStr);
-
-	token = strtok(tempDate, "-");
-	date->day = strtol(token, &end, 10);
+	//strcpy(tempDate,dateStr);
+	char *token = NULL;
+	token = strtok(dateStr, "-");
+	//date->day = strtol(token, &end, 10);
+	date->day = atoi(token);
 
 	token = strtok(NULL, "-");
-	date->month = strtol(token, &end, 10);
+	//date->month = strtol(token, &end, 10);
+	date->month = atoi(token);
 
 	token = strtok(NULL, "-");	
-	date->year = strtol(token, &end, 10);
+	//date->year = strtol(token, &end, 10);
+	date->year = atoi(token);
 
 	return date;
-
 }
 
 void printDate(Date *date)
 {
-	printf("%d\n",date->day);
-	printf("%d\n",date->month);
+	printf("%d ",date->day);
+	printf("%d ",date->month);
 	printf("%d\n",date->year);
 }
 
 
 
 void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,
-	stringLinkedList *virusList,bloomList *bloomList,int bloomSize)
+	stringLinkedList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips)
 {
 	citizenRecord *citizenRec = NULL;
 	FILE *fp;
@@ -81,7 +84,7 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
    	int count = 0 ;
     while ((getline(&line, &len, fp)) != -1){
    			
-   			citizenRec  = createCitizenRecord(line,countryList,virusList,bloomList,bloomSize);
+   			citizenRec  = createCitizenRecord(line,countryList,virusList,bloomList,bloomSize,skips);
 
    			if(isRecordValid(list,citizenRec) == 1){
 
@@ -91,6 +94,11 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
 
    				bloomFilterAdd(bloomNode->bf,citizenRec->id);
    				
+   				skipsNode *skipsNode = getSkipsNode(skips,citizenRec->virusName->string,citizenRec->vaccinated);
+
+   				listNode *node = getNodeById(list,citizenRec->id);
+
+   				skipListInsert(skipsNode->ls,atoi(citizenRec->id),node);
 
    			}
         }
@@ -135,7 +143,7 @@ int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 	listNode *node = getNodeById(list,citizenRec->id);
 	
 	if( (strcmp(citizenRec->vaccinated,"NO")==0) && (citizenRec->dateVaccinated->year != 0) ){
-		printf("ERROR IN RECORD %s\n",citizenRec->id);
+		printf("ERROR IN RECORD %s ",citizenRec->id);
 		deleteCitizenRecord(citizenRec);
 		return 0;
 	}
@@ -147,7 +155,7 @@ int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 					if(node->citizenRec->age == citizenRec->age){
 						if(strcmp(node->citizenRec->virusName->string,citizenRec->virusName->string) == 0){
 
-							printf("ERROR IN RECORD %s\n",citizenRec->id);
+							printf("ERROR IN RECORD %s ",citizenRec->id);
 							deleteCitizenRecord(citizenRec);
 							return 0;
 

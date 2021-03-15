@@ -1,3 +1,4 @@
+53 James Collins Denmark 65 EVD NO
 47 David Williams Denmark 61 COVID-2019 YES 30-05-2009
 39 Mary Sanders France 62 COVID-2019 YES 12-06-2012
 37 Timothy Miller Vietnam 98 COVID-2019 YES 22-06-2012
@@ -12,13 +13,13 @@
 29 Brett Fuller Australia 76 EVD YES 20-12-2010
 23 Jennifer Huffman Germany 76 EVD YES 27-01-2007
 77 Daniel Wilson France 65 EVD YES 16-10-2013
-53 James Collins Denmark 65 EVD NO
-15 Michael Anderson USA 65 EVD NO
-38 Crystal Mcfarland Greece 65 EVD NO 16-10-2013
 8 Ray Shaw Greece 65 EVD YES 15-08-2007
 8 Ray Shaw Greece 65 EVD YES 15-08-2007
 57 Eric Foster France 87 COVID-2019 NO
 72 Jonathan Petersen Australia 56 COVID-2019 NO
 72 Jonathan Petersen Australia 56 COVID-2019 NO
 1000 Jim Jimmy Peru 23 DRM NO
-1000 Jim Jimmy Peru 23 EVD YES 1-1-2012
+1001 Tan Tana Peru 32 DRM NO 2-2-2013
+15 Michael Anderson USA 65 EVD NO 2-2-2013
+1212 Ppp PPP USA 66 EVD NO
+

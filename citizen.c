@@ -6,11 +6,15 @@
 #include "utils.h"
 #include "stringList.h"
 #include "bloomFilter.h"
+#include "skipList.h"
 
 //Creates a citizenRecord from string
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryList,stringLinkedList *virusList,bloomList *bloomList,int bloomSize)
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryList,
+	stringLinkedList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips)
+
 {
 	bloomFilter *bf = NULL;
+	skipList *ls = NULL;
 	citizenRecord *citizenRec = malloc(sizeof(citizenRecord));
 
 	if(citizenRec == NULL){
@@ -46,7 +50,7 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	token = strtok(NULL," ");
 	citizenRec->age = (char)atoi(token);
 
-	token = strtok(NULL," ");
+	token = strtok(NULL," ");////////////<================================
 
 	if(stringLinkedListSearch(virusList,token) != 1){
 		stringLinkedListInsertAtFront(virusList,token);
@@ -61,15 +65,22 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 		bloomListInsert(bloomList,bf);
 	}
 
-	token = strtok(NULL," ");
+	token = strtok(NULL," \n");
 	citizenRec->vaccinated = malloc(sizeof(char)*strlen(token)+1);
 	strcpy(citizenRec->vaccinated,token);
+
+	if(skipsListSearch(skips,citizenRec->virusName->string,token) != 1){
+
+		ls = skipListCreate(1000,citizenRec->virusName,token);
+
+		skipsListInsert(skips,ls); 
+	}
+
 
 	token = strtok(NULL," ");
 	citizenRec->dateVaccinated = stringToDate(token);
 
-
-
+	
 	return citizenRec;
 }
 

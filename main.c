@@ -32,10 +32,11 @@ int main(int argc, char const *argv[])
 	stringLinkedList *countryList = stringLinkedListCreate();
 	stringLinkedList *virusList   = stringLinkedListCreate();
 	bloomList *bloomList = bloomListCreate();
+	skipsList *skips = skipsListCreate();
 	int bloomSize = 30;
 	//bloomFilter **bfArray;
 
-	insertRecordsFromFile("citizenRecordsFile.txt",list,countryList,virusList,bloomList,bloomSize);
+	insertRecordsFromFile("citizenRecordsFile.txt",list,countryList,virusList,bloomList,bloomSize,skips);
 	//void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,bloomList *bloomList,int bloomSize)
 
 	//linkedListPrint(list);
@@ -69,6 +70,8 @@ int main(int argc, char const *argv[])
 	linkedListPrint(list);
 
 	//bloomListPrint(bloomList);
+
+	skipsListPrint(skips);
 
 	linkedListDelete(list);
 	linkedListFree(&list);

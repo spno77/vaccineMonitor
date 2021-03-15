@@ -9,6 +9,8 @@ typedef struct bloomList bloomList;
 typedef struct stringLinkedList stringLinkedList;
 typedef struct stringListNode stringListNode;
 
+typedef struct skipsList skipsList;
+
 typedef struct citizenRecord{
 	char *id;
 	char *firstName;
@@ -21,7 +23,8 @@ typedef struct citizenRecord{
 }citizenRecord;
 
 
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,stringLinkedList *virusList,bloomList *bloomList,int bloomSize);
+citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,stringLinkedList *virusList,
+	bloomList *bloomList,int bloomSize,skipsList *skips);
 
 void printCitizenRecord(citizenRecord *citizenRec);
 
