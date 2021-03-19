@@ -286,8 +286,6 @@ void skipListFree(skipList **list)
 //////////////////////////////////////////////////////////
 
 
-
-
 skipsList *skipsListCreate(void)
 {
 	skipsList *newList = malloc(sizeof(skipsList));
