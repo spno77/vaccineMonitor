@@ -260,7 +260,6 @@ void bloomListDelete(bloomList *list)
         bloomNodeDelete(list, current);
         current = next;
     }
-    
 }
 
 void bloomListFree(bloomList **list)

@@ -9,10 +9,14 @@ typedef struct bloomFilter bloomFilter;
 typedef struct  skipsList skipsList;
 
 
-void userCommands(bloomList *bloomList,skipsList *skips);
+void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
+				stringLinkedList *countryList,stringLinkedList *virusList);
 
 void vaccineStatusBloom(char *id,char *virusName,bloomList *bloomList);
 
 void vaccineStatus (char *id,char *virusName,skipsList *skips);
+
+void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
+				stringLinkedList *countryList,stringLinkedList *virusList);
 
 #endif

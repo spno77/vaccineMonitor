@@ -66,12 +66,16 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
 		printf("error opening file");
 	}
 
-	//ssize_t nread;
+	ssize_t nread;
    	size_t len = 0;
    	char *line = NULL;
 
    	int count = 0 ;
-    while ((getline(&line, &len, fp)) != -1){
+    while ((nread = getline(&line, &len, fp)) != -1){
+
+    		if(nread == -1){
+    			return;
+    		}
    			
    			citizenRec  = createCitizenRecord(line,countryList,virusList,bloomList,bloomSize,skips);
 
@@ -136,7 +140,7 @@ int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 	listNode *node = getNodeById(list,citizenRec->id);
 	
 	if( (strcmp(citizenRec->vaccinated,"NO")==0) && (citizenRec->dateVaccinated->year != 0) ){
-		printf("ERROR IN RECORD %s ",citizenRec->id);
+		printf("ERROR IN RECORD %s\n",citizenRec->id);
 		deleteCitizenRecord(citizenRec);
 		return 0;
 	}
@@ -148,7 +152,7 @@ int isRecordValid(linkedList *list,citizenRecord *citizenRec)
 					if(node->citizenRec->age == citizenRec->age){
 						if(strcmp(node->citizenRec->virusName->string,citizenRec->virusName->string) == 0){
 
-							printf("ERROR IN RECORD %s ",citizenRec->id);
+							printf("ERROR IN RECORD %s\n",citizenRec->id);
 							deleteCitizenRecord(citizenRec);
 							return 0;
 

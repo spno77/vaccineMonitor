@@ -29,68 +29,32 @@ int main2(int argc, char const *argv[])
 
 int main(int argc, char const *argv[])
 {
-	linkedList *list = linkedListCreate();
+	linkedList *list              = linkedListCreate();
 	stringLinkedList *countryList = stringLinkedListCreate();
 	stringLinkedList *virusList   = stringLinkedListCreate();
-	bloomList *bloomList = bloomListCreate();
-	skipsList *skips = skipsListCreate();
-	int bloomSize = 30;
-	//bloomFilter **bfArray;
+	bloomList *bloomList          = bloomListCreate();
+	skipsList *skips              = skipsListCreate();
 
-	insertRecordsFromFile("citizenRecordsFile.txt",list,countryList,virusList,bloomList,bloomSize,skips);
-	//void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,bloomList *bloomList,int bloomSize)
+	int bloomSize = 30;
+
+	insertRecordsFromFile("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips);
 
 	//linkedListPrint(list);
-	stringLinkedListPrint(countryList);
-	printf("---------------------------\n");
-	stringLinkedListPrint(virusList);
-
-	int res = 0;
-
-	listNode *node = getNodeById(list,"8111");
-	if(node != NULL){
-		bloomNode *bloomNode = getBloomNodeByName(bloomList,node->citizenRec->virusName->string);
-		res = bloomFilterCheck(bloomNode->bf,node->citizenRec->id);
-	}
-
-	
-	if(res == 1){
-		printf("probably in the bloomFilter\n");
-	}else{
-		printf("NOT in the bloomFilterfilter\n");
-	}
+	//stringLinkedListPrint(countryList);
+	//printf("---------------------------\n");
+	//stringLinkedListPrint(virusList);
 
 
-
-	int size = linkedListGetSize(list);
-	printf("the size is: %d\n",size);
-
-	
-
-
-	linkedListPrint(list);
+	//linkedListPrint(list);
 
 	//bloomListPrint(bloomList);
 
 	skipsListPrint(skips);
 
 
-	userCommands(bloomList,skips);
+	//userCommands(bloomList,skips);
+	userCommands(bloomList,skips,list,countryList,virusList);
 
-
-	linkedListDelete(list);
-	linkedListFree(&list);
-
-	stringLinkedListDelete(countryList);
-	stringLinkedListFree(&countryList);
-
-	stringLinkedListDelete(virusList);
-	stringLinkedListFree(&virusList);
-
-	bloomListDelete(bloomList);
-	bloomListFree(&bloomList);
 
 	return 0;
 }
-
-

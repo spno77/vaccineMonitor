@@ -394,7 +394,6 @@ void skipsListDelete(skipsList *list)
         skipsNodeDelete(list, current);
         current = next;
     }
-    
 }
 
 void skipsListFree(skipsList **list)

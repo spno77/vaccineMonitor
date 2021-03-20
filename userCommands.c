@@ -45,7 +45,31 @@ void vaccineStatus(char *id,char *virusName,skipsList *skips)
 	}
 }
 
-void userCommands(bloomList *bloomList,skipsList *skips)
+void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
+				stringLinkedList *countryList,stringLinkedList *virusList)
+{
+	linkedListDelete(list);
+	linkedListFree(&list);
+
+	stringLinkedListDelete(countryList);
+	stringLinkedListFree(&countryList);
+
+	stringLinkedListDelete(virusList);
+	stringLinkedListFree(&virusList);
+
+	bloomListDelete(bloomList);
+	bloomListFree(&bloomList);
+
+	skipsListDelete(skips);
+	skipsListFree(&skips);
+
+	exit(1);
+
+}
+
+
+void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
+				stringLinkedList *countryList,stringLinkedList *virusList)
 {
 	char* command = NULL;
 	char* commandName = NULL;
@@ -55,10 +79,16 @@ void userCommands(bloomList *bloomList,skipsList *skips)
 
 	fprintf(stdout,"ENTER COMMAND: ");
 	while (getline(&line, &length, stdin) != EOF){	
+	
 
 		command	 = strtok(line, "\n");
 		if(command == NULL){
 			continue;
+		}else if(strcmp(command, "/exit") == 0){
+
+            free(line);
+            exitCommand(bloomList,skips,list,countryList,virusList);
+
 		}else{
 			commandName = strtok(command," ");
 			if (strcmp(commandName, "/vaccineStatusBloom") == 0) {
@@ -86,5 +116,7 @@ void userCommands(bloomList *bloomList,skipsList *skips)
 
             }
 		}
+
+		fprintf(stdout,"ENTER COMMAND: ");
     }
 }
