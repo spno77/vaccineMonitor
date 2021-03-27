@@ -11,7 +11,7 @@
 #include "stringList.h"
 
 
-void vaccineStatusBloom(char *id,char *virusName,bloomList *bloomList)
+void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList)
 {
 	bloomNode *bloomNode = getBloomNodeByName(bloomList,virusName);
 
@@ -27,18 +27,18 @@ void vaccineStatusBloom(char *id,char *virusName,bloomList *bloomList)
 	}
 }
 
-void vaccineStatus(char *id,char *virusName,skipsList *skips)
+void vaccineStatus(int id,char *virusName,skipsList *skips)
 {
 
 	skipsNode *skipsNode = getSkipsNode(skips,virusName,"YES"); 
 
 	if (skipsNode != NULL)
 	{
-		skipListNode *skipListNode = skipListSearch(skipsNode->ls,atoi(id));
+		skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
 
 		if(skipListNode != NULL){
 			printf("VACCINATED ON: ");
-			printDate(skipListNode->node->citizenRec->dateVaccinated);
+			printDate(skipListNode->date);
 		}else{
 			printf("NOT VACCINATED\n");
 		}
@@ -46,7 +46,7 @@ void vaccineStatus(char *id,char *virusName,skipsList *skips)
 }
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,stringLinkedList *virusList)
+				stringLinkedList *countryList,virusList *virusList)
 {
 	linkedListDelete(list);
 	linkedListFree(&list);
@@ -54,8 +54,8 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 	stringLinkedListDelete(countryList);
 	stringLinkedListFree(&countryList);
 
-	stringLinkedListDelete(virusList);
-	stringLinkedListFree(&virusList);
+	virusListDelete(virusList);
+	virusListFree(&virusList);
 
 	bloomListDelete(bloomList);
 	bloomListFree(&bloomList);
@@ -69,7 +69,7 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,stringLinkedList *virusList)
+				stringLinkedList *countryList,virusList *virusList)
 {
 	char* command = NULL;
 	char* commandName = NULL;
@@ -93,20 +93,20 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 			commandName = strtok(command," ");
 			if (strcmp(commandName, "/vaccineStatusBloom") == 0) {
 
-				char *id = strtok(NULL, " ");
+				int id = atoi(strtok(NULL, " "));
                 char *virusName = strtok(NULL, " ");
 
-                if(id != NULL && virusName != NULL){
+                if(virusName != NULL){
 
                 	vaccineStatusBloom(id,virusName,bloomList);
                 }
 			}
 			else if(strcmp(commandName,"/vaccineStatus") == 0) {
 
-				char *id = strtok(NULL, " ");
+				int id = atoi(strtok(NULL, " "));
                 char *virusName = strtok(NULL, " ");
 
-                 if(id != NULL && virusName != NULL){
+                 if(virusName != NULL){
 
                 	vaccineStatus(id,virusName,skips);
                 }

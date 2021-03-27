@@ -59,7 +59,7 @@ unsigned long hash_i(unsigned char *str, unsigned int i) {
 }
 
 
-bloomFilter *bloomFilterCreate(stringListNode *virusName,int bloomSize)
+bloomFilter *bloomFilterCreate(virusListNode *virusName,int bloomSize)
 {
 	bloomFilter *bloomFil = malloc(sizeof(bloomFilter));
 	if(bloomFil == NULL){
@@ -83,7 +83,7 @@ void bloomFilterPrint(bloomFilter *bloomFil)
 {
 	assert(bloomFil);
 
-	printf("BloomFilter for virus:  %s\n",bloomFil->virusName->string );
+	printf("BloomFilter for virus:  %s\n",bloomFil->virusName->virusName);
 	printf("BloomFiter size(bytes): %d\n",bloomFil->bloomSize );
 	printf("BloomFiter num of bits: %d\n",bloomFil->bitsNum );
 }
@@ -122,25 +122,31 @@ int checkBit(char *bitMap,int bitToCheck) {
 }
 
 
-void bloomFilterAdd(bloomFilter *bf, char *id)
+void bloomFilterAdd(bloomFilter *bf, int id)
 {
 	long int result;
 
+	char stringId[4];
+
+	sprintf(stringId,"%d",id);
+
 	for (int i = 0; i < 16; ++i) {
 
-		result = hash_i(id, i) % bf->bitsNum;
+		result = hash_i(stringId, i) % bf->bitsNum;
 		setBit(bf->bitMap,bf->bloomSize,result);
 	}
-
 }
 
-int bloomFilterCheck(bloomFilter *bf,char *id)
+int bloomFilterCheck(bloomFilter *bf,int id)
 {
 	long int result;
 
+	char stringId[4];
+	sprintf(stringId,"%d",id);
+
 	for (int i = 0; i < 16; ++i) {
 
-		result = hash_i(id, i) % bf->bitsNum;
+		result = hash_i(stringId, i) % bf->bitsNum;
 		if(!checkBit(bf->bitMap,result)){
 			return 0;
 		}
@@ -275,7 +281,7 @@ bloomNode *getBloomNodeByName(bloomList *list, char *virusName)
 	bloomNode *current = list->head;
 
     while(current != NULL) {
-        if(strcmp(current->bf->virusName->string,virusName) == 0) {
+        if(strcmp(current->bf->virusName->virusName,virusName) == 0) {
             return current;
         }
 
@@ -287,13 +293,17 @@ bloomNode *getBloomNodeByName(bloomList *list, char *virusName)
 
 
 
-int bloomListSearch(bloomList *list,char *string)
+int bloomListSearch(bloomList *list,char *virusName)
 {
     bloomNode *current = list->head;
 
     while(current != NULL) {
-        if (strcmp(current->bf->virusName->string,string) == 0){
-            return 1;
+        if (strcmp(current->bf->virusName->virusName,virusName) == 0){
+        	if (strcmp(current->bf->virusName->isVaccinated,"YES") == 0){
+        		
+        		return 1;
+        	 
+        	 }
         }
         
         current = current->next;

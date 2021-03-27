@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "utils.h"
 #include "citizen.h"
@@ -25,22 +26,14 @@ Date *stringToDate(char *dateStr)
 		return date;
 	}
 
-	//int dateStrSize = strlen(dateStr) + 1;
-	//char *token , *end;
-	//char tempDate[dateStrSize];
-	
-	//strcpy(tempDate,dateStr);
 	char *token = NULL;
 	token = strtok(dateStr, "-");
-	//date->day = strtol(token, &end, 10);
 	date->day = atoi(token);
 
 	token = strtok(NULL, "-");
-	//date->month = strtol(token, &end, 10);
 	date->month = atoi(token);
 
 	token = strtok(NULL, "-");	
-	//date->year = strtol(token, &end, 10);
 	date->year = atoi(token);
 
 	return date;
@@ -54,16 +47,20 @@ void printDate(Date *date)
 }
 
 
-
-void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *countryList,
-	stringLinkedList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips)
+void insertIntoDateStructures(char *filename,linkedList *list,stringLinkedList *countryList,
+					         virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips)
 {
+
+	Record *Rec               = NULL;
 	citizenRecord *citizenRec = NULL;
+	bloomFilter *bf           = NULL;
+	skipList *ls              = NULL;
+
 	FILE *fp;
 
 	fp = fopen(filename,"r");
 	if (fp == NULL){
-		printf("error opening file");
+		printf("Error opening file");
 	}
 
 	ssize_t nread;
@@ -73,39 +70,113 @@ void insertRecordsFromFile(char *filename,linkedList *list,stringLinkedList *cou
    	int count = 0 ;
     while ((nread = getline(&line, &len, fp)) != -1){
 
-    		if(nread == -1){
-    			return;
-    		}
+    	if(nread == -1){
+    		return;
+    	}
    			
-   			citizenRec  = createCitizenRecord(line,countryList,virusList,bloomList,bloomSize,skips);
+   		Rec = recordCreate(line);
 
-   			if(isRecordValid(list,citizenRec) == 1){
+   		if(isRecordValid(Rec) == 1){
 
-   				linkedListInsertAtFront(list,citizenRec);
+   			if(stringLinkedListSearch(countryList,Rec->country) != 1){
+				stringLinkedListInsertAtFront(countryList,Rec->country);
+			}
 
-   				if(strcmp(citizenRec->vaccinated,"YES") == 0){
 
-   					bloomNode *bloomNode = getBloomNodeByName(bloomList,citizenRec->virusName->string);
+			if(virusListSearch(virusList,Rec->virusName,Rec->isVaccinated) != 1){
+				virusListInsert(virusList,Rec->virusName,Rec->isVaccinated);
+			}
 
-   					bloomFilterAdd(bloomNode->bf,citizenRec->id);
+			virusListNode *virusNode = virusListNodeGet(virusList,Rec->virusName,Rec->isVaccinated);
+			stringListNode *countryNode  = stringLinkedListNodeGet(countryList,Rec->country);
+
+   			citizenRec = citizenRecordCreate(Rec->id,Rec->firstName,Rec->lastName,Rec->age,countryNode,virusNode);
+
+   			if(skipsListSearch(skips,citizenRec->virusInfo->virusName,citizenRec->virusInfo->isVaccinated) != 1){
+
+   				//listNode *node = getNodeById(list,Rec->id);
+
+				ls = skipListCreate(10000,virusNode);
+
+				skipsListInsert(skips,ls);
+
+			}
+
+			if( (bloomListSearch(bloomList,Rec->virusName) != 1)){
+				if (strcmp(virusNode->isVaccinated,"YES") == 0){
+					
+					bf = bloomFilterCreate(virusNode,bloomSize);
+				
+					bloomListInsert(bloomList,bf);
+				}	
+			}
+
+
+   			if(strcmp(Rec->isVaccinated,"YES") == 0){
+
+   				bloomNode *bloomNode = getBloomNodeByName(bloomList,Rec->virusName);
+
+   				bloomFilterAdd(bloomNode->bf,citizenRec->id);
+   			}
    				
-   				}
+			
+   				
+   			skipsNode *skipsNode = getSkipsNode(skips,Rec->virusName,Rec->isVaccinated);
 
-   				skipsNode *skipsNode = getSkipsNode(skips,citizenRec->virusName->string,citizenRec->vaccinated);
+   	
+   			//skipListNode *skipNode =  skipListSearch(skipsNode->ls,Rec->id);
+
+   			//if we have a citizen with this id in the linked list
+   			if((linkedListSearch(list,citizenRec->id) == 1)) {
+
+   				//linkedListInsertAtFront(list,citizenRec);
 
    				listNode *node = getNodeById(list,citizenRec->id);
 
-   				skipListInsert(skipsNode->ls,atoi(citizenRec->id),node);
+   				//skipListInsert(skipsNode->ls,citizenRec->id,node,Rec->dateVaccinated);
 
+   				skipListNode *skipNode =  skipListSearch(skipsNode->ls,Rec->id);
+
+   				//if this id exist in this skipList
+   				if(skipNode == NULL){
+
+   					skipListInsert(skipsNode->ls,citizenRec->id,node,Rec->dateVaccinated);
+   						
+   				}
+
+   				printf("ERROR IN RECORD %d\n",Rec->id);
+   					
+   				citizenRecordDelete(citizenRec);
+
+   				recordDelete(Rec);
+
+   				continue;
+
+   			}else{
+   				linkedListInsertAtFront(list,citizenRec);
    			}
-        }
+	
 
-    if(line != NULL){
-    	free(line);
-    }
+   			listNode *node = getNodeById(list,citizenRec->id);
 
-    fclose(fp);
+   			skipListInsert(skipsNode->ls,citizenRec->id,node,Rec->dateVaccinated);
+
+   		}
+
+   		recordDelete(Rec);
+
+   			
+   	}
+
+   	if (line != NULL){	
+		free(line);
+	}
+
+
+   	fclose(fp);
 }
+
+/*
 
 /*
  *	Read command line arguments
@@ -134,37 +205,20 @@ void freeArguments(char **citizenRecordsFile)
 /*
  *	Checks for citizenRecord validity
  */
-int isRecordValid(linkedList *list,citizenRecord *citizenRec)
-{
 
-	listNode *node = getNodeById(list,citizenRec->id);
-	
-	if( (strcmp(citizenRec->vaccinated,"NO")==0) && (citizenRec->dateVaccinated->year != 0) ){
-		printf("ERROR IN RECORD %s\n",citizenRec->id);
-		deleteCitizenRecord(citizenRec);
+int isRecordValid(Record *Rec)
+{
+	if((strcmp(Rec->isVaccinated,"NO")==0) && (Rec->dateVaccinated->year != 0)){
+		printf("ERROR IN RECORD %d\n",Rec->id);
+		//recordDelete(Rec);
 		return 0;
 	}
 
-	if((node != NULL)){ // if the node with this id exists in the linked list.
-		if (strcmp(node->citizenRec->firstName,citizenRec->firstName) == 0){
-			if (strcmp(node->citizenRec->lastName,citizenRec->lastName) == 0){
-				if(strcmp(node->citizenRec->country->string,citizenRec->country->string) == 0){
-					if(node->citizenRec->age == citizenRec->age){
-						if(strcmp(node->citizenRec->virusName->string,citizenRec->virusName->string) == 0){
 
-							printf("ERROR IN RECORD %s\n",citizenRec->id);
-							deleteCitizenRecord(citizenRec);
-							return 0;
-
-						}
-					}
-				}
-			}
-		}
-	}	
-		
 	return 1;
 }
+
+
 
 /*
  *	Returns the number of records from the input file.

@@ -9,26 +9,65 @@ typedef struct bloomList bloomList;
 typedef struct stringLinkedList stringLinkedList;
 typedef struct stringListNode stringListNode;
 
+
+typedef struct virusList virusList;
+typedef struct virusListNode virusListNode;
+
 typedef struct skipsList skipsList;
 
-typedef struct citizenRecord{
-	char *id;
+
+typedef struct Record
+{
+	int id;
 	char *firstName;
 	char *lastName;
-	stringListNode *country;
-	char  age;
-	stringListNode *virusName;
-	char *vaccinated;
+	char *country;
+	char age;
+	char *virusName;
+	char *isVaccinated;
 	Date *dateVaccinated;
+
+}Record;
+
+
+Record *recordCreate(char *recordStr);
+
+void recordDelete(Record *Rec);
+
+void recordPrint(Record *Rec);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+typedef struct citizenRecord{
+	
+	int id;
+	char *firstName;
+	char *lastName;
+	char age;
+	
+	stringListNode *country;
+	virusListNode *virusInfo;
+	
 }citizenRecord;
 
 
-citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,stringLinkedList *virusList,
-	bloomList *bloomList,int bloomSize,skipsList *skips);
+//citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,
+//	virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips);
 
-void printCitizenRecord(citizenRecord *citizenRec);
+//void printCitizenRecord(citizenRecord *citizenRec);
 
-void deleteCitizenRecord(citizenRecord *citizenRec);
+//void deleteCitizenRecord(citizenRecord *citizenRec);
+
+
+
+citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char age,
+	stringListNode *country,virusListNode *virusInfo);
+
+void citizenRecordPrint(citizenRecord *citizenRec);
+
+void citizenRecordDelete(citizenRecord *citizenRec);
 
 
 #endif

@@ -5,10 +5,14 @@ typedef struct listNode listNode;
 typedef struct linkedList linkedList;
 typedef struct stringLinkedList stringLinkedList;
 typedef struct stringListNode stringListNode;
+typedef struct dateListNode dateListNode;
+typedef struct virusListNode virusListNode;
+typedef struct Date Date;
 
 typedef struct skipListNode{
 	int id;	
 	listNode *node;
+	Date *date;
 	struct skipListNode **forward;
 } skipListNode;
 
@@ -17,20 +21,21 @@ typedef struct skipList {
 	skipListNode *header;
 	int maxHeight; 		  // maximum height(number of levels)
 	int level; 			  // the current number of levels in the skip list 
-	stringListNode *virusName;
-	char *isVaccinated;
+	//stringListNode *virusName;
+	//char *isVaccinated;
+	virusListNode *virusInfo;
 } skipList;
 
 
 int levelNumber(int maxHeight);
 
-skipList *skipListCreate(int elemNumber,stringListNode *virusName,char *isVaccinated);
+skipList *skipListCreate(int elemNumber,virusListNode *virusInfo);
 
-skipListNode *skipListNodeCreate(listNode *node,int level);
+skipListNode *skipListNodeCreate(listNode *node,Date *date,int level);
 
 void skipListPrint(skipList *list);
 
-void skipListInsert(skipList *list,int key,listNode *node);
+void skipListInsert(skipList *list,int key,listNode *node,Date *date);
 
 skipListNode *createHeaderNode(int level);
 
@@ -46,6 +51,7 @@ void skipListFree(skipList **list);
 
 void skipListNodeFree(skipListNode *node);
 
+int skipListExists(skipList *list,int key);
 
 
 //////////////////////////////////////////////////////////

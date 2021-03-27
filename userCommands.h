@@ -7,16 +7,17 @@ typedef struct stringLinkedList stringLinkedList;
 typedef struct bloomList bloomList;
 typedef struct bloomFilter bloomFilter;
 typedef struct  skipsList skipsList;
+typedef struct virusList virusList;
 
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,stringLinkedList *virusList);
+				stringLinkedList *countryList,virusList *virusList);
 
-void vaccineStatusBloom(char *id,char *virusName,bloomList *bloomList);
+void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList);
 
-void vaccineStatus (char *id,char *virusName,skipsList *skips);
+void vaccineStatus (int id,char *virusName,skipsList *skips);
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,stringLinkedList *virusList);
+				stringLinkedList *countryList,virusList *virusList);
 
 #endif

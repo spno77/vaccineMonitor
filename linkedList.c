@@ -65,7 +65,7 @@ void linkedListInsertAtFront(linkedList *list,citizenRecord *citizenRec)
 void listNodePrint(listNode *node)
 { 
 	if(node == NULL) return;
-	printCitizenRecord(node->citizenRec);
+	citizenRecordPrint(node->citizenRec);
 }
 
 
@@ -97,7 +97,7 @@ void listNodeDelete(linkedList *list, listNode *node)
 
     list->size -= 1;
 
-    deleteCitizenRecord(node->citizenRec);
+    citizenRecordDelete(node->citizenRec);
     free(node);
     node = NULL;
 }
@@ -124,12 +124,12 @@ void linkedListFree(linkedList **list)
 
 
 //get the node by the given id
-listNode *getNodeById(linkedList *list, char *id)
+listNode *getNodeById(linkedList *list, int id)
 {
 	listNode *current = list->head;
 
     while(current != NULL) {
-        if(strcmp(current->citizenRec->id,id) == 0) {
+         if(current->citizenRec->id == id) {
             return current;
         }
 
@@ -139,6 +139,21 @@ listNode *getNodeById(linkedList *list, char *id)
     return NULL;
 
 }
+
+int linkedListSearch(linkedList *list,int id)
+{
+    listNode *current = list->head;
+
+    while(current != NULL) {
+        if(current->citizenRec->id == id) {
+            return 1;
+        }
+
+        current = current->next;
+    }
+}
+
+
 
 int linkedListGetSize(linkedList *list)
 {

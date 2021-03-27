@@ -92,11 +92,11 @@ do
 				i=$i+1
 
 				viruses=$(shuf -n 1 $virusesFile)
-		
+
 				day=$((1 + $RANDOM%(1+30-1)))
 				month=$((1 + $RANDOM %(1+12-1)))
 				year=$((2010 + $RANDOM%(1+2021-2010)))
-		
+
 				isVaccinated=$((0 + $RANDOM%(1+1-0)))
 				if [[ isVaccinated -eq 1 ]]; then
 					vaccinated="YES"

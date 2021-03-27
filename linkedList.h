@@ -34,7 +34,9 @@ void linkedListDelete(linkedList *list);
 
 void linkedListFree(linkedList **list);
 
-listNode *getNodeById(linkedList *list, char *id);
+listNode *getNodeById(linkedList *list, int id);
+
+int linkedListSearch(linkedList *list,int id);
 
 int linkedListGetSize(linkedList *list);
 

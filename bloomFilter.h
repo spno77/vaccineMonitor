@@ -1,13 +1,13 @@
 #ifndef BLOOM_FILTER_H_
 #define BLOOM_FILTER_H_
 
-typedef struct stringListNode stringListNode;
+typedef struct virusListNode virusListNode;
 
 
 typedef struct bloomFilter{
 	int bloomSize; // in bytes
 	int bitsNum ;  // number of bits
-	stringListNode *virusName;
+	virusListNode *virusName;
 	char *bitMap;
 } bloomFilter;
 
@@ -22,15 +22,15 @@ unsigned long sdbm(unsigned char *str);
 unsigned long hash_i(unsigned char *str, unsigned int i);
 
 
-bloomFilter *bloomFilterCreate(stringListNode *virusName,int bloomSize);
+bloomFilter *bloomFilterCreate(virusListNode *virusName,int bloomSize);
 
 void bloomFilterPrint(bloomFilter *bloomFil);
 
 void bloomFilterFree(bloomFilter *bloomFil);
 
-void bloomFilterAdd(bloomFilter *bf, char *id);
+void bloomFilterAdd(bloomFilter *bf, int id);
 
-int bloomFilterCheck(bloomFilter *bf,char *id);
+int bloomFilterCheck(bloomFilter *bf,int id);
 
 void setBit(char *bitMap,int byteSize,int bitToSet);
 
@@ -71,7 +71,7 @@ void bloomListFree(bloomList **list);
 
 bloomNode *getBloomNodeByName(bloomList *list, char *virusName);
 
-int bloomListSearch(bloomList *list,char *string);
+int bloomListSearch(bloomList *list,char *virusName);
 
 
 #endif

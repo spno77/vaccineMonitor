@@ -31,7 +31,7 @@ int levelNumber(int maxHeight)
 }
 
 
-skipList *skipListCreate(int elemNumber,stringListNode *virusName,char *isVaccinated)
+skipList *skipListCreate(int elemNumber,virusListNode *virusInfo)
 {
 	skipList *newSkipList = malloc(sizeof(skipList));
 
@@ -44,10 +44,8 @@ skipList *skipListCreate(int elemNumber,stringListNode *virusName,char *isVaccin
 	newSkipList->maxHeight = maxHeight;
 	newSkipList->header = createHeaderNode(maxHeight);
 	newSkipList->level = 0;
-	newSkipList->virusName = virusName;
-
-	newSkipList->isVaccinated = malloc(strlen(isVaccinated)+1);
-	strcpy(newSkipList->isVaccinated,isVaccinated);
+	
+	newSkipList->virusInfo = virusInfo;
 
 	return newSkipList;
 }
@@ -75,7 +73,7 @@ skipListNode *createHeaderNode(int level)
 	return newNode;
 }
 
-skipListNode *skipListNodeCreate(listNode *node,int level)
+skipListNode *skipListNodeCreate(listNode *node,Date *date,int level)
 {
 	skipListNode *newNode = malloc(sizeof(skipListNode));
 
@@ -89,8 +87,10 @@ skipListNode *skipListNodeCreate(listNode *node,int level)
 	}
 	strcpy(newNode->id,node->citizenRec->id);
 	*/
-	newNode->id = atoi(node->citizenRec->id);
+	newNode->id = node->citizenRec->id;
 	newNode->node = node;
+
+	newNode->date = date;
 
 	newNode->forward = malloc(sizeof(skipListNode *) * (level + 1));
 	if(newNode->forward == NULL){
@@ -104,7 +104,7 @@ skipListNode *skipListNodeCreate(listNode *node,int level)
 	return newNode;
 }
 
-void skipListInsert(skipList *list,int key,listNode *node)
+void skipListInsert(skipList *list,int key,listNode *node,Date *date)
 {
 
 	skipListNode *current = list->header;
@@ -140,7 +140,7 @@ void skipListInsert(skipList *list,int key,listNode *node)
 			list->level = randLevel;
 		}
 
-		skipListNode *newNode = skipListNodeCreate(node,randLevel);
+		skipListNode *newNode = skipListNodeCreate(node,date,randLevel);
 		for (int i = 0; i <= randLevel; i++){
 
 			newNode->forward[i] = updateArray[i]->forward[i];
@@ -155,8 +155,8 @@ void skipListInsert(skipList *list,int key,listNode *node)
 void skipListPrint(skipList *list)
 {
 	if(list == NULL) return;
-	printf("Virus name: %s\n",list->virusName->string);
-	printf("Vaccinated status: %s\n",list->isVaccinated );
+	printf("Virus name: %s\n",list->virusInfo->virusName);
+	printf("Vaccinated status: %s\n",list->virusInfo->isVaccinated);
 
 	for (int i = 0; i < list->level; i++){
 
@@ -195,12 +195,38 @@ skipListNode* skipListSearch(skipList *list,int key)
 
 	current = current->forward[0];
 
-	if(current->id == key){
+	if((current != NULL) && (current->id == key)){
 		return current;
 	}else{
 		return NULL;
 	}
 }
+
+
+int skipListExists(skipList *list,int key)
+{
+	skipListNode *current = list->header;
+
+	for(int i = list->level; i >= 0; --i){
+		while(current->forward[i] &&
+				current->forward[i]->id < key){
+			
+			current = current->forward[i];
+		}
+	}
+
+	current = current->forward[0];
+
+	if(current->id == key){
+		return 1;
+	}
+}
+
+
+
+
+
+
 
 void skipListNodeFree(skipListNode *node)
 {
@@ -276,7 +302,7 @@ void skipListDelete(skipList *list)
 void skipListFree(skipList **list)
 {
     //skipListDelete(*list);
-    free((*list)->isVaccinated);
+    //free((*list)->isVaccinated);
     free(*list);
     *list = NULL;
 }
@@ -391,6 +417,7 @@ void skipsListDelete(skipsList *list)
 
     while(current != NULL) {
         next = current->next;
+        skipListDelete(current->ls);
         skipsNodeDelete(list, current);
         current = next;
     }
@@ -407,14 +434,17 @@ void skipsListFree(skipsList **list)
 int skipsListSearch(skipsList *list,char *string,char *isVaccinated)
 {
     skipsNode *current = list->head;
+    //printf("VirusName:   %s\n",string);
+    //printf("isVaccinated:%s\n",isVaccinated );
 
     //printf("string is : %s\n",string );
     //printf("%s-->len of isVaccinated: %ld\n",isVaccinated,strlen(isVaccinated));
 
     while(current != NULL) {
-        if (strcmp(current->ls->virusName->string,string) == 0){
-        	if(strcmp(current->ls->isVaccinated,isVaccinated) == 0){
+        if (strcmp(current->ls->virusInfo->virusName,string) == 0){
+        	if(strcmp(current->ls->virusInfo->isVaccinated,isVaccinated) == 0){
             	return 1;
+            	//printf("HERE IAM, I EXISTS\n");
        	    }
         }
     	
@@ -428,8 +458,8 @@ skipsNode *getSkipsNode(skipsList *list, char *virusName,char *isVaccinated)
 	skipsNode *current = list->head;
 
     while(current != NULL) {
-        if(strcmp(current->ls->virusName->string,virusName) == 0){
-        	if(strcmp(current->ls->isVaccinated,isVaccinated) == 0){
+        if(strcmp(current->ls->virusInfo->virusName,virusName) == 0){
+        	if(strcmp(current->ls->virusInfo->isVaccinated,isVaccinated) == 0){
             	
             	return current;
         	}

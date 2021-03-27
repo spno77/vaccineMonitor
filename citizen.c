@@ -8,9 +8,138 @@
 #include "bloomFilter.h"
 #include "skipList.h"
 
+Record *recordCreate(char *recordStr)
+{
+	Record *Rec = malloc(sizeof(Record));
+
+	if(Rec == NULL){
+		perror("malloc failied");
+		return NULL;
+	}
+
+	char *token = NULL;
+	token = strtok(recordStr," ");
+
+	Rec->id = atoi(token);
+	
+	token = strtok(NULL," ");
+	Rec->firstName = malloc( strlen(token) + 1);
+	strcpy(Rec->firstName,token);
+
+	token = strtok(NULL," ");
+	Rec->lastName = malloc(strlen(token)+1);
+	strcpy(Rec->lastName,token);
+
+	token = strtok(NULL," ");
+	Rec->country = malloc(strlen(token)+1);
+	strcpy(Rec->country,token);
+
+	token = strtok(NULL," ");
+	Rec->age = (char)atoi(token);
+
+	token = strtok(NULL," ");
+	Rec->virusName = malloc(strlen(token)+1);
+	strcpy(Rec->virusName,token);
+
+	token = strtok(NULL," \n");
+	Rec->isVaccinated = malloc(strlen(token)+1);
+	strcpy(Rec->isVaccinated,token);
+
+	token = strtok(NULL," ");
+	Rec->dateVaccinated = stringToDate(token);
+
+	return Rec;
+}
+
+
+
+void recordDelete(Record *Rec)
+{
+	
+	free(Rec->firstName);
+	free(Rec->lastName);
+	free(Rec->country);
+	free(Rec->virusName);
+	free(Rec->isVaccinated);
+
+	free(Rec->dateVaccinated);
+	
+	free(Rec);
+}
+
+
+void recordPrint(Record *Rec)
+{
+
+	printf("%d\n",Rec->id);
+	printf("%s\n",Rec->firstName);
+	printf("%s\n",Rec->lastName);
+	printf("%s\n",Rec->country);
+	printf("%d\n",Rec->age);
+	printf("%s\n",Rec->isVaccinated);
+	printDate(Rec->dateVaccinated);
+	printf("---------------------------\n");
+}
+
+
+citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char age,
+	stringListNode *country,virusListNode *virusInfo)
+{
+
+	citizenRecord *citizenRec = malloc(sizeof(citizenRecord));
+
+	if(citizenRec == NULL){
+		perror("malloc failied");
+		return NULL;
+	}
+
+	citizenRec->id = id;
+	
+	citizenRec->firstName = malloc(strlen(firstName)+1);
+	strcpy(citizenRec->firstName,firstName);
+	
+	citizenRec->lastName = malloc(strlen(lastName)+1);
+	strcpy(citizenRec->lastName,lastName);
+
+	citizenRec->age = age;
+
+	citizenRec->country = country;
+	citizenRec->virusInfo = virusInfo;
+
+	return citizenRec;
+}
+
+
+void citizenRecordDelete(citizenRecord *citizenRec)
+{
+	free(citizenRec->firstName);
+	free(citizenRec->lastName);
+	
+	free(citizenRec);
+}
+
+
+void citizenRecordPrint(citizenRecord *citizenRec)
+{
+
+	printf("%d\n",citizenRec->id);
+	printf("%s\n",citizenRec->firstName);
+	printf("%s\n",citizenRec->lastName);
+	printf("%d\n",citizenRec->age );
+	printf("---------------------------\n");
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////
 //Creates a citizenRecord from string
+
+
+/*
 citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryList,
-	stringLinkedList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips)
+	virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips)
 
 {
 	bloomFilter *bf = NULL;
@@ -25,8 +154,8 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	char *token = NULL;
 	token = strtok(citizenStr," ");
 
-	citizenRec->id = malloc(sizeof(char)*strlen(token)+1);
-	strcpy(citizenRec->id,token);
+	citizenRec->id = atoi(token);
+	
 
 	token = strtok(NULL," ");
 	citizenRec->firstName = malloc(sizeof(char)*strlen(token)+1);
@@ -36,9 +165,6 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	citizenRec->lastName = malloc(sizeof(char)*strlen(token)+1);
 	strcpy(citizenRec->lastName,token);
 
-	//token = strtok(NULL," ");
-	//citizenRec->country = malloc(sizeof(char)*strlen(token)+1);
-	//strcpy(citizenRec->country,token);
 
 	token = strtok(NULL," ");
 	if(stringLinkedListSearch(countryList,token) != 1){
@@ -51,25 +177,27 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 	citizenRec->age = (char)atoi(token);
 
 	token = strtok(NULL," ");
+	char *token2 = strtok(NULL," ");
 
-	if(stringLinkedListSearch(virusList,token) != 1){
-		stringLinkedListInsertAtFront(virusList,token);
+	if(virusListSearch(virusList,token,token2) != 1){
+		virusListInsert(virusList,token,token2);
 	}
 
-	citizenRec->virusName = stringLinkedListNodeGet(virusList,token);
+	citizenRec->virusInfo = stringLinkedListNodeGet(virusList,token,token2);
 
 
 	if(bloomListSearch(bloomList,token) != 1){
-		bf = bloomFilterCreate(citizenRec->virusName,bloomSize);
+		bf = bloomFilterCreate(citizenRec->virusInfo->virusName,bloomSize);
 
 		bloomListInsert(bloomList,bf);
 	}
 
-	token = strtok(NULL," \n");
-	citizenRec->vaccinated = malloc(sizeof(char)*strlen(token)+1);
-	strcpy(citizenRec->vaccinated,token);
+	if(skipsListSearch(skips,citizenRec->virusInfo->virusName,token) != 1){
 
-	if(skipsListSearch(skips,citizenRec->virusName->string,token) != 1){
+		token = strtok(NULL," \n");
+		
+		citizenRec->vaccinated = malloc(sizeof(char)*strlen(token)+1);
+		strcpy(citizenRec->vaccinated,token);
 
 		ls = skipListCreate(1000,citizenRec->virusName,token);
 
@@ -86,29 +214,29 @@ citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countryLis
 
 void printCitizenRecord(citizenRecord *citizenRec)
 {
-	printf("%s\n",citizenRec->id);
+	printf("%d\n",citizenRec->id);
 	printf("%s\n",citizenRec->firstName);
 	printf("%s\n",citizenRec->lastName);
 	printf("%d\n",citizenRec->age);
-	printf("%s\n",citizenRec->vaccinated);
-	printDate(citizenRec->dateVaccinated);
+	//printf("%s\n",citizenRec->vaccinated);
+	//printDate(citizenRec->dateVaccinated);
 	printf("---------------------------\n");
 }
 
 void deleteCitizenRecord(citizenRecord *citizenRec)
 {
-	free(citizenRec->id);
+	//free(citizenRec->id);
 	free(citizenRec->firstName);
 	free(citizenRec->lastName);
 	//free(citizenRec->country);
 	//free(citizenRec->virusName);
-	free(citizenRec->vaccinated);
-	free(citizenRec->dateVaccinated);
+	//free(citizenRec->vaccinated);
+	//free(citizenRec->dateVaccinated);
 	
 	free(citizenRec);
 }
 
-
+*/
 
 
 
