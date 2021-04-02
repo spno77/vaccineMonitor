@@ -20,4 +20,6 @@ void vaccineStatus (int id,char *virusName,skipsList *skips);
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 				stringLinkedList *countryList,virusList *virusList);
 
+void populationStatus(skipsList *skips,char *country ,char *virusName);
+
 #endif

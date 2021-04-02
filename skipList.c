@@ -177,7 +177,11 @@ void skipListPrint(skipList *list)
 
 listNode *getLinkedListNodePtr(skipListNode *skipListNode)
 {
-	return skipListNode->node;
+	if (skipListNode->node != NULL){
+		return skipListNode->node;
+	}
+	return NULL;
+	
 }
 
 
@@ -221,12 +225,6 @@ int skipListExists(skipList *list,int key)
 		return 1;
 	}
 }
-
-
-
-
-
-
 
 void skipListNodeFree(skipListNode *node)
 {

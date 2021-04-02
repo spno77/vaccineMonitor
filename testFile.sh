@@ -19,21 +19,26 @@ if [[ ! -f "$2" ]]; then
 	exit 1
 fi
 
-if [[ "$3" -gt 10000 ]]; then
-	echo -e '\t' "Parameter 3 numLines should be <= 10000"
+if [[ "$3" -gt 9999 ]]; then
+	echo -e '\t' "Parameter 3 numLines should be <= 9999"
 	exit 1
 fi
+
+if [[ ! "$3" =~ ^[0-9]+$ ]]; then 
+	echo -e '\t' "Parameter 3 numLines should be an integer"
+	exit 1
+fi
+
 
 virusesFile="$1"
 countriesFile="$2"
 numLines="$3"
 dupAllowed="$4"
 
-seqId=$(shuf -i 0-10000 -n 10000)
+seqId=$(shuf -i 0-9999 -n 9999)
 arrayId=($seqId)
 
-
-for(( i = 0; i <= $numLines ; i++))
+for(( i = 0; i < $numLines ; i++))
 do
 	id=${arrayId[$i]} 
 	countries=$(shuf -n 1 $countriesFile)
@@ -62,7 +67,6 @@ do
 
 	isVaccinated=$((0 + $RANDOM%(1+1-0)))
 
-	
 	if [[ isVaccinated -eq 1 ]]; then
 		vaccinated="YES"
 		citizen="$id $firstName $lastName $countries $age $viruses $vaccinated $day-$month-$year"
