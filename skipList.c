@@ -8,13 +8,18 @@
 #include "linkedList.h"
 #include "stringList.h"
 
+/*
+	Calculate the log2 of a given number
+*/
 double Log2(int number)  
 {  
     // log(n)/log(2) is log2.  
     return log(number) / log( 2 );  
 } 
 
-
+/*
+	Create a random level in the range 0-maxHeight
+*/
 int levelNumber(int maxHeight)
 {
 	int level = 0 ;
@@ -30,7 +35,9 @@ int levelNumber(int maxHeight)
 	return level;
 }
 
-
+/*
+	Create and initialize a skipList
+*/
 skipList *skipListCreate(int elemNumber,virusListNode *virusInfo)
 {
 	skipList *newSkipList = malloc(sizeof(skipList));
@@ -50,6 +57,10 @@ skipList *skipListCreate(int elemNumber,virusListNode *virusInfo)
 	return newSkipList;
 }
 
+
+/*
+	Create and initialize the Header Node of a skipList
+*/
 skipListNode *createHeaderNode(int level)
 {
 	skipListNode *newNode = malloc(sizeof(skipListNode));
@@ -73,6 +84,9 @@ skipListNode *createHeaderNode(int level)
 	return newNode;
 }
 
+/*
+	Create and initialize a Node of a skipList
+*/
 skipListNode *skipListNodeCreate(listNode *node,Date *date,int level)
 {
 	skipListNode *newNode = malloc(sizeof(skipListNode));
@@ -81,12 +95,6 @@ skipListNode *skipListNodeCreate(listNode *node,Date *date,int level)
 		perror("Malloc Failure !");
 	}
 
-	/*newNode->id = malloc(sizeof(char) * strlen(node->citizenRec->id) +1 );
-	if(newNode == NULL){
-		perror("Malloc Failure !");
-	}
-	strcpy(newNode->id,node->citizenRec->id);
-	*/
 	newNode->id = node->citizenRec->id;
 	newNode->node = node;
 
@@ -104,22 +112,20 @@ skipListNode *skipListNodeCreate(listNode *node,Date *date,int level)
 	return newNode;
 }
 
+/*
+	Insert in the skipList a new node with the given key
+*/
 void skipListInsert(skipList *list,int key,listNode *node,Date *date)
 {
-
 	skipListNode *current = list->header;
-
-	//skipListNode *updateArray[list->maxHeight+1];
-
-	//dont forget to free it later
 	skipListNode **updateArray = malloc(sizeof(skipListNode *) * (list->maxHeight + 1));
 
+	//initialize updateArray
 	for (int i = 0; i < list->maxHeight + 1; i++ ){
 		updateArray[i] = NULL;
 	}
 
 	for (int i = list->level; i >= 0; i--){
-
 		while(current->forward[i] != NULL && current->forward[i]->id < key ){
 			current = current->forward[i];
 		}
@@ -136,7 +142,6 @@ void skipListInsert(skipList *list,int key,listNode *node,Date *date)
 			for (int i = list->level+1; i < randLevel+1; i++){
 				updateArray[i] = list->header;
 			}
-
 			list->level = randLevel;
 		}
 
@@ -151,7 +156,9 @@ void skipListInsert(skipList *list,int key,listNode *node,Date *date)
 	free(updateArray);
 }
 
-
+/*
+	Print SkipList
+*/
 void skipListPrint(skipList *list)
 {
 	if(list == NULL) return;
@@ -174,17 +181,21 @@ void skipListPrint(skipList *list)
 	printf("--------------------\n");
 }
 
-
+/*
+	Return the pointer linkedList node pointer or NULL
+*/
 listNode *getLinkedListNodePtr(skipListNode *skipListNode)
 {
 	if (skipListNode->node != NULL){
 		return skipListNode->node;
 	}
 	return NULL;
-	
 }
 
-
+/*
+	Search if the key is in the skipList.Returns the node 
+	or NULL if the key is not found.
+*/
 skipListNode* skipListSearch(skipList *list,int key)
 {
 	skipListNode *current = list->header;
@@ -206,26 +217,9 @@ skipListNode* skipListSearch(skipList *list,int key)
 	}
 }
 
-
-int skipListExists(skipList *list,int key)
-{
-	skipListNode *current = list->header;
-
-	for(int i = list->level; i >= 0; --i){
-		while(current->forward[i] &&
-				current->forward[i]->id < key){
-			
-			current = current->forward[i];
-		}
-	}
-
-	current = current->forward[0];
-
-	if(current->id == key){
-		return 1;
-	}
-}
-
+/*
+	Free a node from the skipList
+*/
 void skipListNodeFree(skipListNode *node)
 {
 	if(node != NULL){
@@ -236,11 +230,14 @@ void skipListNodeFree(skipListNode *node)
 	}
 }
 
-
+/*
+	Delete a Node from the skipList
+*/
 void skipListDeleteNode(skipList *list,skipListNode *node)
 {
 	skipListNode **updateArray = malloc(sizeof(skipListNode *) * (list->maxHeight + 1));
 
+	//initialize updateArray
 	for (int i = 0; i < list->maxHeight + 1; i++ ){
 		updateArray[i] = NULL;
 	}
@@ -270,20 +267,17 @@ void skipListDeleteNode(skipList *list,skipListNode *node)
 		}
 	}	
 
-	
 	while(list->level > 0 && list->header->forward[list->level] == NULL){
 		list->level = list->level - 1 ;
 	}
 
 	free(updateArray);
-
-	//free(node->forward);
 	skipListNodeFree(node);
-
-	//node = NULL;
 }
 
-
+/*
+	Free all the nodes of a skipList
+*/
 void skipListDelete(skipList *list)
 {
 	skipListNode *current = list->header;
@@ -296,16 +290,14 @@ void skipListDelete(skipList *list)
 	}
 }
 
-
+/*
+	Free the pointer to skipList
+*/
 void skipListFree(skipList **list)
 {
-    //skipListDelete(*list);
-    //free((*list)->isVaccinated);
     free(*list);
     *list = NULL;
 }
-
-
 
 //////////////////////////////////////////////////////////
 
@@ -432,17 +424,11 @@ void skipsListFree(skipsList **list)
 int skipsListSearch(skipsList *list,char *string,char *isVaccinated)
 {
     skipsNode *current = list->head;
-    //printf("VirusName:   %s\n",string);
-    //printf("isVaccinated:%s\n",isVaccinated );
-
-    //printf("string is : %s\n",string );
-    //printf("%s-->len of isVaccinated: %ld\n",isVaccinated,strlen(isVaccinated));
-
+  
     while(current != NULL) {
         if (strcmp(current->ls->virusInfo->virusName,string) == 0){
         	if(strcmp(current->ls->virusInfo->isVaccinated,isVaccinated) == 0){
             	return 1;
-            	//printf("HERE IAM, I EXISTS\n");
        	    }
         }
     	

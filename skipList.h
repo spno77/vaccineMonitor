@@ -21,8 +21,6 @@ typedef struct skipList {
 	skipListNode *header;
 	int maxHeight; 		  // maximum height(number of levels)
 	int level; 			  // the current number of levels in the skip list 
-	//stringListNode *virusName;
-	//char *isVaccinated;
 	virusListNode *virusInfo;
 } skipList;
 
