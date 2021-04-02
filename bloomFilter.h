@@ -3,7 +3,6 @@
 
 typedef struct virusListNode virusListNode;
 
-
 typedef struct bloomFilter{
 	int bloomSize; // in bytes
 	int bitsNum ;  // number of bits

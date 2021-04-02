@@ -59,6 +59,9 @@ unsigned long hash_i(unsigned char *str, unsigned int i) {
 }
 
 
+/*
+	Create a Bloom Filter
+*/
 bloomFilter *bloomFilterCreate(virusListNode *virusName,int bloomSize)
 {
 	bloomFilter *bloomFil = malloc(sizeof(bloomFilter));
@@ -79,24 +82,28 @@ bloomFilter *bloomFilterCreate(virusListNode *virusName,int bloomSize)
 	return bloomFil;
 }
 
+/*
+	Print a Bloom Filter
+*/
 void bloomFilterPrint(bloomFilter *bloomFil)
 {
-	assert(bloomFil);
-
 	printf("BloomFilter for virus:  %s\n",bloomFil->virusName->virusName);
 	printf("BloomFiter size(bytes): %d\n",bloomFil->bloomSize );
 	printf("BloomFiter num of bits: %d\n",bloomFil->bitsNum );
 }
 
-
+/*
+	Free allocated memory for the Bloom Filter
+*/
 void bloomFilterFree(bloomFilter *bloomFil)
 {
-	//free(bloomFil->name);
 	free(bloomFil->bitMap);
 	free(bloomFil);
 }
 
-
+/*
+	Set given bit (bitToSet arg) in the bitMap
+*/
 void setBit(char *bitMap,int byteSize,int bitToSet)
 {
 	if(bitToSet < sizeof(char)*8*byteSize){
@@ -108,7 +115,9 @@ void setBit(char *bitMap,int byteSize,int bitToSet)
     }
 }
 
-
+/*
+	Check if bit(bitToCheck) is set in the bitMap
+*/
 int checkBit(char *bitMap,int bitToCheck) {
     unsigned int byte = bitToCheck >> 3;
     unsigned char c = bitMap[byte];
@@ -121,7 +130,10 @@ int checkBit(char *bitMap,int bitToCheck) {
     return 0;
 }
 
-
+/*
+	Add given id in the Bloom Filter.Set bits of id
+	in the bitMap.	
+*/
 void bloomFilterAdd(bloomFilter *bf, int id)
 {
 	long int result;
@@ -137,6 +149,9 @@ void bloomFilterAdd(bloomFilter *bf, int id)
 	}
 }
 
+/*
+	Check if given id is in the Bloom Filter
+*/
 int bloomFilterCheck(bloomFilter *bf,int id)
 {
 	long int result;
