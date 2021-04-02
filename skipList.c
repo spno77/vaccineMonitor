@@ -9,7 +9,7 @@
 #include "stringList.h"
 
 /*
-	Calculate the log2 of a given number
+ 	Calculate the log2 of a given number
 */
 double Log2(int number)  
 {  

@@ -12,7 +12,7 @@
 
 
 /*
- *	Trasforms a char* to Date data type.
+ 	Trasforms a char* to Date data type.
  */
 Date *stringToDate(char *dateStr)
 {

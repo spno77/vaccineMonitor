@@ -51,7 +51,16 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
                 
                 vaccineStatus(id,virusName,skips);
                 
+            }else if (strcmp(commandName,"/list-nonVaccinated-Persons") == 0) {
+            	
+            	char *virusName = strtok(NULL, " ");
+
+            	nonVacinatedPersons(skips,virusName);
             }
+
+
+
+
             /*else if (strcmp(commandName,"/populationStatus") == 0)
             {
             	char *arg1 	= strtok(NULL, " ");
@@ -285,6 +294,30 @@ void populationStatus(skipsList *skips,char *arg1 ,char *arg2)
 
 */
 
+/*
+	Print all nonVaccinated persons in the skipList
+*/
+void nonVacinatedPersons(skipsList *skips,char *virusName)
+{
+	if(virusName != NULL){
+		skipsNode *skipsNode = getSkipsNode(skips,virusName,"NO");
+		
+		if (skipsNode != NULL){
+
+
+			skipListNode *current = skipsNode->ls->header->forward[0];
+
+			while(current != NULL){
+
+				listNode *listNode = getLinkedListNodePtr(current);
+				printf("%d %s %s %s %d \n",listNode->citizenRec->id,listNode->citizenRec->firstName,
+				listNode->citizenRec->lastName,listNode->citizenRec->country->string,listNode->citizenRec->age );
+
+				current = current->forward[0];
+			}
+		}
+	} 
+}
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 				stringLinkedList *countryList,virusList *virusList)

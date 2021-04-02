@@ -22,4 +22,6 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 
 void populationStatus(skipsList *skips,char *country ,char *virusName);
 
+void nonVacinatedPersons(skipsList *skips,char *virusName);
+
 #endif
