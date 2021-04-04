@@ -53,18 +53,29 @@ Record *recordCreate(char *recordStr)
 
 
 
-void recordDelete(Record *Rec)
+void recordDelete(Record **Rec)
 {
 	
-	free(Rec->firstName);
-	free(Rec->lastName);
-	free(Rec->country);
-	free(Rec->virusName);
-	free(Rec->isVaccinated);
+	free((*Rec)->firstName);
+	(*Rec)->firstName = NULL;
 
-	free(Rec->dateVaccinated);
+	free((*Rec)->lastName);
+	(*Rec)->lastName = NULL;
 	
-	free(Rec);
+	free((*Rec)->country);
+	(*Rec)->country = NULL;
+	
+	free((*Rec)->virusName);
+	(*Rec)->virusName = NULL;
+	
+	free((*Rec)->isVaccinated);
+	(*Rec)->isVaccinated = NULL;
+
+	free((*Rec)->dateVaccinated);
+	(*Rec)->dateVaccinated = NULL;
+	
+	free(*Rec);
+	*Rec = NULL;
 }
 
 
@@ -80,6 +91,7 @@ void recordPrint(Record *Rec)
 	printDate(Rec->dateVaccinated);
 	printf("---------------------------\n");
 }
+
 
 
 citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char age,

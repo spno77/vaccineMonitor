@@ -32,7 +32,7 @@ typedef struct Record
 
 Record *recordCreate(char *recordStr);
 
-void recordDelete(Record *Rec);
+void recordDelete(Record **Rec);
 
 void recordPrint(Record *Rec);
 

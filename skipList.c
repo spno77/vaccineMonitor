@@ -87,7 +87,7 @@ skipListNode *createHeaderNode(int level)
 /*
 	Create and initialize a Node of a skipList
 */
-skipListNode *skipListNodeCreate(listNode *node,Date *date,int level)
+skipListNode *skipListNodeCreate(listNode *node,dateListNode *date,int level)
 {
 	skipListNode *newNode = malloc(sizeof(skipListNode));
 
@@ -115,7 +115,7 @@ skipListNode *skipListNodeCreate(listNode *node,Date *date,int level)
 /*
 	Insert in the skipList a new node with the given key
 */
-void skipListInsert(skipList *list,int key,listNode *node,Date *date)
+void skipListInsert(skipList *list,int key,listNode *node,dateListNode *date)
 {
 	skipListNode *current = list->header;
 	skipListNode **updateArray = malloc(sizeof(skipListNode *) * (list->maxHeight + 1));

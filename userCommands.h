@@ -8,17 +8,19 @@ typedef struct bloomList bloomList;
 typedef struct bloomFilter bloomFilter;
 typedef struct  skipsList skipsList;
 typedef struct virusList virusList;
+typedef struct dateList dateList;
+
 
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,virusList *virusList);
+				stringLinkedList *countryList,virusList *virusList,dateList *dateList);
 
 void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList);
 
 void vaccineStatus (int id,char *virusName,skipsList *skips);
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,virusList *virusList);
+				stringLinkedList *countryList,virusList *virusList,dateList *dateList);
 
 void populationStatus(skipsList *skips,char *country ,char *virusName);
 

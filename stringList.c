@@ -459,3 +459,41 @@ void dateListFree(dateList **list)
     free(*list);
     *list = NULL;
 }
+
+
+int dateListSearch(dateList *list,Date *date)
+{
+    dateListNode *current = list->head;
+
+    while(current != NULL) {
+        if (current->dateVaccinated->day == date->day){
+            if (current->dateVaccinated->month ==  date->month ){
+                if (current->dateVaccinated->year ==  date->year ){
+                    return 1;
+                }
+            }
+        }
+        
+        current = current->next;
+    }
+}
+
+
+dateListNode *getDateNode(dateList *list,Date *date)
+{
+    dateListNode *current = list->head;
+
+    while(current != NULL) {
+        if (current->dateVaccinated->day == date->day){
+            if (current->dateVaccinated->month ==  date->month ){
+                if (current->dateVaccinated->year ==  date->year ){
+                    return current;
+                }
+            }
+        }
+         
+        current = current->next;
+    }
+
+    return NULL;
+}

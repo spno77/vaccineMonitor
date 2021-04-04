@@ -11,6 +11,9 @@ typedef struct bloomList bloomList;
 typedef struct bloomFilter bloomFilter;
 typedef struct  skipsList skipsList;
 typedef struct  virusList virusList;
+typedef struct  dateList dateList;
+
+
 
 typedef struct Date{
 	int day;
@@ -28,7 +31,8 @@ void compareDates(Date *d1,Date *d2);
 
 
 void insertIntoDateStructures(char *filename,linkedList *list,stringLinkedList *countryList,
-					         virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips);
+					         virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
+					         dateList *dateList);
 
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize);
 
@@ -40,6 +44,9 @@ int isRecordValid(Record *Rec);
 
 int getNumberOfRecords(FILE *fp);
 
+int isRecordValid2(int id,char *isVaccinated,Date *date);
+
+void freeDate(Date *date);
 
 #endif
 

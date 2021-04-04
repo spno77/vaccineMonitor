@@ -131,11 +131,8 @@ void dateListDelete(dateList *list);
 
 void dateListFree(dateList **list);
 
-int dateListSearch(dateList *list,char *string);
+int dateListSearch(dateList *list,Date *date);
 
-
-
-
-
+dateListNode *getDateNode(dateList *list,Date *date);
 
 #endif

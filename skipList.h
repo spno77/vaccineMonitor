@@ -12,7 +12,7 @@ typedef struct Date Date;
 typedef struct skipListNode{
 	int id;	
 	listNode *node;
-	Date *date;
+	dateListNode *date;
 	struct skipListNode **forward;
 } skipListNode;
 
@@ -29,11 +29,11 @@ int levelNumber(int maxHeight);
 
 skipList *skipListCreate(int elemNumber,virusListNode *virusInfo);
 
-skipListNode *skipListNodeCreate(listNode *node,Date *date,int level);
+skipListNode *skipListNodeCreate(listNode *node,dateListNode *date,int level);
 
 void skipListPrint(skipList *list);
 
-void skipListInsert(skipList *list,int key,listNode *node,Date *date);
+void skipListInsert(skipList *list,int key,listNode *node,dateListNode *date);
 
 skipListNode *createHeaderNode(int level);
 

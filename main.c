@@ -34,14 +34,13 @@ int main (int argc, char const *argv[])
 	virusList *virusList   		   = virusListCreate();
 	bloomList *bloomList           = bloomListCreate();
 	skipsList *skips               = skipsListCreate();
-	//dateList *dateList            = dateListCreate();
+	dateList *dateList             = dateListCreate();
 
 	int bloomSize = 30;
 
 	//insertRecordsFromFile("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips);
 
-	insertIntoDateStructures("testInputFile",list,countryList,virusList,bloomList,
-		bloomSize,skips);
+	insertIntoDateStructures("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips,dateList);
 
 
 	//linkedListPrint(list);
@@ -50,19 +49,20 @@ int main (int argc, char const *argv[])
 	//stringLinkedListPrint(virusList);
 
 
-	linkedListPrint(list);
+	//linkedListPrint(list);
 
 	//bloomListPrint(bloomList);
 
-	skipsListPrint(skips);
+	//skipsListPrint(skips);
 
-	printf("-------------------\n");
+	//printf("-------------------\n");
 
-	bloomListPrint(bloomList);
+	//bloomListPrint(bloomList);
 
+	dateListPrint(dateList);
 
 	//userCommands(bloomList,skips);
-	userCommands(bloomList,skips,list,countryList,virusList);
+	userCommands(bloomList,skips,list,countryList,virusList,dateList);
 
 
 	return 0;

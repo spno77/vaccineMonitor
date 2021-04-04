@@ -11,7 +11,7 @@
 #include "stringList.h"
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
-				  stringLinkedList *countryList,virusList *virusList)
+				  stringLinkedList *countryList,virusList *virusList,dateList *dateList)
 {
 	char* command = NULL;
 	char* commandName = NULL;
@@ -29,7 +29,7 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 		}else if(strcmp(command, "/exit") == 0){
 
             free(line);
-            exitCommand(bloomList,skips,list,countryList,virusList);
+            exitCommand(bloomList,skips,list,countryList,virusList,dateList);
 
 		}else{
 			commandName = strtok(command," ");
@@ -168,7 +168,7 @@ void vaccineStatus(int id,char *virusName,skipsList *skips)
 
 			if(skipListNode != NULL){
 				printf("VACCINATED ON: ");
-				printDate(skipListNode->date);
+				printDate(skipListNode->date->dateVaccinated);
 			}else{
 				printf("NOT VACCINATED\n");
 			}
@@ -188,7 +188,7 @@ void vaccineStatus(int id,char *virusName,skipsList *skips)
     		 	if (skipListNode != NULL){
     		 		
     		 		printf("%s %s ",current->ls->virusInfo->virusName,current->ls->virusInfo->isVaccinated);
-    		 		printDate(skipListNode->date);
+    		 		printDate(skipListNode->date->dateVaccinated);
     		 	}else{
 
     		 		printf("%s NO \n",current->ls->virusInfo->virusName);
@@ -320,13 +320,16 @@ void nonVacinatedPersons(skipsList *skips,char *virusName)
 }
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,virusList *virusList)
+				stringLinkedList *countryList,virusList *virusList,dateList *dateList)
 {
 	linkedListDelete(list);
 	linkedListFree(&list);
 
 	stringLinkedListDelete(countryList);
 	stringLinkedListFree(&countryList);
+
+	dateListDelete(dateList);
+	dateListFree(&dateList);
 
 	virusListDelete(virusList);
 	virusListFree(&virusList);
@@ -338,7 +341,6 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 	skipsListFree(&skips);
 
 	exit(1);
-
 }
 
 
