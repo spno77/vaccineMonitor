@@ -9,6 +9,7 @@ typedef struct bloomFilter bloomFilter;
 typedef struct  skipsList skipsList;
 typedef struct virusList virusList;
 typedef struct dateList dateList;
+typedef struct Date Date;
 
 
 
@@ -25,5 +26,12 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 void populationStatus(skipsList *skips,char *country ,char *virusName);
 
 void nonVacinatedPersons(skipsList *skips,char *virusName);
+
+
+void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
+					     virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
+					     dateList *dateList,int id,char  *firstName,char *lastName,
+						char *country,char age, char *virusName,
+						char* isVaccinated,Date *dateVaccinated);
 
 #endif

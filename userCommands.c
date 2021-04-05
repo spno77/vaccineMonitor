@@ -56,6 +56,26 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
             	char *virusName = strtok(NULL, " ");
 
             	nonVacinatedPersons(skips,virusName);
+            }else if(strcmp(commandName,"/insertCitizenRecord") == 0){
+
+            	int id 				  = atoi(strtok(NULL," "));
+				char *firstName       = strtok(NULL, " ");
+				char *lastName        = strtok(NULL, " ");
+				char *country         = strtok(NULL, " ");
+				char age              = (char)atoi(strtok(NULL, " "));
+				char *virusName        = strtok(NULL, " ");
+				char *isVaccinated    = strtok(NULL," ");
+				Date *dateVaccinated  = stringToDate(strtok(NULL, " "));
+
+
+				insertCitizenRecord(list,countryList,virusList,bloomList,1000,skips,
+					     		dateList,id,firstName,lastName,
+								country,age,virusName,
+								isVaccinated,dateVaccinated);
+
+
+				free(dateVaccinated);
+
             }
 
 
@@ -318,6 +338,122 @@ void nonVacinatedPersons(skipsList *skips,char *virusName)
 		}
 	} 
 }
+
+
+void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
+					     virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
+					     dateList *dateList,int id,char  *firstName,char *lastName,
+						char *country,char age, char *virusName,
+						char* isVaccinated,Date *dateVaccinated)
+{
+
+	citizenRecord *citizenRec  = NULL;
+	bloomFilter *bf            = NULL;
+	skipList *ls               = NULL;
+	dateListNode *dateListNode = NULL;
+	skipsNode *skipsNode = NULL;
+
+	if(virusName != NULL){
+
+		skipsNode = getSkipsNode(skips,virusName,isVaccinated);
+
+
+		if (skipsNode != NULL){
+			if (strcmp(isVaccinated,"YES") == 0){
+				if(skipsNode != NULL){
+					skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
+					if (skipListNode != NULL){
+						printf("ERROR: CITIZEN %d ALREADY VACCINATED ON %d-%d-%d \n"
+								,skipListNode->id,skipListNode->date->dateVaccinated->day,
+								skipListNode->date->dateVaccinated->month,skipListNode->date->dateVaccinated->year );
+					}
+				}
+
+			}
+		}else{
+
+			if(stringLinkedListSearch(countryList,country) != 1){
+				stringLinkedListInsertAtFront(countryList,country);
+			}
+
+
+			if(virusListSearch(virusList,virusName,isVaccinated) != 1){
+				virusListInsert(virusList,virusName,isVaccinated);
+			}
+
+			if(dateListSearch(dateList,dateVaccinated) != 1){
+				dateListInsert(dateList,dateVaccinated);
+				dateListNode = getDateNode(dateList,dateVaccinated);
+			}else{
+				dateListNode = getDateNode(dateList,dateVaccinated);
+			}	
+
+
+			virusListNode *virusNode = virusListNodeGet(virusList,virusName,isVaccinated);
+			stringListNode *countryNode  = stringLinkedListNodeGet(countryList,country);
+	
+   			citizenRec = citizenRecordCreate(id,firstName,lastName,age,countryNode,virusNode);
+
+   			if(skipsListSearch(skips,citizenRec->virusInfo->virusName,citizenRec->virusInfo->isVaccinated) != 1){
+
+				ls = skipListCreate(10000,virusNode);
+
+				skipsListInsert(skips,ls);
+
+			}
+
+			if( (bloomListSearch(bloomList,virusName) != 1)){
+				if (strcmp(virusNode->isVaccinated,"YES") == 0){
+					
+					bf = bloomFilterCreate(virusNode,bloomSize);
+				
+					bloomListInsert(bloomList,bf);
+				}	
+			}
+
+
+   			if(strcmp(isVaccinated,"YES") == 0){
+
+   				bloomNode *bloomNode = getBloomNodeByName(bloomList,virusName);
+
+   				bloomFilterAdd(bloomNode->bf,citizenRec->id);
+   			}
+   				
+			
+   				
+   			skipsNode = getSkipsNode(skips,virusName,isVaccinated);
+
+
+
+   			//if we have a citizen with this id in the linked list
+   			if((linkedListSearch(list,citizenRec->id) == 1)) {
+
+   				listNode *node = getNodeById(list,citizenRec->id);
+   				skipListNode *skipNode =  skipListSearch(skipsNode->ls,id);
+
+   				//if this id dont exist in this skipList
+   				if(skipNode == NULL){
+
+   					skipListInsert(skipsNode->ls,citizenRec->id,node,dateListNode);
+   						
+   				}
+
+   				citizenRecordDelete(citizenRec);
+
+   			}else{
+   				linkedListInsertAtFront(list,citizenRec);
+   			}
+
+   			listNode *node = getNodeById(list,citizenRec->id);
+   		
+   			skipListInsert(skipsNode->ls,citizenRec->id,node,dateListNode);
+   		}
+
+
+	}
+
+}
+
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 				stringLinkedList *countryList,virusList *virusList,dateList *dateList)
