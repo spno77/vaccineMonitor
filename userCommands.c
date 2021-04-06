@@ -11,8 +11,8 @@
 #include "skipList.h"
 #include "stringList.h"
 
-void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
-				  stringLinkedList *countryList,virusList *virusList,dateList *dateList)
+void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList
+				  ,virusList *virusList,dateList *dateList)
 {
 	char* command = NULL;
 	char* commandName = NULL;
@@ -20,17 +20,16 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 
 	size_t length = 0;
 
-	fprintf(stdout,"ENTER COMMAND: ");
+	printf("ENTER COMMAND: ");
 	while (getline(&line, &length, stdin) != EOF){	
 	
-
 		command	 = strtok(line, "\n");
 		if(command == NULL){
 			continue;
 		}else if(strcmp(command, "/exit") == 0){
 
-            free(line);
-            exitCommand(bloomList,skips,list,countryList,virusList,dateList);
+			free(line);
+			exitCommand(bloomList,skips,list,countryList,virusList,dateList);
 
 		}else{
 			commandName = strtok(command," ");
@@ -41,22 +40,22 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 
                 if(virusName != NULL){
 
-                	vaccineStatusBloom(id,virusName,bloomList);
+					vaccineStatusBloom(id,virusName,bloomList);
                 }
 			}
 			else if(strcmp(commandName,"/vaccineStatus") == 0) {
 
 				int id = atoi(strtok(NULL, " "));
-                char *virusName = strtok(NULL, " ");
+				char *virusName = strtok(NULL, " ");
 
-                
-                vaccineStatus(id,virusName,skips);
+				vaccineStatus(id,virusName,skips);
                 
             }else if (strcmp(commandName,"/list-nonVaccinated-Persons") == 0) {
             	
             	char *virusName = strtok(NULL, " ");
 
             	nonVacinatedPersons(skips,virusName);
+
             }else if(strcmp(commandName,"/insertCitizenRecord") == 0){
 
             	int id 				  = atoi(strtok(NULL," "));
@@ -68,14 +67,8 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 				char *isVaccinated    = strtok(NULL," ");
 				Date *dateVaccinated  = stringToDate(strtok(NULL, " "));
 
-
-				insertCitizenRecord(list,countryList,virusList,bloomList,1000,skips,
-					     		dateList,id,firstName,lastName,
-								country,age,virusName,
-								isVaccinated,dateVaccinated);
-
-
-				//free(dateVaccinated);
+				insertCitizenRecord(list,countryList,virusList,bloomList,1000,skips,dateList,
+									id,firstName,lastName,country,age,virusName,isVaccinated,dateVaccinated);
 
             }else if(strcmp(commandName,"/vaccinateNow") == 0){
 
@@ -88,7 +81,6 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 				
 				Date *dateVaccinated  = malloc(sizeof(Date));
 
-
 				struct tm *tm;
     			time_t t;
     			char str_date[100];
@@ -98,45 +90,69 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 
     			strftime(str_date, sizeof(str_date), "%d %m %Y", tm);
 
-        
     			dateVaccinated->day   = atoi(strtok(str_date," "));
     			dateVaccinated->month = atoi(strtok(NULL," "));
     			dateVaccinated->year  = atoi(strtok(NULL," "));
 
-				vaccinateNow(list,countryList,virusList,bloomList,1000,skips,
-					     		dateList,id,firstName,lastName,
-								country,age,virusName,
-								"YES",dateVaccinated);
-
-
-				//free(dateVaccinated);
+				vaccinateNow(list,countryList,virusList,bloomList,1000,skips,dateList,
+					     	 id,firstName,lastName,country,age,virusName,"YES",dateVaccinated);
 
 			}
-
-
-            /*else if (strcmp(commandName,"/populationStatus") == 0)
+            else if (strcmp(commandName,"/populationStatus") == 0)
             {
-            	char *arg1 	= strtok(NULL, " ");
-            	//printf("%s\n",country );
-            
-            	char *arg2 = strtok(NULL, " ");
-            	
-            	if (arg2 != NULL){
-            		populationStatus(skips,arg1,arg2);
-            	}else{
-            		populationStatus(skips,arg2,arg1);
-            	}
-            	
-            }
-            */
 
+            	char* arg[4]; char *str = "a";
+            	int count = 0 ;
+     			Date *date1;
+     			Date *date2;
+
+            	while(str != NULL){
+            		
+            		str = strtok(NULL, " ");
+            		
+            		if (str == NULL){
+            			break;
+            		}
+
+            		arg[count] = malloc(strlen(str)+1);
+					strcpy(arg[count],str);
+
+            		printf("arg %d is: %s\n",count,arg[count]);
+            		count++;
+            	}
+
+            	
+            	if (count == 4){
+            		
+            		date1 = stringToDate(arg[2]);
+            		date2 = stringToDate(arg[3]);
+
+            		populationStatus(skips,arg[0],arg[1],date1,date2);
+
+
+
+            	}else{
+
+            	}
+            
+            	
+            	
+
+            	for (int i = 0; i < count; i++)
+            	{
+            		free(arg[i]);
+            	}
+
+            	freeDate(date1);
+            	freeDate(date2);
+            }
             else{
             	printf("Command is unavailable\n");
 
             }
 		}
 
-		fprintf(stdout,"ENTER COMMAND: ");
+		printf("ENTER COMMAND: ");
     }
 }
 
@@ -198,94 +214,71 @@ void vaccineStatus(int id,char *virusName,skipsList *skips)
 	}
 }
 
-/*
-void populationStatus(skipsList *skips,char *arg1 ,char *arg2)
+
+void populationStatus(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2)
 {
-
-
-	if(arg1 != NULL) {
-
-		int counter = 0;
-
-		skipsNode *skipsNode = getSkipsNode(skips,arg2,"YES");
-
-		skipListNode *current = skipsNode->ls->header;
-
-		while(current != NULL){
-
-			listNode *listNode = getLinkedListNodePtr(current);
-
-			if (listNode != NULL){
-				
-				if(strcmp(listNode->citizenRec->country->string,arg1) == 0){
-
-					counter++;
-				}
-
-			}
-
-			current = current->forward[0];
-
+	if(date1 == NULL){
+		if (date2 == NULL){
+			printf("ERROR please provide the 2 date arguments\n");
+			return;
 		}
+	}
 
-		printf("%s %d\n",arg1,counter );
+	int count1 = 0;
+	int count2 = 0;
 	
-	}else{
+	skipsNode *skipsNode = getSkipsNode(skips, virusName,"YES");
 
-		
-		stringLinkedList *countryList = stringLinkedListCreate();
+	if(skipsNode != NULL){
 
-		skipsNode *skipsNode = getSkipsNode(skips,arg2,"YES");
-
-		skipListNode *current = skipsNode->ls->header;
-
-
-		int counter = 0 ;
+		skipListNode *current = skipsNode->ls->header->forward[0];
 
 		while(current != NULL){
 
+			if(compareDates(current->date->dateVaccinated,date1) == 1){
+				if(compareDates(date2,current->date->dateVaccinated) == 1){
 
-			listNode *listNode = getLinkedListNodePtr(current);
+					if( strcmp(current->node->citizenRec->country->string,country) == 0){
 
-			stringListNode *country == NULL;
-
-			if (listNode != NULL){
-
-				if(stringLinkedListSearch(countryList,listNode->citizenRec->country->string) != 1){
-
-					stringLinkedListInsertAtFront(countryList,listNode->citizenRec->country->string);
-
-					country = stringLinkedListNodeGet(countryList,listNode->citizenRec->country->string);
-
-					//if(strcmp(listNode->citizenRec->country->string,country->string) == 0){
-
-					
-
+						count1++;
+					}
 
 				}
-				
-				
+			}	
 
-			}
 
 			current = current->forward[0];
-
 		}
-
-		
-
-		stringLinkedListDelete(countryList);
-		stringLinkedListFree(&countryList);
-
-
-
-
 
 	}
 
+		////////////////////////////////////////////////////////////////////////////////
+	skipsNode  = getSkipsNode(skips, virusName,"NO");
+
+	if(skipsNode != NULL){
+
+		skipListNode *current = skipsNode->ls->header->forward[0];
+
+		while(current != NULL){
+
+			
+			if( strcmp(current->node->citizenRec->country->string,country) == 0){
+
+				count2++;
+			}
+
+				
+			current = current->forward[0];
+		}
+
+	}
+
+	float vacPer = ( (float)count1 / (count1 + count2) ) * 100; 
+
+	printf("%s %d %.2f%%\n",country,count1,vacPer);
+
 }
 
-*/
 
 /*
 	Print all nonVaccinated persons in the skipList

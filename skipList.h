@@ -11,7 +11,7 @@ typedef struct Date Date;
 
 typedef struct skipListNode{
 	int id;				//id of the citizen
-	listNode *node;		//pointer to the listnode that contains citizen other info
+	listNode *node;		//pointer to the listnode that contains citizen's other info
 	dateListNode *date;	//pointer to the dateListNode that contains the date this citizen was vaccinated
 	struct skipListNode **forward; 
 } skipListNode;

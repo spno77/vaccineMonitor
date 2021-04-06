@@ -71,6 +71,7 @@ skipListNode *createHeaderNode(int level)
 
 	newNode->id   = -1;
 	newNode->node = NULL;
+	newNode->date = NULL;
 
 	newNode->forward = malloc(sizeof(skipListNode *) * (level + 1));
 	if(newNode->forward == NULL){

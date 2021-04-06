@@ -23,7 +23,9 @@ void vaccineStatus (int id,char *virusName,skipsList *skips);
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 				stringLinkedList *countryList,virusList *virusList,dateList *dateList);
 
-void populationStatus(skipsList *skips,char *country ,char *virusName);
+
+void populationStatus(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2);
+
 
 void nonVacinatedPersons(skipsList *skips,char *virusName);
 

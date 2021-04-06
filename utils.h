@@ -26,9 +26,8 @@ Date *stringToDate(char *dateStr);
 
 void printDate(Date *date);
 
-//TODO
-void compareDates(Date *d1,Date *d2);
-
+//Compare two dates
+int compareDates(Date *date1,Date *date2);
 
 void insertIntoDateStructures(char *filename,linkedList *list,stringLinkedList *countryList,
 					         virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
@@ -37,8 +36,6 @@ void insertIntoDateStructures(char *filename,linkedList *list,stringLinkedList *
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize);
 
 void freeArguments(char **citizenRecordsFile);
-
-//int isRecordValid(linkedList *list,citizenRecord *citizenRec);
 
 int isRecordValid(Record *Rec);
 

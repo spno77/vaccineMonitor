@@ -5,7 +5,6 @@
 typedef struct Date Date;
 
 
-
 typedef struct stringListNode{
 	char *string;
 	struct stringListNode *next;
