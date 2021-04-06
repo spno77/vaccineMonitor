@@ -10,18 +10,18 @@ typedef struct virusListNode virusListNode;
 typedef struct Date Date;
 
 typedef struct skipListNode{
-	int id;	
-	listNode *node;
-	dateListNode *date;
-	struct skipListNode **forward;
+	int id;				//id of the citizen
+	listNode *node;		//pointer to the listnode that contains citizen other info
+	dateListNode *date;	//pointer to the dateListNode that contains the date this citizen was vaccinated
+	struct skipListNode **forward; 
 } skipListNode;
 
 
 typedef struct skipList {
-	skipListNode *header;
+	skipListNode *header; // pointer to header node
 	int maxHeight; 		  // maximum height(number of levels)
 	int level; 			  // the current number of levels in the skip list 
-	virusListNode *virusInfo;
+	virusListNode *virusInfo; 
 } skipList;
 
 

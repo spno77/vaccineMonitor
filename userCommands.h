@@ -34,4 +34,11 @@ void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
 						char *country,char age, char *virusName,
 						char* isVaccinated,Date *dateVaccinated);
 
+
+void vaccinateNow(linkedList *list,stringLinkedList *countryList,
+					     virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
+					     dateList *dateList,int id,char  *firstName,char *lastName,
+						char *country,char age, char *virusName,
+						char* isVaccinated,Date *dateVaccinated);
+
 #endif

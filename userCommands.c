@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "userCommands.h"
 #include "citizen.h"
@@ -74,11 +75,43 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,
 								isVaccinated,dateVaccinated);
 
 
-				free(dateVaccinated);
+				//free(dateVaccinated);
 
-            }
+            }else if(strcmp(commandName,"/vaccinateNow") == 0){
+
+            	int id 				  = atoi(strtok(NULL," "));
+				char *firstName       = strtok(NULL, " ");
+				char *lastName        = strtok(NULL, " ");
+				char *country         = strtok(NULL, " ");
+				char age              = (char)atoi(strtok(NULL, " "));
+				char *virusName       = strtok(NULL, " ");
+				
+				Date *dateVaccinated  = malloc(sizeof(Date));
 
 
+				struct tm *tm;
+    			time_t t;
+    			char str_date[100];
+
+    			t = time(NULL);
+    			tm = localtime(&t);
+
+    			strftime(str_date, sizeof(str_date), "%d %m %Y", tm);
+
+        
+    			dateVaccinated->day   = atoi(strtok(str_date," "));
+    			dateVaccinated->month = atoi(strtok(NULL," "));
+    			dateVaccinated->year  = atoi(strtok(NULL," "));
+
+				vaccinateNow(list,countryList,virusList,bloomList,1000,skips,
+					     		dateList,id,firstName,lastName,
+								country,age,virusName,
+								"YES",dateVaccinated);
+
+
+				//free(dateVaccinated);
+
+			}
 
 
             /*else if (strcmp(commandName,"/populationStatus") == 0)
@@ -127,54 +160,6 @@ void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList)
 	}
 }
 
-/*
-void vaccineStatus(int id,char *virusName,skipsList *skips)
-{
-
-	if(virusName != NULL){
-		skipsNode *skipsNode = getSkipsNode(skips,virusName,"YES"); 
-
-		if (skipsNode != NULL)
-		{
-			skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
-
-			if(skipListNode != NULL){
-				printf("VACCINATED ON: ");
-				printDate(skipListNode->date);
-			}else{
-				printf("NOT VACCINATED\n");
-			}
-		}
-	}else{
-
-		skipsNode *current = skips->head;
-
-    	while(current != NULL) {
-    		
-    		skipsNode *skipsNode = getSkipsNode(skips,current->ls->virusInfo->virusName,"YES");
-
-    		if (skipsNode != NULL){
-    		 	
-    		 	skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
-
-    		 	if (skipListNode != NULL){
-    		 		
-    		 		printf("%s %s",current->ls->virusInfo->virusName,current->ls->virusInfo->isVaccinated);
-    		 		printDate(skipListNode->date);
-    		 	}
-    		}else{
-    			printf("%s NO \n",current->ls->virusInfo->virusName);
-
-    		} 
-    		
-
-        	current = current->next;
-		}
-
-	}
-}
-
-*/
 
 void vaccineStatus(int id,char *virusName,skipsList *skips)
 {
@@ -360,16 +345,14 @@ void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
 
 		if (skipsNode != NULL){
 			if (strcmp(isVaccinated,"YES") == 0){
-				if(skipsNode != NULL){
-					skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
-					if (skipListNode != NULL){
-						printf("ERROR: CITIZEN %d ALREADY VACCINATED ON %d-%d-%d \n"
-								,skipListNode->id,skipListNode->date->dateVaccinated->day,
-								skipListNode->date->dateVaccinated->month,skipListNode->date->dateVaccinated->year );
-					}
+				skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
+				if (skipListNode != NULL){
+					printf("ERROR: CITIZEN %d ALREADY VACCINATED ON %d-%d-%d \n"
+							,skipListNode->id,skipListNode->date->dateVaccinated->day,
+							skipListNode->date->dateVaccinated->month,skipListNode->date->dateVaccinated->year );
 				}
-
 			}
+
 		}else{
 
 			if(stringLinkedListSearch(countryList,country) != 1){
@@ -455,8 +438,70 @@ void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
 }
 
 
-void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
-				stringLinkedList *countryList,virusList *virusList,dateList *dateList)
+
+void vaccinateNow(linkedList *list,stringLinkedList *countryList,virusList *virusList,bloomList *bloomList,
+				  int bloomSize,skipsList *skips,dateList *dateList,int id,char  *firstName,char *lastName,
+				  char *country,char age, char *virusName,char* isVaccinated,Date *dateVaccinated)
+{
+	
+	citizenRecord *citizenRec  = NULL;
+	bloomFilter *bf            = NULL;
+	skipList *ls               = NULL;
+	dateListNode *dateListNode = NULL;
+	skipsNode *skipsNode 	   = NULL;
+
+	//get the skipNode
+	skipsNode = getSkipsNode(skips,virusName,isVaccinated);
+
+	//check if this skipsNode exist
+	if (skipsNode != NULL){
+		skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
+		//check if the id is in the skipList of this virus
+		if (skipListNode != NULL){
+			printf("ERROR: CITIZEN %d ALREADY VACCINATED ON %d-%d-%d \n"
+					,skipListNode->id,skipListNode->date->dateVaccinated->day,
+					skipListNode->date->dateVaccinated->month,skipListNode->date->dateVaccinated->year );
+		}else{
+			//get the bloomFilter with the given virusName and Insert the id
+			bloomNode *bloomNode = getBloomNodeByName(bloomList,virusName);
+   			bloomFilterAdd(bloomNode->bf,id);
+
+   			//get the dateListNode and linkeklist node
+   			listNode *node = getNodeById(list,id);
+   			if(dateListSearch(dateList,dateVaccinated) != 1){
+				dateListInsert(dateList,dateVaccinated);
+				dateListNode = getDateNode(dateList,dateVaccinated);
+			}else{
+				dateListNode = getDateNode(dateList,dateVaccinated);
+			}
+			//insert the citizen id in the skipList
+   			skipListInsert(skipsNode->ls,id,node,dateListNode);
+
+   			//search if the id is in the nonVaccinated skiplist of this virus and remove it
+   			skipsNode = getSkipsNode(skips,virusName,"NO");
+   			if (skipsNode != NULL){
+				skipListNode = skipListSearch(skipsNode->ls,id);
+				if (skipListNode != NULL){
+					//Delete this id from the skipList
+					skipListDeleteNode(skipsNode->ls,skipListNode);
+				}
+			}
+		}
+	}
+}
+
+	
+
+
+
+
+
+
+
+
+
+void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList
+				 ,virusList *virusList,dateList *dateList)
 {
 	linkedListDelete(list);
 	linkedListFree(&list);
