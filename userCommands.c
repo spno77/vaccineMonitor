@@ -163,12 +163,10 @@ void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList)
 
 void vaccineStatus(int id,char *virusName,skipsList *skips)
 {
-
 	if(virusName != NULL){
 		skipsNode *skipsNode = getSkipsNode(skips,virusName,"YES"); 
 
-		if (skipsNode != NULL)
-		{
+		if (skipsNode != NULL){
 			skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
 
 			if(skipListNode != NULL){
@@ -179,34 +177,24 @@ void vaccineStatus(int id,char *virusName,skipsList *skips)
 			}
 		}
 	}else{
-
+		//point to the head of skips List
 		skipsNode *current = skips->head;
-
+		//parse skipsNodes one by one
     	while(current != NULL) {
+    		//check if this id is in the skipList of this skipsNode
+    		skipListNode *skipListNode = skipListSearch(current->ls,id);
     		
-    		skipsNode *skipsNode = getSkipsNode(skips,current->ls->virusInfo->virusName,"YES");
-
-    		if (skipsNode != NULL){
-    		 	
-    		 	skipListNode *skipListNode = skipListSearch(skipsNode->ls,id);
-
-    		 	if (skipListNode != NULL){
-    		 		
-    		 		printf("%s %s ",current->ls->virusInfo->virusName,current->ls->virusInfo->isVaccinated);
-    		 		printDate(skipListNode->date->dateVaccinated);
-    		 	}else{
-
-    		 		printf("%s NO \n",current->ls->virusInfo->virusName);
-    		 	}
-    		}else{
-    			printf("%s NO \n",current->ls->virusInfo->virusName);
-
-    		} 
-    		
-
+    		if (skipListNode != NULL){
+    			if(strcmp(current->ls->virusInfo->isVaccinated,"YES") == 0){
+    				printf("%s %s ",current->ls->virusInfo->virusName,current->ls->virusInfo->isVaccinated );
+    				printDate(skipListNode->date->dateVaccinated);
+    			}else{
+    				printf("%s %s\n",current->ls->virusInfo->virusName,current->ls->virusInfo->isVaccinated );
+    			}
+    		}
+    		//go to the next node
         	current = current->next;
 		}
-
 	}
 }
 
@@ -491,11 +479,6 @@ void vaccinateNow(linkedList *list,stringLinkedList *countryList,virusList *viru
 }
 
 	
-
-
-
-
-
 
 
 
