@@ -10,7 +10,6 @@ typedef struct bloomFilter{
 	char *bitMap;
 } bloomFilter;
 
-
 /*
 	Hash functions
 */

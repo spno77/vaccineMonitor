@@ -41,4 +41,3 @@ int isRecordValid2(int id,char *isVaccinated,Date *date);
 void freeDate(Date *date);
 
 #endif
-

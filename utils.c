@@ -48,7 +48,6 @@ void printDate(Date *date)
 void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *countryList,virusList *virusList,
 							 bloomList *bloomList,int bloomSize,skipsList *skips,dateList *dateList)
 {
-	Record *Rec               = NULL;
 	citizenRecord *citizenRec = NULL;
 	bloomFilter *bf           = NULL;
 	skipList *ls              = NULL;
@@ -57,7 +56,8 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 
 	fp = fopen(filename,"r");
 	if (fp == NULL){
-		printf("Error opening file");
+		printf("Error opening file\n");
+		return;
 	}
 
 	ssize_t nread;
@@ -209,7 +209,6 @@ int isRecordValid2(int id,char *isVaccinated,Date *date)
 		//recordDelete(Rec);
 		return 0;
 	}
-
 	return 1;
 }
 

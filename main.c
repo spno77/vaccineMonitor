@@ -11,24 +11,17 @@
 #include "otherLists.h"
 #include "userCommands.h"
 
-int main2(int argc, char const *argv[])
-{
-
-	char *citizenRecordsFile;
-	int bloomSize;
-
-	readArguments(argc,argv,&citizenRecordsFile,&bloomSize);
-
-	//readFile(citizenRecordsFile);
-
-	freeArguments(&citizenRecordsFile);
-
-	return 0;
-}
-
-
 int main (int argc, char const *argv[])
 {
+	char *citizenRecordsFile; 
+	int bloomSize;
+
+	//read command line arguments for input file and bloomSize
+	readArguments(argc,argv,&citizenRecordsFile,&bloomSize);
+
+	srand(time(NULL));
+	rand();
+
 	//Create and initialize all the data structures 
 	linkedList *list               = linkedListCreate();
 	stringLinkedList *countryList  = stringLinkedListCreate();
@@ -37,13 +30,10 @@ int main (int argc, char const *argv[])
 	skipsList *skips               = skipsListCreate();
 	dateList *dateList             = dateListCreate();
 
-	int bloomSize = 30;
-
 	//insertRecordsFromFile("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips);
 
 	//insert citizenRcords in the data structures one by one
-	insertIntoDataStructures("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips,dateList);
-
+	insertIntoDataStructures(citizenRecordsFile,list,countryList,virusList,bloomList,bloomSize,skips,dateList);
 
 	//linkedListPrint(list);
 	//stringLinkedListPrint(countryList);
@@ -55,16 +45,16 @@ int main (int argc, char const *argv[])
 
 	//bloomListPrint(bloomList);
 
-	//skipsListPrint(skips);
+	skipsListPrint(skips);
 
 	//printf("-------------------\n");
 
 	//bloomListPrint(bloomList);
 
-	dateListPrint(dateList);
+	//dateListPrint(dateList);
 
 	//Reads and executes the user commands
-	userCommands(bloomList,skips,list,countryList,virusList,dateList);
+	userCommands(bloomList,skips,list,countryList,virusList,dateList,citizenRecordsFile);
 
 	return 0;
 }

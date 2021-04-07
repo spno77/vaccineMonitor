@@ -12,7 +12,7 @@
 #include "otherLists.h"
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList
-				  ,virusList *virusList,dateList *dateList)
+				  ,virusList *virusList,dateList *dateList,char *citizenRecordsFile)
 {
 	char* command = NULL;
 	char* commandName = NULL;
@@ -29,7 +29,7 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringL
 		}else if(strcmp(command, "/exit") == 0){
 
 			free(line);
-			exitCommand(bloomList,skips,list,countryList,virusList,dateList);
+			exitCommand(bloomList,skips,list,countryList,virusList,dateList,citizenRecordsFile);
 
 		}else{
 			commandName = strtok(command," ");
@@ -735,7 +735,7 @@ void vaccinateNow(linkedList *list,stringLinkedList *countryList,virusList *viru
 
 	
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList,
-	             virusList *virusList,dateList *dateList)
+	             virusList *virusList,dateList *dateList,char *citizenRecordsFile)
 {
 	linkedListDelete(list);
 	linkedListFree(&list);
@@ -754,6 +754,8 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLi
 
 	skipsListDelete(skips);
 	skipsListFree(&skips);
+
+	freeArguments(&citizenRecordsFile);
 
 	exit(1);
 }

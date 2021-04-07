@@ -13,14 +13,14 @@ typedef struct Date Date;
 
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList,
-				  virusList *virusList,dateList *dateList);
+				  virusList *virusList,dateList *dateList,char *citizenRecordsFile);
 
 void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList);
 
 void vaccineStatus (int id,char *virusName,skipsList *skips);
 
 void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList,
-				 virusList *virusList,dateList *dateList);
+				 virusList *virusList,dateList *dateList,char *citizenRecordsFile);
 
 void populationStatus(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2);
 
