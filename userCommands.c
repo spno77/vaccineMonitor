@@ -190,7 +190,6 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringL
 
 
 
-
             else{
             	printf("Command is unavailable\n");
 
@@ -200,10 +199,6 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringL
 		printf("ENTER COMMAND: ");
     }
 }
-
-
-
-
 
 void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList)
 {
@@ -220,7 +215,6 @@ void vaccineStatusBloom(int id,char *virusName,bloomList *bloomList)
 		}
 	}
 }
-
 
 void vaccineStatus(int id,char *virusName,skipsList *skips)
 {
@@ -258,7 +252,6 @@ void vaccineStatus(int id,char *virusName,skipsList *skips)
 		}
 	}
 }
-
 
 void populationStatus(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2)
 {
@@ -387,7 +380,6 @@ void populationStatusByCountry(skipsList *skips,stringLinkedList *countryList,ch
 	}
 }
 
-
 void popStatusByAge(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2)
 {
 	if(date1 == NULL){
@@ -470,7 +462,6 @@ void popStatusByAge(skipsList *skips,char *country,char *virusName,Date *date1,D
 	printf("40-60 %d %.2f%%\n",countAge3,vacPer3);
 	printf("60+   %d %.2f%%\n",countAge4,vacPer4);
 }
-
 
 void popStatusByAgeAndByCountry(skipsList *skips,stringLinkedList *countryList,char *virusName,
 								Date *date1,Date *date2)
@@ -557,7 +548,6 @@ void popStatusByAgeAndByCountry(skipsList *skips,stringLinkedList *countryList,c
 	}
 }
 
-
 /*
 	Print all nonVaccinated persons in the skipLists.Will print citizens that have a record
 	in the non Vaccinated skip lists.
@@ -584,14 +574,10 @@ void nonVacinatedPersons(skipsList *skips,char *virusName)
 	} 
 }
 
-
-void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
-					     virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
-					     dateList *dateList,int id,char  *firstName,char *lastName,
-						char *country,char age, char *virusName,
-						char* isVaccinated,Date *dateVaccinated)
+void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,virusList *virusList,bloomList *bloomList,
+						int bloomSize,skipsList *skips,dateList *dateList,int id,char *firstName,char *lastName,
+						char *country,char age, char *virusName,char* isVaccinated,Date *dateVaccinated)
 {
-
 	citizenRecord *citizenRec  = NULL;
 	bloomFilter *bf            = NULL;
 	skipList *ls               = NULL;
@@ -601,7 +587,6 @@ void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
 	if(virusName != NULL){
 
 		skipsNode = getSkipsNode(skips,virusName,isVaccinated);
-
 
 		if (skipsNode != NULL){
 			if (strcmp(isVaccinated,"YES") == 0){
@@ -697,8 +682,6 @@ void insertCitizenRecord(linkedList *list,stringLinkedList *countryList,
 
 }
 
-
-
 void vaccinateNow(linkedList *list,stringLinkedList *countryList,virusList *virusList,bloomList *bloomList,
 				  int bloomSize,skipsList *skips,dateList *dateList,int id,char  *firstName,char *lastName,
 				  char *country,char age, char *virusName,char* isVaccinated,Date *dateVaccinated)
@@ -751,12 +734,8 @@ void vaccinateNow(linkedList *list,stringLinkedList *countryList,virusList *viru
 }
 
 	
-
-
-
-
-void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList
-				 ,virusList *virusList,dateList *dateList)
+void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList,
+	             virusList *virusList,dateList *dateList)
 {
 	linkedListDelete(list);
 	linkedListFree(&list);
@@ -778,5 +757,3 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,stringLi
 
 	exit(1);
 }
-
-

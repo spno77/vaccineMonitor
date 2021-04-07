@@ -22,7 +22,6 @@ unsigned long djb2(unsigned char *str) {
 	return hash;
 }
 
-
 /*
 This algorithm was created for sdbm (a public-domain reimplementation of ndbm) 
 database library. it was found to do well in scrambling bits, causing better 
@@ -45,7 +44,6 @@ unsigned long sdbm(unsigned char *str) {
 	return hash;
 }
 
-
 /* 
 Return the result of the Kth hash funcation. This function uses djb2 and sdbm.
 None of the functions used here is strong for cryptography purposes but they
@@ -57,7 +55,6 @@ https://www.eecs.harvard.edu/~michaelm/postscripts/rsa2008.pdf
 unsigned long hash_i(unsigned char *str, unsigned int i) {
 	return djb2(str) + i*sdbm(str) + i*i;
 }
-
 
 /*
 	Create a Bloom Filter
@@ -137,9 +134,7 @@ int checkBit(char *bitMap,int bitToCheck) {
 void bloomFilterAdd(bloomFilter *bf, int id)
 {
 	long int result;
-
 	char stringId[4];
-
 	sprintf(stringId,"%d",id);
 
 	for (int i = 0; i < 16; ++i) {
@@ -188,7 +183,6 @@ bloomList *bloomListCreate(void)
 	return newList;
 }
 
-
 bloomNode *bloomNodeCreate(bloomFilter *bf)
 {
 	bloomNode *newNode = malloc(sizeof(bloomNode));
@@ -236,7 +230,6 @@ void bloomNodePrint(bloomNode *node)
 	if(node == NULL) return;
 	bloomFilterPrint(node->bf);
 }
-
 
 void bloomListPrint(bloomList *list)
 {
@@ -305,8 +298,6 @@ bloomNode *getBloomNodeByName(bloomList *list, char *virusName)
 
     return NULL;
 }
-
-
 
 int bloomListSearch(bloomList *list,char *virusName)
 {

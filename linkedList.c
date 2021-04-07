@@ -19,7 +19,6 @@ linkedList *linkedListCreate(void)
 	return newList;
 }
 
-
 listNode *listNodeCreate(citizenRecord *citizenRec)
 {
 	listNode *newNode = malloc(sizeof(listNode));
@@ -67,7 +66,6 @@ void listNodePrint(listNode *node)
 	if(node == NULL) return;
 	citizenRecordPrint(node->citizenRec);
 }
-
 
 void linkedListPrint(linkedList *list)
 {
@@ -122,7 +120,6 @@ void linkedListFree(linkedList **list)
     *list = NULL;
 }
 
-
 //get the node by the given id
 listNode *getNodeById(linkedList *list, int id)
 {
@@ -137,7 +134,6 @@ listNode *getNodeById(linkedList *list, int id)
     }
 
     return NULL;
-
 }
 
 int linkedListSearch(linkedList *list,int id)
@@ -152,8 +148,6 @@ int linkedListSearch(linkedList *list,int id)
         current = current->next;
     }
 }
-
-
 
 int linkedListGetSize(linkedList *list)
 {

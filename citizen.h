@@ -5,16 +5,11 @@
 
 typedef struct bloomFilter bloomFilter;
 typedef struct bloomList bloomList;
-
 typedef struct stringLinkedList stringLinkedList;
 typedef struct stringListNode stringListNode;
-
-
 typedef struct virusList virusList;
 typedef struct virusListNode virusListNode;
-
 typedef struct skipsList skipsList;
-
 
 typedef struct Record
 {
@@ -53,21 +48,11 @@ typedef struct citizenRecord{
 }citizenRecord;
 
 
-//citizenRecord *createCitizenRecord(char *citizenStr,stringLinkedList *countyList,
-//	virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips);
-
-//void printCitizenRecord(citizenRecord *citizenRec);
-
-//void deleteCitizenRecord(citizenRecord *citizenRec);
-
-
-
-citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char age,
-	stringListNode *country,virusListNode *virusInfo);
+citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char age,stringListNode *country,
+	                               virusListNode *virusInfo);
 
 void citizenRecordPrint(citizenRecord *citizenRec);
 
 void citizenRecordDelete(citizenRecord *citizenRec);
-
 
 #endif

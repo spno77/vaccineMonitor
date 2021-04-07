@@ -20,7 +20,6 @@ stringLinkedList *stringLinkedListCreate(void)
 	return newList;
 }
 
-
 stringListNode *stringListNodeCreate(char *string)
 {
 	stringListNode *newNode = malloc(sizeof(stringListNode));
@@ -71,7 +70,6 @@ void stringListNodePrint(stringListNode *node)
 	printf("%s\n" , node->string);
 }
 
-
 void stringLinkedListPrint(stringLinkedList *list)
 {
 	stringListNode *node = list->head;
@@ -117,7 +115,6 @@ void stringLinkedListDelete(stringLinkedList *list)
     }
 }
 
-
 void stringLinkedListFree(stringLinkedList **list)
 {
     stringLinkedListDelete(*list);
@@ -138,7 +135,6 @@ int stringLinkedListSearch(stringLinkedList *list,char *string)
     }
 }
 
-
 stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id)
 {
     stringListNode *current = list->head;
@@ -150,9 +146,7 @@ stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id)
 
         current = current->next;
     }
-
     return NULL;
-
 }
 
 int stringLinkedListGetSize(stringLinkedList *list)
@@ -179,7 +173,6 @@ virusList *virusListCreate(void)
     return newList;
 }
 
-
 virusListNode *virusListNodeCreate(char *virusName,char *isVaccinated)
 {
     virusListNode *newNode = malloc(sizeof(virusListNode));
@@ -193,7 +186,6 @@ virusListNode *virusListNodeCreate(char *virusName,char *isVaccinated)
 
     newNode->isVaccinated = malloc(strlen(isVaccinated)+1);
     strcpy(newNode->isVaccinated,isVaccinated);
-
 
     newNode->prev = NULL;
     newNode->next = NULL;
@@ -281,10 +273,8 @@ void virusListDelete(virusList *list)
         next = current->next;
         virusListNodeDelete(list, current);
         current = next;
-    }
-    
+    }    
 }
-
 
 void virusListFree(virusList **list)
 {
@@ -308,7 +298,6 @@ int virusListSearch(virusList *list,char *virusName,char *isVaccinated)
     }
 }
 
-
 virusListNode *virusListNodeGet(virusList *list,char *virusName,char *isVaccinated)
 {
     virusListNode *current = list->head;
@@ -324,7 +313,6 @@ virusListNode *virusListNodeGet(virusList *list,char *virusName,char *isVaccinat
     }
 
     return NULL;
-
 }
 
 int virusListGetSize(virusList *list)
@@ -335,8 +323,6 @@ int virusListGetSize(virusList *list)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-
 
 dateList *dateListCreate(void)
 {
@@ -352,7 +338,6 @@ dateList *dateListCreate(void)
 
     return newList;
 }
-
 
 dateListNode *dateListNodeCreate(Date *date)
 {
@@ -404,7 +389,6 @@ void dateListNodePrint(dateListNode *node)
     printDate(node->dateVaccinated);
 }
 
-
 void dateListPrint(dateList *list)
 {
     dateListNode *node = list->head;
@@ -451,14 +435,12 @@ void dateListDelete(dateList *list)
     
 }
 
-
 void dateListFree(dateList **list)
 {
     dateListDelete(*list);
     free(*list);
     *list = NULL;
 }
-
 
 int dateListSearch(dateList *list,Date *date)
 {
@@ -476,7 +458,6 @@ int dateListSearch(dateList *list,Date *date)
         current = current->next;
     }
 }
-
 
 dateListNode *getDateNode(dateList *list,Date *date)
 {

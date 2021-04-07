@@ -15,7 +15,6 @@ typedef struct linkedList{
 	int size;
 }linkedList;
 
-
 linkedList *linkedListCreate(void);
 
 listNode *listNodeCreate(citizenRecord *citizenRec);
@@ -39,7 +38,5 @@ listNode *getNodeById(linkedList *list, int id);
 int linkedListSearch(linkedList *list,int id);
 
 int linkedListGetSize(linkedList *list);
-
-
 
 #endif

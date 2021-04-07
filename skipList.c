@@ -148,12 +148,10 @@ void skipListInsert(skipList *list,int key,listNode *node,dateListNode *date)
 
 		skipListNode *newNode = skipListNodeCreate(node,date,randLevel);
 		for (int i = 0; i <= randLevel; i++){
-
 			newNode->forward[i] = updateArray[i]->forward[i];
 			updateArray[i]->forward[i] = newNode;	
 		}
 	}
-
 	free(updateArray);
 }
 
@@ -175,10 +173,8 @@ void skipListPrint(skipList *list)
 			printf("%d ",node->id);
 			node = node->forward[i];
 		}
-
 		printf("\n");
 	}
-
 	printf("--------------------\n");
 }
 
@@ -210,7 +206,6 @@ skipListNode* skipListSearch(skipList *list,int key)
 	}
 
 	current = current->forward[0];
-
 	if((current != NULL) && (current->id == key)){
 		return current;
 	}else{
@@ -259,7 +254,6 @@ void skipListDeleteNode(skipList *list,skipListNode *node)
 	current = current->forward[0];
 
 	if (current->id == node->id && current != NULL){ 
-		
 		for (int i = 0; i <= list->level; i++){
 			if (updateArray[i]->forward[i] != current){
 				break;

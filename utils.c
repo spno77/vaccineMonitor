@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #include "utils.h"
 #include "citizen.h"
@@ -9,7 +8,6 @@
 #include "otherLists.h"
 #include "bloomFilter.h"
 #include "skipList.h"
-
 
 /*
  	Trasforms a char* to Date data type.
@@ -47,11 +45,9 @@ void printDate(Date *date)
 }
 
 
-void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *countryList,
-					         virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
-					         dateList *dateList)
+void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *countryList,virusList *virusList,
+							 bloomList *bloomList,int bloomSize,skipsList *skips,dateList *dateList)
 {
-
 	Record *Rec               = NULL;
 	citizenRecord *citizenRec = NULL;
 	bloomFilter *bf           = NULL;
@@ -76,33 +72,21 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 		char *lastName        = strtok(NULL," ");
 		char *country         = strtok(NULL," ");
 		char age              = (char)atoi(strtok(NULL, " "));
-		char *virusName        = strtok(NULL," ");
+		char *virusName       = strtok(NULL," ");
 		char *isVaccinated    = strtok(NULL," \n");
 		Date *dateVaccinated  = stringToDate(strtok(NULL, " "));
 
-		//printf("%d ",id );
-		//printf("%s ",firstName );
-		//printf("%s ",lastName );
-		//printf("%s ", country);
-		//printf("%d ", age);
-		//printf("%s ",isVaccinated );
-		//printDate(dateVaccinated);
-
 		dateListNode *dateListNode;
-
 
     	if(nread == -1){
     		return;
     	}
    			
-   		//Rec = recordCreate(line);
-
    		if(isRecordValid2(id,isVaccinated,dateVaccinated) == 1){
 
    			if(stringLinkedListSearch(countryList,country) != 1){
 				stringLinkedListInsertAtFront(countryList,country);
 			}
-
 
 			if(virusListSearch(virusList,virusName,isVaccinated) != 1){
 				virusListInsert(virusList,virusName,isVaccinated);
@@ -124,43 +108,26 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
    			citizenRec = citizenRecordCreate(id,firstName,lastName,age,countryNode,virusNode);
    			if(skipsListSearch(skips,citizenRec->virusInfo->virusName,citizenRec->virusInfo->isVaccinated) != 1){
 
-   				//listNode *node = getNodeById(list,Rec->id);
-
 				ls = skipListCreate(10000,virusNode);
-
 				skipsListInsert(skips,ls);
-
 			}
-
 			if( (bloomListSearch(bloomList,virusName) != 1)){
 				if (strcmp(virusNode->isVaccinated,"YES") == 0){
-					
 					bf = bloomFilterCreate(virusNode,bloomSize);
-				
 					bloomListInsert(bloomList,bf);
 				}	
 			}
-
-
    			if(strcmp(isVaccinated,"YES") == 0){
-
    				bloomNode *bloomNode = getBloomNodeByName(bloomList,virusName);
-
    				bloomFilterAdd(bloomNode->bf,citizenRec->id);
    			}
-   				
-			
-   				
+   					
    			skipsNode *skipsNode = getSkipsNode(skips,virusName,isVaccinated);
-
-   	
-   			//skipListNode *skipNode =  skipListSearch(skipsNode->ls,Rec->id);
 
    			//if we have a citizen with this id in the linked list
    			if((linkedListSearch(list,citizenRec->id) == 1)) {
 
    				//linkedListInsertAtFront(list,citizenRec);
-
 
    				listNode *node = getNodeById(list,citizenRec->id);
 
@@ -178,55 +145,21 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
    				//printf("ERROR IN RECORD %d\n",id);
    					
    				citizenRecordDelete(citizenRec);
-
-   				//recordDelete(&Rec);
-
-   				
-   				//if(dateListSearch(dateList,dateVaccinated) == 1){
-   				//	
-   				//	printf("HAHAHAHAHAHAHAHAHA: ");
-   				//	printDate(dateVaccinated);
-   				//	//freeDate(dateVaccinated);
-				//	//dateListNodeDelete(dateList,dateListNode);
-			//	}
-
-
    				continue;
 
    			}else{
    				linkedListInsertAtFront(list,citizenRec);
    			}
-
-
-   			//if(dateListSearch(dateList,dateVaccinated) == 1){
-   				//	
-   					//printf("HAHAHAHAHAHAHAHAHA: ");
-   					//printDate(dateVaccinated);
-   				//	//freeDate(dateVaccinated);
-				//	//dateListNodeDelete(dateList,dateListNode);
-				//}
-	
-
    			listNode *node = getNodeById(list,citizenRec->id);
-   			//dateListNode *dateListNode = getDateNode(dateList,Rec->isVaccinated);
-
    			skipListInsert(skipsNode->ls,citizenRec->id,node,dateListNode);
-
    		}
    		else{
    			freeDate(dateVaccinated);
-   		}
-
-   		
-   		//recordDelete(&Rec);
-   		//freeDate(dateVaccinated);
-   			
+   		}	
    	}
-
    	if (line != NULL){	
 		free(line);
 	}
-
 
    	fclose(fp);
 }
@@ -237,7 +170,6 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize)
 {
     for (int i = 1; i < argc; i+=2){
-
         if(strcmp(argv[i],"-c") == 0){
             *citizenRecordsFile  = malloc(strlen(argv[i+1]) + 1);
             strcpy(*citizenRecordsFile,argv[i+1]);
@@ -267,7 +199,6 @@ int isRecordValid(Record *Rec)
 		return 0;
 	}
 
-
 	return 1;
 }
 
@@ -278,7 +209,6 @@ int isRecordValid2(int id,char *isVaccinated,Date *date)
 		//recordDelete(Rec);
 		return 0;
 	}
-
 
 	return 1;
 }
