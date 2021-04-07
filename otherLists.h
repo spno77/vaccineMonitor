@@ -1,9 +1,7 @@
 #ifndef STRING_LIST_H_
 #define STRING_LIST_H_
 
-
 typedef struct Date Date;
-
 
 typedef struct stringListNode{
 	char *string;

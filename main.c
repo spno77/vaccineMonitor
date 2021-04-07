@@ -8,7 +8,7 @@
 #include "linkedList.h"
 #include "bloomFilter.h"
 #include "skipList.h"
-#include "stringList.h"
+#include "otherLists.h"
 #include "userCommands.h"
 
 int main2(int argc, char const *argv[])

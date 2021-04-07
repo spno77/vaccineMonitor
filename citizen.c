@@ -4,7 +4,7 @@
 
 #include "citizen.h"
 #include "utils.h"
-#include "stringList.h"
+#include "otherLists.h"
 #include "bloomFilter.h"
 #include "skipList.h"
 

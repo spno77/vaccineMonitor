@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "citizen.h"
 #include "linkedList.h"
-#include "stringList.h"
+#include "otherLists.h"
 #include "bloomFilter.h"
 #include "skipList.h"
 
@@ -71,13 +71,12 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
    	int count = 0 ;
     while ((nread = getline(&line, &len, fp)) != -1){
 
-
     	int id 				  = atoi(strtok(line," "));
-		char *firstName       = strtok(NULL, " ");
-		char *lastName        = strtok(NULL, " ");
-		char *country         = strtok(NULL, " ");
+		char *firstName		  = strtok(NULL," ");
+		char *lastName        = strtok(NULL," ");
+		char *country         = strtok(NULL," ");
 		char age              = (char)atoi(strtok(NULL, " "));
-		char *virusName        = strtok(NULL, " ");
+		char *virusName        = strtok(NULL," ");
 		char *isVaccinated    = strtok(NULL," \n");
 		Date *dateVaccinated  = stringToDate(strtok(NULL, " "));
 
@@ -120,14 +119,9 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 
 			virusListNode *virusNode = virusListNodeGet(virusList,virusName,isVaccinated);
 			stringListNode *countryNode  = stringLinkedListNodeGet(countryList,country);
-			//dateListNode *dateListNode = getDateNode(dateList,dateVaccinated);
-
-		
-
-		
-
+			
+			//creates a citizenRecord object
    			citizenRec = citizenRecordCreate(id,firstName,lastName,age,countryNode,virusNode);
-
    			if(skipsListSearch(skips,citizenRec->virusInfo->virusName,citizenRec->virusInfo->isVaccinated) != 1){
 
    				//listNode *node = getNodeById(list,Rec->id);
@@ -223,6 +217,7 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
    			freeDate(dateVaccinated);
    		}
 
+   		
    		//recordDelete(&Rec);
    		//freeDate(dateVaccinated);
    			
@@ -237,9 +232,7 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 }
 
 /*
-
-/*
- *	Read command line arguments
+ 	Read command line arguments
  */
 void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bloomSize)
 {
@@ -255,7 +248,7 @@ void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bl
 }
 
 /*
- *	Free command line arguments memomry allocation
+ 	Free command line arguments memomry allocation
  */
 void freeArguments(char **citizenRecordsFile)
 {
@@ -263,7 +256,7 @@ void freeArguments(char **citizenRecordsFile)
 }
 
 /*
- *	Checks for citizenRecord validity
+ 	Checks for citizenRecord validity
  */
 
 int isRecordValid(Record *Rec)
@@ -278,7 +271,6 @@ int isRecordValid(Record *Rec)
 	return 1;
 }
 
-
 int isRecordValid2(int id,char *isVaccinated,Date *date)
 {
 	if((strcmp(isVaccinated,"NO")==0) && (date->year != 0)){
@@ -290,10 +282,6 @@ int isRecordValid2(int id,char *isVaccinated,Date *date)
 
 	return 1;
 }
-
-
-
-
 
 /*
  *	Returns the number of records from the input file.
@@ -354,4 +342,3 @@ int compareDates(Date *date1, Date *date2){
         }
     }
 }
-

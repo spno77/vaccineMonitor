@@ -14,7 +14,6 @@ typedef struct  virusList virusList;
 typedef struct  dateList dateList;
 
 
-
 typedef struct Date{
 	int day;
 	int month;

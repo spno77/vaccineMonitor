@@ -2,8 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "stringList.h"
-
+#include "otherLists.h"
 #include "utils.h"
 
 stringLinkedList *stringLinkedListCreate(void)

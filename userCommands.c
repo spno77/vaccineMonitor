@@ -9,7 +9,7 @@
 #include "linkedList.h"
 #include "bloomFilter.h"
 #include "skipList.h"
-#include "stringList.h"
+#include "otherLists.h"
 
 void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringLinkedList *countryList
 				  ,virusList *virusList,dateList *dateList)

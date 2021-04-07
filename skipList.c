@@ -6,7 +6,7 @@
 
 #include "skipList.h"
 #include "linkedList.h"
-#include "stringList.h"
+#include "otherLists.h"
 
 /*
  	Calculate the log2 of a given number

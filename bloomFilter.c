@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include "bloomFilter.h"
-#include "stringList.h"
+#include "otherLists.h"
 
 
 /*
