@@ -47,7 +47,7 @@ void printDate(Date *date)
 }
 
 
-void insertIntoDateStructures(char *filename,linkedList *list,stringLinkedList *countryList,
+void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *countryList,
 					         virusList *virusList,bloomList *bloomList,int bloomSize,skipsList *skips,
 					         dateList *dateList)
 {

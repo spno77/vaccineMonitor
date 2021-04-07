@@ -29,6 +29,7 @@ int main2(int argc, char const *argv[])
 
 int main (int argc, char const *argv[])
 {
+	//Create and initialize all the data structures 
 	linkedList *list               = linkedListCreate();
 	stringLinkedList *countryList  = stringLinkedListCreate();
 	virusList *virusList   		   = virusListCreate();
@@ -40,7 +41,8 @@ int main (int argc, char const *argv[])
 
 	//insertRecordsFromFile("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips);
 
-	insertIntoDateStructures("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips,dateList);
+	//insert citizenRcords in the data structures one by one
+	insertIntoDataStructures("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips,dateList);
 
 
 	//linkedListPrint(list);
@@ -61,9 +63,8 @@ int main (int argc, char const *argv[])
 
 	dateListPrint(dateList);
 
-	//userCommands(bloomList,skips);
+	//Reads and executes the user commands
 	userCommands(bloomList,skips,list,countryList,virusList,dateList);
-
 
 	return 0;
 }

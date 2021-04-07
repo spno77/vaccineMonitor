@@ -26,6 +26,9 @@ void exitCommand(bloomList *bloomList,skipsList *skips,linkedList *list,
 
 void populationStatus(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2);
 
+void populationStatusByCountry(skipsList *skips,stringLinkedList *countryList,
+	                           char *virusName,Date *date1,Date *date2);
+
 
 void nonVacinatedPersons(skipsList *skips,char *virusName);
 
@@ -42,5 +45,11 @@ void vaccinateNow(linkedList *list,stringLinkedList *countryList,
 					     dateList *dateList,int id,char  *firstName,char *lastName,
 						char *country,char age, char *virusName,
 						char* isVaccinated,Date *dateVaccinated);
+
+void popStatusByAge(skipsList *skips,char *country,char *virusName,Date *date1,Date *date2);
+
+void popStatusByAgeAndByCountry(skipsList *skips,stringLinkedList *countryList,char *virusName,
+								Date *date1,Date *date2);
+
 
 #endif
