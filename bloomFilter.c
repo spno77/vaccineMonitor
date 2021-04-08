@@ -6,7 +6,6 @@
 #include "bloomFilter.h"
 #include "otherLists.h"
 
-
 /*
 This algorithm (k=33) was first reported by dan bernstein many years 
 ago in comp.lang.c. 
@@ -165,7 +164,9 @@ int bloomFilterCheck(bloomFilter *bf,int id)
 	return 1;
 }
 
-///////////////////////////////////////////////////////////////////////
+/*********************************************************************************************/
+/*                              bloomList Functions                                          */
+/*********************************************************************************************/
 
 
 bloomList *bloomListCreate(void)
@@ -292,7 +293,6 @@ bloomNode *getBloomNodeByName(bloomList *list, char *virusName)
         if(strcmp(current->bf->virusName->virusName,virusName) == 0) {
             return current;
         }
-
         current = current->next;
     }
 
@@ -305,11 +305,7 @@ int bloomListSearch(bloomList *list,char *virusName)
 
     while(current != NULL) {
         if (strcmp(current->bf->virusName->virusName,virusName) == 0){
-        	if (strcmp(current->bf->virusName->isVaccinated,"YES") == 0){
-        		
-        		return 1;
-        	 
-        	 }
+        	return 1; 
         }
         
         current = current->next;

@@ -57,7 +57,6 @@ skipList *skipListCreate(int elemNumber,virusListNode *virusInfo)
 	return newSkipList;
 }
 
-
 /*
 	Create and initialize the Header Node of a skipList
 */
@@ -294,8 +293,9 @@ void skipListFree(skipList **list)
     *list = NULL;
 }
 
-//////////////////////////////////////////////////////////
-
+/*******************************************************************************************/
+/*                                  skipsList functions                                    */
+/*******************************************************************************************/
 
 skipsList *skipsListCreate(void)
 {

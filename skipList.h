@@ -16,14 +16,12 @@ typedef struct skipListNode{
 	struct skipListNode **forward; 
 } skipListNode;
 
-
 typedef struct skipList {
 	skipListNode *header; // pointer to header node
 	int maxHeight; 		  // maximum height(number of levels)
 	int level; 			  // the current number of levels in the skip list 
 	virusListNode *virusInfo; 
 } skipList;
-
 
 int levelNumber(int maxHeight);
 
@@ -51,8 +49,9 @@ void skipListNodeFree(skipListNode *node);
 
 int skipListExists(skipList *list,int key);
 
-
-//////////////////////////////////////////////////////////
+/******************************************************************************************/
+/*                               skipsList Functions                                      */
+/******************************************************************************************/
 
 typedef struct skipsNode{
 	skipList *ls;
@@ -65,7 +64,6 @@ typedef struct skipsList{
 	struct skipsNode *tail;
 	int size;
 }skipsList;
-
 
 skipsList *skipsListCreate(void);
 
@@ -88,6 +86,5 @@ void skipsListFree(skipsList **list);
 int skipsListSearch(skipsList *list,char *string,char *isVaccinated);
 
 skipsNode *getSkipsNode(skipsList *list, char *virusName,char *isVaccinated);
-
 
 #endif

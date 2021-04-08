@@ -3,6 +3,10 @@
 
 typedef struct Date Date;
 
+/******************************************************************************************/
+/*                                   StringList Functions                                 */
+/******************************************************************************************/
+
 typedef struct stringListNode{
 	char *string;
 	struct stringListNode *next;
@@ -14,7 +18,6 @@ typedef struct stringLinkedList{
 	struct stringListNode *tail;
 	int size;
 }stringLinkedList;
-
 
 stringLinkedList *stringLinkedListCreate(void);
 
@@ -40,29 +43,22 @@ stringListNode *stringLinkedListNodeGet(stringLinkedList *list, char *id);
 
 int stringLinkedListGetSize(stringLinkedList *list);
 
-
-/////////////////////////////////////////////////////////////////////
+/******************************************************************************************/
+/*                               VirusList Functions                                      */
+/******************************************************************************************/
 
 typedef struct virusListNode{
-	
 	char *virusName;
 	char *isVaccinated;
-
 	struct virusListNode *next;
 	struct virusListNode *prev;
-
 }virusListNode;
 
-
 typedef struct virusList{
-	
 	struct virusListNode *head;
 	struct virusListNode *tail;
-	
 	int size;
-
 }virusList;
-
 
 virusList *virusListCreate(void);
 
@@ -86,29 +82,21 @@ int virusListSearch(virusList *list,char *virusName,char *isVaccinated);
 
 virusListNode *virusListNodeGet(virusList *list,char *virusName,char *isVaccinated);
 
-
-/////////////////////////////////////////////////////////////////////////////
-
+/******************************************************************************************/
+/*                              DateList Functions                                        */
+/******************************************************************************************/
 
 typedef struct dateListNode{
-	
 	Date *dateVaccinated;
-
 	struct dateListNode *next;
 	struct dateListNode *prev;
-
 }dateListNode;
 
-
 typedef struct dateList{
-	
 	struct dateListNode *head;
 	struct dateListNode *tail;
-	
 	int size;
-
 }dateList;
-
 
 dateList *dateListCreate(void);
 

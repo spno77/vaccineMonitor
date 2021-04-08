@@ -30,26 +30,18 @@ int main (int argc, char const *argv[])
 	skipsList *skips               = skipsListCreate();
 	dateList *dateList             = dateListCreate();
 
-	//insertRecordsFromFile("testInputFile",list,countryList,virusList,bloomList,bloomSize,skips);
-
 	//insert citizenRcords in the data structures one by one
 	insertIntoDataStructures(citizenRecordsFile,list,countryList,virusList,bloomList,bloomSize,skips,dateList);
-
-	//linkedListPrint(list);
+		
 	//stringLinkedListPrint(countryList);
-	//printf("---------------------------\n");
-	//stringLinkedListPrint(virusList);
 
+	//virusListPrint(virusList);
 
 	//linkedListPrint(list);
 
-	//bloomListPrint(bloomList);
+	//skipsListPrint(skips);
 
-	skipsListPrint(skips);
-
-	//printf("-------------------\n");
-
-	//bloomListPrint(bloomList);
+	bloomListPrint(bloomList);
 
 	//dateListPrint(dateList);
 

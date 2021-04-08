@@ -60,6 +60,10 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 		return;
 	}
 
+	//get number of records from the input file
+	int recordNum = getNumberOfRecords(fp);
+	printf("Record number is :%d\n",recordNum);
+
 	ssize_t nread;
    	size_t len = 0;
    	char *line = NULL;
@@ -82,16 +86,14 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
     		return;
     	}
    			
-   		if(isRecordValid2(id,isVaccinated,dateVaccinated) == 1){
+   		if(isRecordValid(id,isVaccinated,dateVaccinated) == 1){
 
    			if(stringLinkedListSearch(countryList,country) != 1){
 				stringLinkedListInsertAtFront(countryList,country);
 			}
-
 			if(virusListSearch(virusList,virusName,isVaccinated) != 1){
 				virusListInsert(virusList,virusName,isVaccinated);
 			}
-
 			if(dateListSearch(dateList,dateVaccinated) != 1){
 				dateListInsert(dateList,dateVaccinated);
 				dateListNode = getDateNode(dateList,dateVaccinated);
@@ -100,22 +102,19 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
 				freeDate(dateVaccinated);
 			}	
 
-
 			virusListNode *virusNode = virusListNodeGet(virusList,virusName,isVaccinated);
 			stringListNode *countryNode  = stringLinkedListNodeGet(countryList,country);
 			
 			//creates a citizenRecord object
    			citizenRec = citizenRecordCreate(id,firstName,lastName,age,countryNode,virusNode);
+   			
    			if(skipsListSearch(skips,citizenRec->virusInfo->virusName,citizenRec->virusInfo->isVaccinated) != 1){
-
-				ls = skipListCreate(10000,virusNode);
+				ls = skipListCreate(recordNum,virusNode);
 				skipsListInsert(skips,ls);
 			}
 			if( (bloomListSearch(bloomList,virusName) != 1)){
-				if (strcmp(virusNode->isVaccinated,"YES") == 0){
-					bf = bloomFilterCreate(virusNode,bloomSize);
-					bloomListInsert(bloomList,bf);
-				}	
+				bf = bloomFilterCreate(virusNode,bloomSize);
+				bloomListInsert(bloomList,bf);	
 			}
    			if(strcmp(isVaccinated,"YES") == 0){
    				bloomNode *bloomNode = getBloomNodeByName(bloomList,virusName);
@@ -127,34 +126,31 @@ void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *
    			//if we have a citizen with this id in the linked list
    			if((linkedListSearch(list,citizenRec->id) == 1)) {
 
-   				//linkedListInsertAtFront(list,citizenRec);
-
+   				//get the listNode that is pointing to this id
    				listNode *node = getNodeById(list,citizenRec->id);
 
-   				//skipListInsert(skipsNode->ls,citizenRec->id,node,Rec->dateVaccinated);
-
+   				//search the skipList if this id exists
    				skipListNode *skipNode =  skipListSearch(skipsNode->ls,id);
 
-   				//if this id dont exist in this skipList
+   				//if this id dont exist in this skipList insert it
    				if(skipNode == NULL){
-
-   					skipListInsert(skipsNode->ls,citizenRec->id,node,dateListNode);
-   						
+   					skipListInsert(skipsNode->ls,citizenRec->id,node,dateListNode);			
+   				}else{
+   					printf("ERROR IN RECORD %d\n",id);
    				}
 
-   				//printf("ERROR IN RECORD %d\n",id);
-   					
    				citizenRecordDelete(citizenRec);
    				continue;
 
    			}else{
    				linkedListInsertAtFront(list,citizenRec);
    			}
+
    			listNode *node = getNodeById(list,citizenRec->id);
    			skipListInsert(skipsNode->ls,citizenRec->id,node,dateListNode);
    		}
    		else{
-   			freeDate(dateVaccinated);
+   			freeDate(dateVaccinated); //deallocates date memory
    		}	
    	}
    	if (line != NULL){	
@@ -188,27 +184,19 @@ void freeArguments(char **citizenRecordsFile)
 }
 
 /*
- 	Checks for citizenRecord validity
- */
-
-int isRecordValid(Record *Rec)
+	Check if record is valid
+*/
+int isRecordValid(int id,char *isVaccinated,Date *date)
 {
-	if((strcmp(Rec->isVaccinated,"NO")==0) && (Rec->dateVaccinated->year != 0)){
-		printf("ERROR IN RECORD %d\n",Rec->id);
-		//recordDelete(Rec);
-		return 0;
-	}
-
-	return 1;
-}
-
-int isRecordValid2(int id,char *isVaccinated,Date *date)
-{
-	if((strcmp(isVaccinated,"NO")==0) && (date->year != 0)){
+	if( (strcmp(isVaccinated,"NO") == 0) && (date->year != 0) ){
 		printf("ERROR IN RECORD %d\n",id);
-		//recordDelete(Rec);
 		return 0;
 	}
+	if( (strcmp(isVaccinated,"YES") == 0) && (date->year == 0) ){
+		printf("ERROR IN RECORD %d\n",id);
+		return 0;
+	}
+
 	return 1;
 }
 
@@ -217,7 +205,6 @@ int isRecordValid2(int id,char *isVaccinated,Date *date)
  */
 int getNumberOfRecords(FILE *fp)
 {
-
 	size_t len = 0;
 	char *line = NULL;
 	ssize_t nread;
@@ -228,7 +215,6 @@ int getNumberOfRecords(FILE *fp)
 			count++;
 		}
 	}
-
 	// It moves file pointer position to the beginning of the file.
 	fseek(fp,0,SEEK_SET);
 
@@ -236,7 +222,6 @@ int getNumberOfRecords(FILE *fp)
 	{
 		free(line);
 	}
-
 	return count;
 } 
 

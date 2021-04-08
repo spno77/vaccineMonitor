@@ -32,11 +32,9 @@ void readArguments(int argc,char const *argv[],char **citizenRecordsFile,int *bl
 
 void freeArguments(char **citizenRecordsFile);
 
-int isRecordValid(Record *Rec);
-
 int getNumberOfRecords(FILE *fp);
 
-int isRecordValid2(int id,char *isVaccinated,Date *date);
+int isRecordValid(int id,char *isVaccinated,Date *date);
 
 void freeDate(Date *date);
 

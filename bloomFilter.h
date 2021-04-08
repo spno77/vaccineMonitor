@@ -19,7 +19,6 @@ unsigned long sdbm(unsigned char *str);
 
 unsigned long hash_i(unsigned char *str, unsigned int i);
 
-
 bloomFilter *bloomFilterCreate(virusListNode *virusName,int bloomSize);
 
 void bloomFilterPrint(bloomFilter *bloomFil);
@@ -34,7 +33,9 @@ void setBit(char *bitMap,int byteSize,int bitToSet);
 
 int checkBit(char *bitMap,int bitToCheck);
 
-//////////////////////////////////////////////////////////////////////
+/******************************************************************************************/
+/*                               BloomList Functions                                      */
+/******************************************************************************************/
 
 typedef struct bloomNode{
 	bloomFilter *bf;
@@ -47,7 +48,6 @@ typedef struct bloomList{
 	struct bloomNode *tail;
 	int size;
 }bloomList;
-
 
 bloomList *bloomListCreate(void);
 
@@ -70,6 +70,5 @@ void bloomListFree(bloomList **list);
 bloomNode *getBloomNodeByName(bloomList *list, char *virusName);
 
 int bloomListSearch(bloomList *list,char *virusName);
-
 
 #endif
