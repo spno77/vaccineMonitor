@@ -44,7 +44,9 @@ void printDate(Date *date)
 	printf("%d\n",date->year);
 }
 
-
+/*
+	Read citizen Records from input file and insert them in the data structures.
+*/
 void insertIntoDataStructures(char *filename,linkedList *list,stringLinkedList *countryList,virusList *virusList,
 							 bloomList *bloomList,int bloomSize,skipsList *skips,dateList *dateList)
 {
@@ -196,9 +198,28 @@ int isRecordValid(int id,char *isVaccinated,Date *date)
 		printf("ERROR IN RECORD %d\n",id);
 		return 0;
 	}
+	if( (strcmp(isVaccinated,"YES") == 0) ){
+		if(date->day < 1 || date->day > 30 || date->month < 1 || date->month > 12){
+			printf("ERROR IN RECORD %d\n",id);
+			return 0;
+		}
+	}
 
 	return 1;
 }
+
+/*
+	Check if a date id valid
+*/
+int isDateValid(Date *date)
+{
+	if(date->day < 0 || date->day >30 || date->month < 0 || date->month > 12){
+		return 0;
+	}
+
+	return 1;
+}
+
 
 /*
  *	Returns the number of records from the input file.

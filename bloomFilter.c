@@ -307,7 +307,6 @@ int bloomListSearch(bloomList *list,char *virusName)
         if (strcmp(current->bf->virusName->virusName,virusName) == 0){
         	return 1; 
         }
-        
         current = current->next;
     }
 }

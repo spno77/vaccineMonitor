@@ -37,9 +37,9 @@ int main (int argc, char const *argv[])
 
 	//virusListPrint(virusList);
 
-	//linkedListPrint(list);
+	linkedListPrint(list);
 
-	//skipsListPrint(skips);
+	skipsListPrint(skips);
 
 	bloomListPrint(bloomList);
 
