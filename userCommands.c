@@ -96,11 +96,6 @@ void userCommands(bloomList *bloomList,skipsList *skips,linkedList *list,stringL
 				vaccinateNow(list,countryList,virusList,bloomList,1000,skips,dateList,
 					     	 id,firstName,lastName,country,age,virusName,"YES",dateVaccinated);
 
-				//if todays date doesnt exist in the datelist free it
-				if(dateListSearch(dateList,dateVaccinated) != 1){
-					freeDate(dateVaccinated);
-				}
-
 			}
             else if (strcmp(commandName,"/populationStatus") == 0)
             {
@@ -719,6 +714,7 @@ void vaccinateNow(linkedList *list,stringLinkedList *countryList,virusList *viru
 		dateListNode = getDateNode(dateList,dateVaccinated);
 	}else{
 		dateListNode = getDateNode(dateList,dateVaccinated);
+		freeDate(dateVaccinated);
 	}
 	//insert the citizen id in the skipList
    	skipListInsert(skipsNode->ls,id,node,dateListNode);
