@@ -8,92 +8,9 @@
 #include "bloomFilter.h"
 #include "skipList.h"
 
-Record *recordCreate(char *recordStr)
-{
-	Record *Rec = malloc(sizeof(Record));
-
-	if(Rec == NULL){
-		perror("malloc failied");
-		return NULL;
-	}
-
-	char *token = NULL;
-	token = strtok(recordStr," ");
-
-	Rec->id = atoi(token);
-	
-	token = strtok(NULL," ");
-	Rec->firstName = malloc( strlen(token) + 1);
-	strcpy(Rec->firstName,token);
-
-	token = strtok(NULL," ");
-	Rec->lastName = malloc(strlen(token)+1);
-	strcpy(Rec->lastName,token);
-
-	token = strtok(NULL," ");
-	Rec->country = malloc(strlen(token)+1);
-	strcpy(Rec->country,token);
-
-	token = strtok(NULL," ");
-	Rec->age = (char)atoi(token);
-
-	token = strtok(NULL," ");
-	Rec->virusName = malloc(strlen(token)+1);
-	strcpy(Rec->virusName,token);
-
-	token = strtok(NULL," \n");
-	Rec->isVaccinated = malloc(strlen(token)+1);
-	strcpy(Rec->isVaccinated,token);
-
-	token = strtok(NULL," ");
-	Rec->dateVaccinated = stringToDate(token);
-
-	return Rec;
-}
-
-
-
-void recordDelete(Record **Rec)
-{
-	
-	free((*Rec)->firstName);
-	(*Rec)->firstName = NULL;
-
-	free((*Rec)->lastName);
-	(*Rec)->lastName = NULL;
-	
-	free((*Rec)->country);
-	(*Rec)->country = NULL;
-	
-	free((*Rec)->virusName);
-	(*Rec)->virusName = NULL;
-	
-	free((*Rec)->isVaccinated);
-	(*Rec)->isVaccinated = NULL;
-
-	free((*Rec)->dateVaccinated);
-	(*Rec)->dateVaccinated = NULL;
-	
-	free(*Rec);
-	*Rec = NULL;
-}
-
-
-void recordPrint(Record *Rec)
-{
-
-	printf("%d\n",Rec->id);
-	printf("%s\n",Rec->firstName);
-	printf("%s\n",Rec->lastName);
-	printf("%s\n",Rec->country);
-	printf("%d\n",Rec->age);
-	printf("%s\n",Rec->isVaccinated);
-	printDate(Rec->dateVaccinated);
-	printf("---------------------------\n");
-}
-
-
-
+/*
+	Create and initialize a citizen Record
+*/
 citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char age,
 	stringListNode *country,virusListNode *virusInfo)
 {
@@ -121,7 +38,9 @@ citizenRecord *citizenRecordCreate(int id,char *firstName,char *lastName,char ag
 	return citizenRec;
 }
 
-
+/*
+	Deallocates the memory of citizen Record
+*/
 void citizenRecordDelete(citizenRecord *citizenRec)
 {
 	free(citizenRec->firstName);
@@ -130,10 +49,11 @@ void citizenRecordDelete(citizenRecord *citizenRec)
 	free(citizenRec);
 }
 
-
+/*
+	Print a citizen Record
+*/
 void citizenRecordPrint(citizenRecord *citizenRec)
 {
-
 	printf("%d\n",citizenRec->id);
 	printf("%s\n",citizenRec->firstName);
 	printf("%s\n",citizenRec->lastName);
