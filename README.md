@@ -1,3 +1,5 @@
+# vaccineMonitor
+
 ## Data structures implemented
 
 ![l](https://user-images.githubusercontent.com/20780442/232837990-ea7ffeeb-4947-47a3-ba96-eaab91c5ab93.png)
@@ -16,7 +18,7 @@
 * Compile the program using `make`
 * Run the program `./vaccineMonitor -c citizenRecordsFile –b bloomSize` 
 
-## Exequte queries
+## Execute queries
 
 * /vaccineStatusBloom citizenID virusName
 * /vaccineStatus citizenID virusName
