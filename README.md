@@ -8,8 +8,8 @@
 
 `./testFile.sh virusesFile countriesFile numLines duplicatesAllowed`
 
-**virusesFile**   --> file with viruses names(one name in every line) <br>
-**countriesFile** --> file with countries names(one name every line) <br>
+**virusesFile**   --> file with viruses names(one name per line) <br>
+**countriesFile** --> file with countries names(one name per line) <br>
 **numLines**      --> number of lines for the created file <br>
 **numLines**      --> 0 for unique ids, 1 for duplicates allowed <br>
 
